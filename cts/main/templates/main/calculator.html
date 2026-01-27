@@ -1,0 +1,52 @@
+{% extends 'main/index.html' %}
+<!-- Блок разрешение -->
+{% block resolution %}
+    {% for resolution in resolutions %}
+        <label class="filter-option"><input type="radio" name="resolution" > {{resolution}} Мп</label>
+    {% endfor %}
+
+{% endblock %}
+
+
+<!-- Блок типы -->
+{% block types %}
+    {% for type in types %}
+        <label class="filter-option"><input type="radio" name="type" > {{type}}</label>
+    {% endfor %}
+{% endblock %}
+
+
+<!-- Блок технология ночного видения-->
+
+{% block night_vision_technology %}
+    {% for night_vision_technology in night_vision_technologies %}
+        <label class="filter-option"><input type="radio" name="night_vision_technology" > {{night_vision_technology}} </label>
+    {% endfor %}
+
+{% endblock %}
+
+<!-- Тип подключения-->
+
+{% block connection_types%}
+    {% for connection_type in connection_types %}
+        <label class="filter-option"><input type="radio" name="connection_types" > {{connection_type}} </label>
+    {% endfor %}
+
+{% endblock %}
+
+<!-- Объектив-->
+{% block lens%}
+    {% for len in lens %}
+        <label class="filter-option"><input type="radio" name="len" > {{len}} </label>
+    {% endfor %}
+{% endblock %}
+
+<!-- Аналитика-->
+{% block analytics%}
+    {% for analytic in analytics %}
+        <label class="filter-option"><input type="radio" name="analytics" > {{analytic}} </label>
+    {% endfor %}
+{% endblock %}
+
+
+

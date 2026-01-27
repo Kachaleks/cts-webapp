@@ -1,0 +1,812 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цифровые телесистемы — Видеонаблюдение и безопасность</title>
+     <link rel="stylesheet" href="{% static 'main/style.css' %}">
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/security-checked.png">
+
+    <!-- SEO -->
+    <meta name="description" content="Цифровые телесистемы - установка видеонаблюдения в Нижнем Новгороде. Камеры 4K, умный дом, охранные системы. Гарантия 10 лет!">
+    <meta name="keywords" content="видеонаблюдение, установка камер, Нижний Новгород, безопасность, умный дом">
+    <meta name="author" content="Цифровые телесистемы">
+</head>
+<body>
+    <!-- Верхняя панель с контактами -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <div class="contact-info-top">
+                    <a href="tel:+78005553535" class="contact-item-top phone">
+                        <i class="fas fa-phone"></i>
+                        +7 (908) 757-00-30
+                    </a>
+                    <div class="contact-item-top address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        г. Нижний Новгород, Ижорская, 27/20
+                    </div>
+                    <a href="mailto:info@digital-tv.ru" class="contact-item-top email">
+                        <i class="fas fa-envelope"></i>
+                        туткакая-топочта@digital-tv.ru
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Шапка с логотипом и навигацией -->
+    <!-- Шапка с логотипом и навигацией -->
+<header class="header" id="header">
+    <div class="container">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <img src="{% static 'main/img/camera_robot.jpeg' %}" width="80" height="80" alt="Цифровые телесистемы" class="logo-image">
+                </div>
+                <div class="logo-text">
+                    <span class="logo-main">ЦИФРОВЫЕ</span>
+                    <span class="logo-sub">ТЕЛЕСИСТЕМЫ</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu">
+                <li><a href="#about"> О компании</a></li>
+                <li><a href="#complex"> Услуги</a></li>
+                <li><a href="#possibilities"> Возможности</a></li>
+                <li><a href="#calculator">Калькулятор</a></li>
+                <li><a href="#projects">Наши работы</a></li>
+                <li><a href="#contact" class="btn-outline">Консультация</a></li>
+                <!-- Кнопка "Позвонить" -->
+                <li class="call-button-container">
+                    <a href="tel:+79087570030" class="call-button pulse-animation">
+                        <span class="call-icon">
+                            <i class="fas fa-phone"></i>
+                        </span>
+                        <span class="call-text">ПОЗВОНИТЬ</span>
+                        <span class="call-pulse"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+    <!-- Главный герой-блок -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1> ВИДЕОНАБЛЮДЕНИЕ ДЛЯ БИЗНЕСА И ДОМА</h1>
+                <p class="tagline">"Цифровые телесистемы" — инновационные решения в сфере безопасности. Умные технологии для вашего спокойствия.</p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn-primary">
+                        <i class="fas fa-bolt"></i> РАССЧИТАТЬ ПРОЕКТ
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" data-count="850">0</span>
+                        <span class="stat-label">Установленных систем</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="12">0</span>
+                        <span class="stat-label">Лет опыта</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок: МЫ УСТАНАВЛИВАЕМ КАМЕРЫ ВИДЕОНАБЛЮДЕНИЯ -->
+       <!-- Сетка с местами установки -->
+    <section class="section" id="where">
+<div class="installation-places">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">ГДЕ МЫ УСТАНАВЛИВАЕМ КАМЕРЫ ВИДЕОНАБЛЮДЕНИЯ </h2>
+        </div>
+
+        <div class="places-grid">
+            <!-- Квартиры и дома -->
+            <div class="place-card yellow-glow">
+                <div class="round_image">
+                    <img src="{% static 'main/img/home.jpg' %}" alt="Квартиры">
+                </div>
+                <div class="where-title">
+                    <a>Квартиры и<br>частные дома</a>
+                </div>
+            </div>
+
+            <!-- Офисы -->
+            <div class="place-card yellow-glow">
+                <div class="round_image">
+                    <img src="{% static 'main/img/office.jpg' %}" alt="Офисы">
+                </div>
+                <div class="where-title">
+                    <a>Офисы и<br>бизнес-центры</a>
+                </div>
+            </div>
+
+            <!-- Магазины -->
+            <div class="place-card yellow-glow">
+                <div class="round_image">
+                    <img src="{% static 'main/img/shopping_center.jpg' %}" alt="Магазины">
+                </div>
+                <div class="where-title">
+                    <a>Магазины и<br>торговые центры</a>
+                </div>
+            </div>
+
+            <!-- Склады -->
+            <div class="place-card yellow-glow">
+                <div class="round_image">
+                    <img src="{% static 'main/img/production.jpg' %}" alt="Склады">
+                </div>
+                <div class="where-title">
+                    <a>Склады и<br>производства</a>
+                </div>
+            </div>
+
+            <!-- Общественные места -->
+            <div class="place-card yellow-glow">
+                <div class="round_image">
+                    <img src="{% static 'main/img/public_place.jpg' %}" alt="Общественные места">
+                </div>
+                <div class="where-title">
+                    <a>Общественные<br>места</a>
+                </div>
+            </div>
+
+             <!-- муниципальные учреждения -->
+            <div class="place-card yellow-glow">
+                <div class="round_image">
+                    <img src="{% static 'main/img/school.jpg' %}" alt="Муниципальные учреждения">
+                </div>
+                <div class="where-title">
+                    <a>Муниципальные<br> учреждения</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+        <!-- Призыв к действию -->
+        <div class="places-cta">
+            <p class="cta-text">Не нашли свой тип объекта? Мы устанавливаем системы видеонаблюдения <strong>любой сложности</strong>!</p>
+            <a href="#contact" class="btn-primary">
+                <i class="fas fa-headset"></i> ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ ПО ВАШЕМУ ОБЪЕКТУ
+            </a>
+        </div>
+    </section>
+
+
+    <!-- Блок "Комплекс услуг" -->
+<section class="section" id="complex">
+    <div class="container">
+        <h2 class="section-title">УСЛУГИ</h2>
+
+        <div class="services-grid">
+            <div class="service-card" data-service="1">
+                <div class="service-number">01</div>
+                <h3>ВИДЕОНАБЛЮДЕНИЕ 4K</h3>
+                <p>Сверхчеткое изображение даже ночью. Установка камер с разрешением 4K, ночной подсветкой и удалённым доступом.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="2">
+                <div class="service-number">02</div>
+                <h3>ДОМОФОНЫ И СКУД</h3>
+                <p>Системы контроля доступа. Видеодомофоны, турникеты, шлагбаумы, электронные замки.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="3">
+                <div class="service-number">03</div>
+                <h3>ОХРАННАЯ СИГНАЛИЗАЦИЯ</h3>
+                <p>Защита от проникновения. Датчики движения, разбития стекла, открытия дверей с GSM-оповещением.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="4">
+                <div class="service-number">04</div>
+                <h3>УМНЫЙ ДОМ</h3>
+                <p>Автоматизация освещения, отопления, климат-контроля. Управление через смартфон из любой точки мира.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="5">
+                <div class="service-number">05</div>
+                <h3>СЕТЕВЫЕ РЕШЕНИЯ</h3>
+                <p>Проводные и Wi-Fi сети. Проектирование и монтаж локальных сетей для дома и офиса.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="6">
+                <div class="service-number">06</div>
+                <h3>ТЕХНИЧЕСКОЕ ОБСЛУЖИВАНИЕ</h3>
+                <p>Гарантийное и постгарантийное обслуживание. Регулярные проверки, ремонт, обновление ПО.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Секция: Наши работы -->
+    <section class="section" id="projects">
+    <div class="container">
+        <h2 class="section-title">НАШИ РАБОТЫ</h2>
+
+        <!-- Карусель проектов -->
+        <div class="projects-showcase">
+            <!-- Кнопка назад -->
+            <button class="showcase-nav prev-btn" aria-label="Предыдущий проект">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <!-- Карусель -->
+            <div class="projects-container">
+                <!-- Проект 1 -->
+                <div class="project-item active">
+                    <div class="project-photos">
+                        <div class="photo-main">
+                            <img src="{% static 'main/img/projects/1/1.jpg' %}"
+                                 alt="Апарт-отель «БугровЪ»Нижний Новгород"
+                                 loading="lazy">
+                        </div>
+                        <div class="photo-secondary">
+                            <img src="{% static 'main/img/projects/1/2.jpg' %}"
+                                 alt="Апарт-отель «БугровЪ»Нижний Новгород"
+                                 loading="lazy">
+                        </div>
+                        <div class="photos-count">
+                            <i class="fas fa-images"></i>
+                        </div>
+                    </div>
+
+                    <div class="project-info">
+                        <h3 class="project-title">Апарт-отель «БугровЪ» Нижний Новгород</h3>
+                        <p class="project-description">
+                            Установлена система видеонаблюдения Hiwatch из 7 камер
+                            с аналитикой человек/тс, удаленным доступом в мобильное приложение и архивом 30 дней✅👷🏻‍♂️
+
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Проект 2 -->
+                <div class="project-item">
+                    <div class="project-photos">
+                        <div class="photo-main">
+                            <img src="{% static 'main/img/projects/4/1.jpg' %}"
+                                 alt="Частный дом"
+                                 loading="lazy">
+                        </div>
+                        <div class="photo-secondary">
+                            <img src="{% static 'main/img/projects/4/3.jpg' %}"
+                                 alt="Частный дом"
+                                 loading="lazy">
+                        </div>
+                        <div class="photos-count">
+                            <i class="fas fa-images"></i>
+                        </div>
+                    </div>
+
+                    <div class="project-info">
+                        <h3 class="project-title">Частный дом</h3>
+                        <p class="project-description">
+                            Монтаж системы СВН из восьми камер видеонаблюдения Бренда Hi-Watch👷🏻‍♂️
+
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Проект 3 -->
+                <div class="project-item">
+                    <div class="project-photos">
+                        <div class="photo-main">
+                            <img src="{% static 'main/img/projects/3/2.jpg' %}"
+                                 alt="Производство - установка тепловизоров"
+                                 loading="lazy">
+                        </div>
+                        <div class="photo-secondary">
+                            <img src="{% static 'main/img/projects/3/3.jpg' %}"
+                                 alt="Производство - система мониторинга"
+                                 loading="lazy">
+                        </div>
+                        <div class="photos-count">
+                            <i class="fas fa-images"></i>
+                        </div>
+                    </div>
+
+                    <div class="project-info">
+                        <h3 class="project-title">Муниципальный объект</h3>
+                        <p class="project-description">
+                            Монтаж оптической линии связи, скс,
+                            (16 зданий) и периметральной и внутренней систем видеонаблюдения,
+                            программа «чистое небо»
+                            <br>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кнопка вперед -->
+            <button class="showcase-nav next-btn" aria-label="Следующий проект">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Индикаторы -->
+        <div class="showcase-indicators">
+            <span class="indicator active" data-index="0"></span>
+            <span class="indicator" data-index="1"></span>
+            <span class="indicator" data-index="2"></span>
+        </div>
+    </div>
+</section>
+
+     <!-- Калькулятор -->
+    <!-- Улучшенный калькулятор с фильтрами -->
+<section class="section calculator-section light-bg" id="calculator">
+    <div class="container">
+        <h2 class="section-title">ОНЛАЙН РАСЧЁТ</h2>
+
+        <div class="calculator-advanced">
+            <!-- Левая колонка: фильтры -->
+            <div class="calc-filters yellow-glow">
+                <h3>ПОДБЕРИТЕ ПАРАМЕТРЫ КАМЕРЫ</h3>
+
+                <div class="filter-group">
+                    <h4>Максимальное разрешение (Мп)</h4>
+                    <div class="filter-options">
+                        {% block resolution %}
+                        {% endblock %}
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Тип камеры </h4>
+                    <div class="filter-options">
+                       {% block types %}
+                        {% endblock %}
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Тип ночного видения</h4>
+                    <div class="filter-options">
+                        {% block night_vision_technology %}
+                        {% endblock %}
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Тип подключения</h4>
+                    <div class="filter-options">
+                        {% block connection_types%}
+                        {% endblock %}
+
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Микрофон / Динамик</h4>
+                    <div class="filter-options">
+                        <label class="filter-option"><input type="checkbox" name="micro_dynamic" value="yes"> Микрофон</label>
+                        <label class="filter-option"><input type="checkbox" name="micro_dynamic" value="yes" checked> Динамик</label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Объектив</h4>
+                    <div class="filter-options">
+                        {% block lens%}
+                        {% endblock %}
+
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Аналитика</h4>
+                    <div class="filter-options">
+                        {% block analytics%}
+                        {% endblock %}
+
+                    </div>
+                </div>
+
+                <button class="btn-primary calc-reset">
+                    <i class="fas fa-redo"></i> Сбросить фильтры
+                </button>
+            </div>
+
+            <!-- Правая колонка: результаты -->
+            <div class="calc-results">
+                <div class="results-header">
+                    <h3>ПОДОБРАННЫЕ ВАРИАНТЫ</h3>
+                    <div class="results-count">{{cameras}}</div>
+                </div>
+
+                <div class="products-grid" id="productsContainer">
+                    <!-- Карточки товаров будут вставляться сюда через JavaScript -->
+                </div>
+
+                <!-- Итоговая стоимость -->
+                <div class="calc-total yellow-glow">
+                    <div class="total-price">
+                        <span class="total-label">Примерная стоимость системы:</span>
+                        <span class="total-value">от <span id="totalPrice">52 500</span> ₽</span>
+                    </div>
+                    <p class="total-note">*Точная стоимость будет рассчитана после выезда специалиста</p>
+                    <button class="btn-primary" id="getExactCalc">
+                        <i class="fas fa-calculator"></i> ПОЛУЧИТЬ ТОЧНЫЙ РАСЧЁТ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Блок "Наши преимущества" -->
+    <section class="section" id="advantages">
+        <div class="container">
+            <h2 class="section-title">ПОЧЕМУ ВЫБИРАЮТ <span class="highlight">ЦИФРОВЫЕ ТЕЛЕСИСТЕМЫ</span></h2>
+            <p class="section-subtitle">Мы создаем безопасность будущего уже сегодня</p>
+
+            <div class="advantages-grid">
+                <div class="advantage-card yellow-glow">
+                    <div class="advantage-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>ГАРАНТИЯ 10 ЛЕТ</h3>
+                    <p>Самая длительная гарантия на рынке. Ваша безопасность под нашей защитой целое десятилетие.</p>
+                    <div class="advantage-tag">ЭКСКЛЮЗИВ</div>
+                </div>
+
+                <div class="advantage-card yellow-glow">
+                    <div class="advantage-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>БЫСТРЫЙ МОНТАЖ</h3>
+                    <p>Установка за 1 день без пыли и грязи. Беспроводные технологии экономят ваше время.</p>
+                </div>
+
+                <div class="advantage-card yellow-glow">
+                    <div class="advantage-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>ИСКУССТВЕННЫЙ ИНТЕЛЛЕКТ</h3>
+                    <p>Умная аналитика распознает лица, автомобили и подозрительные действия.</p>
+                    <div class="advantage-tag">ИННОВАЦИЯ</div>
+                </div>
+
+                <div class="advantage-card yellow-glow">
+                    <div class="advantage-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3>БЕСПРОВОДНЫЕ ТЕХНОЛОГИИ</h3>
+                    <p>Монтаж без сверления стен и прокладки кабелей. Чисто, быстро, надежно.</p>
+                </div>
+
+                <div class="advantage-card yellow-glow">
+                    <div class="advantage-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>УДАЛЕННЫЙ ДОСТУП</h3>
+                    <p>Контроль объекта с любого устройства в реальном времени через мобильное приложение.</p>
+                </div>
+
+                <div class="advantage-card yellow-glow">
+                    <div class="advantage-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>КРУГЛОСУТОЧНАЯ ПОДДЕРЖКА</h3>
+                    <p>Техническая поддержка 24/7. Решаем любые вопросы в кратчайшие сроки.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок "Ваши возможности" -->
+    <section class="section light-bg" id="possibilities">
+        <div class="container">
+            <h2 class="section-title">ВАШИ <span class="highlight">ВОЗМОЖНОСТИ</span></h2>
+            <div class="possibilities-grid">
+                <div class="possibility">
+                    <div class="possibility-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Просмотр с телефона</h3>
+                    <p>Наблюдайте за объектом с любого устройства через мобильное приложение</p>
+                </div>
+                <div class="possibility">
+                    <div class="possibility-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3>Двусторонняя связь</h3>
+                    <p>Разговаривайте через камеру с посетителями или сотрудниками</p>
+                </div>
+                <div class="possibility">
+                    <div class="possibility-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Умные уведомления</h3>
+                    <p>Мгновенные оповещения о движении, звуках или других событиях</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Форма обратной связи -->
+    <section class="section contact-section light-bg" id="contact">
+        <div class="container">
+            <div class="contact-card yellow-glow">
+                <div class="contact-form">
+                    <h2>ПОЛУЧИТЕ БЕСПЛАТНУЮ КОНСУЛЬТАЦИЮ</h2>
+                    <p class="form-description">Оставьте заявку и наш специалист свяжется с вами в течение 15 минут</p>
+
+                    <div class="form-group">
+                        <input type="text" placeholder="Ваше имя" class="form-input" id="nameInput">
+                        <i class="fas fa-user form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="tel" placeholder="Ваш телефон" class="form-input" id="phoneInput">
+                        <i class="fas fa-phone form-icon"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea placeholder="Опишите задачу (необязательно)" class="form-input textarea" rows="3" id="messageInput"></textarea>
+                        <i class="fas fa-comment form-icon"></i>
+                    </div>
+
+                    <button class="btn-primary submit-btn" id="submitForm">
+                        <span class="btn-text">ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+
+                    <p class="form-note">Нажимая кнопку, вы соглашаетесь с <a href="#">политикой конфиденциальности</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- О нас -->
+     <section class="section contact-section light-bg" id="about">
+         <div class="container">
+             <h2 class="section-title">Немного о нас</h2>
+            <div class="consult-form">
+                    <div class="about-comp-text">
+                        <p>Мы устанавливаем умное беспроводное видеонаблюдение, которое обезопасит ваш объект, обеспечив надёжную охрану! Работаем с 2018 года. У нас вы можете купить комплект видеонаблюдения, состоящий из новейшего оборудования в сфере цифровых технологий. С его помощью вы сможете обеспечить охрану не только магазина, офиса или другого объекта коммерческого назначения, но и собственного жилья.
+                        </p>
+                        <br>
+                        <p>Мы работаем в Нижнем Новгороде и Нижегородской области. Для заказа установки видеонаблюдения “под ключ” оставьте заявку на сайте через форму обратной связи и вы получите расчет на оказание услуг. Наш менеджер проконсультирует и поможет подобрать оптимальное оборудование под ваш объект и требовани. Выезд специалиста возможен в любое время.
+                        </p>
+                    </div>
+                        <div class ="about-comp-photo">
+                            <img src="{% static 'main/img/about_company.jpeg' %}"  alt="Цифровые телесистемы" аlign="center" height="400px" >
+                        </div>
+
+            </div>
+         </div>
+     </section>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-satellite-dish"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-main">ЦИФРОВЫЕ</span>
+                            <span class="logo-sub">ТЕЛЕСИСТЕМЫ</span>
+                        </div>
+                    </div>
+                    <p class="footer-tagline">Технологии безопасности нового поколения. На рынке с 2010 года.</p>
+                </div>
+
+                <div class="footer-contact">
+                    <div class="contact-item-footer">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Адрес:</strong><br>г. Москва, ул. Техническая, д. 15, оф. 304<br>БЦ "Технопарк"</span>
+                    </div>
+                    <div class="contact-item-footer">
+                        <i class="fas fa-phone"></i>
+                        <span><strong>Телефоны:</strong><br>8 (800) 555-35-35 (бесплатно)<br>8 (495) 123-45-67 (Москва)</span>
+                    </div>
+                    <div class="contact-item-footer">
+                        <i class="fas fa-envelope"></i>
+                        <span><strong>Email:</strong><br>info@digital-tv.ru<br>sales@digital-tv.ru</span>
+                    </div>
+                    <div class="contact-item-footer">
+                        <i class="fas fa-clock"></i>
+                        <span><strong>Режим работы:</strong><br>Пн-Пт: 9:00-20:00<br>Сб-Вс: 10:00-18:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2024 ООО "Цифровые телесистемы". Все права защищены. <a href="#">Политика конфиденциальности</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Кнопка "Наверх" -->
+    <a href="#header" class="scroll-top" id="scrollTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <!-- Простой JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Плавная прокрутка для якорных ссылок
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Кнопка "Наверх"
+            const scrollTopBtn = document.getElementById('scrollTop');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.style.opacity = '1';
+                    scrollTopBtn.style.visibility = 'visible';
+                } else {
+                    scrollTopBtn.style.opacity = '0';
+                    scrollTopBtn.style.visibility = 'hidden';
+                }
+
+                // Эффект для шапки при скролле
+                const header = document.getElementById('header');
+                if (window.pageYOffset > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Анимация чисел в статистике
+            function animateNumbers() {
+                const statNumbers = document.querySelectorAll('.stat-number');
+
+                statNumbers.forEach(number => {
+                    const target = parseInt(number.getAttribute('data-count'));
+                    const duration = 2000;
+                    const increment = target / (duration / 16);
+                    let current = 0;
+
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        number.textContent = Math.floor(current);
+                    }, 16);
+                });
+            }
+
+            // Запуск анимации при скролле до статистики
+            const observerOptions = { threshold: 0.5 };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateNumbers();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const statsSection = document.querySelector('.hero-stats');
+            if (statsSection) observer.observe(statsSection);
+
+            // Взаимодействие с калькулятором
+            const calcOptions = document.querySelectorAll('.calc-option');
+            const totalPriceElement = document.getElementById('totalPrice');
+
+            calcOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Убираем выделение у всех
+                    calcOptions.forEach(opt => opt.classList.remove('yellow-select'));
+                    // Добавляем текущему
+                    this.classList.add('yellow-select');
+
+                    // Обновляем цену (простой пример)
+                    if (this.getAttribute('data-cameras')) {
+                        const cameras = parseInt(this.getAttribute('data-cameras'));
+                        let basePrice = 25000;
+
+                        if (cameras === 2) basePrice = 25000;
+                        else if (cameras === 4) basePrice = 45000;
+                        else if (cameras === 8) basePrice = 75000;
+                        else if (cameras === 16) basePrice = 120000;
+
+                        totalPriceElement.textContent = basePrice.toLocaleString('ru-RU');
+                    }
+                });
+            });
+
+            // Обработка формы
+            const submitBtn = document.getElementById('submitForm');
+            submitBtn.addEventListener('click', function() {
+                const name = document.getElementById('nameInput').value;
+                const phone = document.getElementById('phoneInput').value;
+
+                if (!name || !phone) {
+                    alert('Пожалуйста, заполните обязательные поля: имя и телефон');
+                    return;
+                }
+
+                // В реальном проекте здесь был бы AJAX запрос
+                alert(`Спасибо, ${name}! Мы получили вашу заявку. Наш менеджер свяжется с вами по телефону ${phone} в течение 15 минут.`);
+
+                // Очистка формы
+                document.getElementById('nameInput').value = '';
+                document.getElementById('phoneInput').value = '';
+                document.getElementById('messageInput').value = '';
+            });
+
+            // Анимация при наведении на кнопки
+            const buttons = document.querySelectorAll('.btn-primary');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px) scale(1.05)';
+                });
+
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
