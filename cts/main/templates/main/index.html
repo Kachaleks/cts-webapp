@@ -388,15 +388,15 @@
 
                 <div class="filter-group">
                     <h4>Максимальное разрешение (Мп)</h4>
-                    <div class="filter-options">
+                    <div class="filter-options" id="resolutionFilters">
                         {% block resolution %}
                         {% endblock %}
                     </div>
                 </div>
 
-                <div class="filter-group">
+                <div class="filter-group" >
                     <h4>Тип камеры </h4>
-                    <div class="filter-options">
+                    <div class="filter-options" id="typeFilters">
                        {% block types %}
                         {% endblock %}
                     </div>
@@ -404,7 +404,7 @@
 
                 <div class="filter-group">
                     <h4>Тип ночного видения</h4>
-                    <div class="filter-options">
+                    <div class="filter-options" id="nightVisionFilters" >
                         {% block night_vision_technology %}
                         {% endblock %}
                     </div>
@@ -412,7 +412,7 @@
 
                 <div class="filter-group">
                     <h4>Тип подключения</h4>
-                    <div class="filter-options">
+                    <div class="filter-options" id="connectionFilters">
                         {% block connection_types%}
                         {% endblock %}
 
@@ -421,9 +421,9 @@
 
                 <div class="filter-group">
                     <h4>Микрофон / Динамик</h4>
-                    <div class="filter-options">
-                        <label class="filter-option"><input type="checkbox" name="micro_dynamic" value="yes"> Микрофон</label>
-                        <label class="filter-option"><input type="checkbox" name="micro_dynamic" value="yes" checked> Динамик</label>
+                    <div class="filter-options" id="microDynamicFilters">
+                        <label class="filter-option"><input type="checkbox" name="micro_dynamic" value="no" data-filter="has_micro" class="filter-checkbox"> Микрофон</label>
+                        <label class="filter-option"><input type="checkbox" name="micro_dynamic" value="no" data-filter="has_dynamic" class="filter-checkbox"> Динамик</label>
                     </div>
                 </div>
 
@@ -445,34 +445,84 @@
                     </div>
                 </div>
 
-                <button class="btn-primary calc-reset">
+                <button class="btn-primary" id="resetFilters">
                     <i class="fas fa-redo"></i> Сбросить фильтры
                 </button>
             </div>
 
-            <!-- Правая колонка: результаты -->
+             <!-- Правая колонка: результаты -->
             <div class="calc-results">
                 <div class="results-header">
-                    <h3>ПОДОБРАННЫЕ ВАРИАНТЫ</h3>
-                    <div class="results-count">{{cameras}}</div>
-                </div>
-
-                <div class="products-grid" id="productsContainer">
-                    <!-- Карточки товаров будут вставляться сюда через JavaScript -->
-                </div>
-
-                <!-- Итоговая стоимость -->
-                <div class="calc-total yellow-glow">
-                    <div class="total-price">
-                        <span class="total-label">Примерная стоимость системы:</span>
-                        <span class="total-value">от <span id="totalPrice">52 500</span> ₽</span>
+                    <h3>Подходящие камеры: <span id="camerasCount">{{ cameras.count }}</span></h3>
+                    <div class="sort-options">
+                        <select id="sortSelect" class="sort-select">
+                            <option value="price">Сначала дешевые</option>
+                            <option value="price_desc">Сначала дорогие</option>
+                            <option value="name">По названию</option>
+                        </select>
                     </div>
-                    <p class="total-note">*Точная стоимость будет рассчитана после выезда специалиста</p>
-                    <button class="btn-primary" id="getExactCalc">
-                        <i class="fas fa-calculator"></i> ПОЛУЧИТЬ ТОЧНЫЙ РАСЧЁТ
-                    </button>
+                </div>
+
+                <!-- Сетка камер -->
+                <div class="cameras-grid" id="camerasGrid">
+                    {% for camera in cameras %}
+                    <div class="camera-card" data-camera-id="{{ camera.id }}">
+                        <div class="camera-image">
+                            {% if camera.picture %}
+                            <img src="{{ camera.picture.url }}" alt="{{ camera.name }}" loading="lazy">
+                            {% else %}
+                            <div class="no-image"><i class="fas fa-camera"></i></div>
+                            {% endif %}
+                        </div>
+
+                        <div class="camera-info">
+                            <h4>{{ camera.name }}</h4>
+
+                            <div class="camera-specs">
+                                <div class="spec-item">
+                                    <i class="fas fa-expand-alt"></i>
+                                    <span>{{ camera.resolution }} Мп</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-video"></i>
+                                    <span>{{ camera.type }}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-plug"></i>
+                                    <span>{{ camera.connection_type }}</span>
+                                </div>
+                            </div>
+
+                            <div class="camera-features">
+                                {% if camera.has_micro %}
+                                <span class="feature-tag"><i class="fas fa-microphone"></i> Микрофон</span>
+                                {% endif %}
+                                {% if camera.has_dynamic %}
+                                <span class="feature-tag"><i class="fas fa-volume-up"></i> Динамик</span>
+                                {% endif %}
+                                <span class="feature-tag">
+                                    <i class="fas fa-moon"></i> {{ camera.night_vision_technology }}
+                                </span>
+                            </div>
+
+                            <div class="camera-price">
+                                {{ camera.price|floatformat:0 }} ₽
+                            </div>
+
+                            <button class="btn-select-camera" onclick="selectCamera({{ camera.id }})">
+                                <i class="fas fa-check"></i> Выбрать
+                            </button>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="no-cameras">
+                        <i class="fas fa-camera-slash"></i>
+                        <p>Камеры пока не добавлены</p>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </section>
@@ -806,7 +856,272 @@
             });
         });
     </script>
+    <!--  JavaScript для калькулятора -->
+<script>
+// КАЛЬКУЛЯТОР ДЛЯ РАДИО-КНОПОК
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎯 Калькулятор с радио-кнопками запущен');
+
+    const camerasGrid = document.getElementById('camerasGrid');
+    const camerasCount = document.getElementById('camerasCount');
+
+    if (!camerasGrid) {
+        console.error('❌ Не найден camerasGrid');
+        return;
+    }
+
+    // ===== 1. СОБИРАЕМ АКТИВНЫЕ ФИЛЬТРЫ =====
+    function getActiveFilters() {
+        const filters = {};
+
+        // Собираем выбранные радио-кнопки
+        document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+            const filterName = radio.dataset.filter;
+            const filterValue = radio.value;
+
+            if (filterValue !== 'all') {
+                filters[filterName] = filterValue;
+            }
+        });
+
+        // Собираем чекбоксы
+        document.querySelectorAll('.filter-checkbox:checked').forEach(cb => {
+            const filterName = cb.dataset.filter;
+            filters[filterName] = 'true';
+        });
+
+        // Сортировка
+        const sortSelect = document.getElementById('sortSelect');
+        if (sortSelect && sortSelect.value) {
+            filters['sort'] = sortSelect.value;
+        }
+
+        console.log('📊 Активные фильтры:', filters);
+        return filters;
+    }
+
+    // ===== 2. ОБРАБОТКА РАДИО-КНОПОК =====
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const filterName = this.dataset.filter;
+            const filterValue = this.value;
+
+            console.log(`📻 Радио: ${filterName} = ${filterValue}`);
+
+            // Добавляем визуальное выделение
+            const label = this.closest('label');
+            if (label) {
+                // Убираем выделение у всех в группе
+                const group = label.closest('.filter-options');
+                if (group) {
+                    group.querySelectorAll('label').forEach(l => {
+                        l.classList.remove('selected');
+                    });
+                }
+                // Добавляем текущему
+                label.classList.add('selected');
+            }
+
+            // Фильтруем
+            filterCameras();
+        });
+    });
+
+    // ===== 3. ОБРАБОТКА ЧЕКБОКСОВ =====
+    document.querySelectorAll('.filter-checkbox').forEach(cb => {
+        cb.addEventListener('change', function() {
+            console.log(`☑️ Чекбокс: ${this.dataset.filter} = ${this.checked}`);
+            filterCameras();
+        });
+    });
+
+    // ===== 4. ОБРАБОТКА СОРТИРОВКИ =====
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            console.log(`📊 Сортировка: ${this.value}`);
+            filterCameras();
+        });
+    }
+
+    // ===== 5. КНОПКА СБРОСА =====
+    const resetBtn = document.getElementById('resetFilters');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('🔄 Сброс фильтров');
+
+            // Сбрасываем радио-кнопки на "Все"
+            document.querySelectorAll('input[type="radio"][value="all"]').forEach(radio => {
+                radio.checked = true;
+                const label = radio.closest('label');
+                if (label) label.classList.add('selected');
+            });
+
+            // Убираем выделение у остальных
+            document.querySelectorAll('input[type="radio"]:not([value="all"])').forEach(radio => {
+                radio.checked = false;
+                const label = radio.closest('label');
+                if (label) label.classList.remove('selected');
+            });
+
+            // Сбрасываем чекбоксы
+            document.querySelectorAll('.filter-checkbox').forEach(cb => {
+                cb.checked = false;
+            });
+
+            // Сбрасываем сортировку
+            if (sortSelect) sortSelect.value = 'price';
+
+            // Фильтруем (показываем все)
+            filterCameras();
+        });
+    }
+
+    // ===== 6. ФУНКЦИЯ ФИЛЬТРАЦИИ =====
+    function filterCameras() {
+        console.log('🔄 Фильтрация...');
+
+        camerasGrid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Фильтрация...</div>';
+
+        const filters = getActiveFilters();
+        const params = new URLSearchParams();
+
+        for (const [key, value] of Object.entries(filters)) {
+            params.append(key, value);
+        }
+
+        const url = '/?' + params.toString();
+        console.log('🔗 Запрос:', url);
+
+        fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            console.log('📥 Ответ:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('📦 Данные:', data);
+
+            if (data && data.cameras) {
+                displayCameras(data.cameras);
+                if (camerasCount) {
+                    camerasCount.textContent = data.count || data.cameras.length;
+                }
+            } else {
+                console.warn('Нет данных cameras');
+                camerasGrid.innerHTML = '<div class="error">Нет данных</div>';
+            }
+        })
+        .catch(error => {
+            console.error('❌ Ошибка:', error);
+            camerasGrid.innerHTML = `
+                <div class="error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>${error.message}</p>
+                </div>
+            `;
+        });
+    }
+
+    // ===== 7. ОТОБРАЖЕНИЕ КАМЕР =====
+    function displayCameras(cameras) {
+        console.log(`🖼️ Отображаем ${cameras.length} камер`);
+
+        if (!cameras || cameras.length === 0) {
+            camerasGrid.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <h4>Камеры не найдены</h4>
+                    <p>Попробуйте изменить параметры фильтрации</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+
+        cameras.forEach(camera => {
+            html += `
+                <div class="camera-card">
+                    <div class="camera-image">
+                        ${camera.picture_url ?
+                            `<img src="${camera.picture_url}" alt="${camera.name}" loading="lazy">` :
+                            `<div class="no-image"><i class="fas fa-camera"></i></div>`
+                        }
+                    </div>
+                    <div class="camera-info">
+                        <h4>${camera.name}</h4>
+                        <div class="camera-specs">
+                            <div class="spec-item">
+                                <i class="fas fa-expand-alt"></i>
+                                <span>${camera.resolution} Мп</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-video"></i>
+                                <span>${camera.type}</span>
+                            </div>
+                            <div class="spec-item">
+                                <i class="fas fa-plug"></i>
+                                <span>${camera.connection_type}</span>
+                            </div>
+                        </div>
+                        <div class="camera-price">${camera.price_formatted}</div>
+                        <button class="btn-select-camera" onclick="selectCamera(${camera.id})">
+                            <i class="fas fa-check"></i> Выбрать
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        camerasGrid.innerHTML = html;
+    }
+
+    // ===== 8. ЗАПУСК =====
+    // Добавляем начальное выделение для "Все"
+    document.querySelectorAll('input[type="radio"][value="all"]').forEach(radio => {
+        const label = radio.closest('label');
+        if (label) label.classList.add('selected');
+    });
+
+    // Загружаем все камеры
+    filterCameras();
+
+    // Тест через 1 секунду
+    setTimeout(() => {
+        console.log('🧪 Тест: выбираем первый фильтр');
+        const firstRadio = document.querySelector('input[type="radio"]:not([value="all"])');
+        if (firstRadio) {
+            firstRadio.click();
+        }
+    }, 1000);
+});
+
+// Функция выбора камеры
+function selectCamera(cameraId) {
+    console.log(`🎯 Выбрана камера: ${cameraId}`);
+    alert(`Камера выбрана! Прокрутите вниз для заказа.`);
+
+    const contact = document.querySelector('#contact');
+    if (contact) contact.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Для отладки
+window.testFilter = function(filterName, value) {
+    const radio = document.querySelector(`input[data-filter="${filterName}"][value="${value}"]`);
+    if (radio) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change'));
+    }
+};
+</script>
 </body>
+
 </html>
 
 
