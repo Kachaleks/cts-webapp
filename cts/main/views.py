@@ -26,7 +26,7 @@ def calculator(request):
         if 'night_vision_technology' in request.GET:
             cameras = cameras.filter(night_vision_technology=request.GET['night_vision_technology'])
         if 'connection_types' in request.GET:
-            cameras = cameras.filter(connection_types=request.GET['connection_types'])
+            cameras = cameras.filter(connection_typ=request.GET['connection_types'])
         if 'lens' in request.GET:
             cameras = cameras.filter(lens=request.GET['lens'])
         if 'analytics' in request.GET:

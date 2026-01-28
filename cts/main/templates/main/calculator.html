@@ -43,14 +43,14 @@
 <!-- Объектив-->
 {% block lens%}
     {% for len in lens %}
-        <label class="filter-option"><input type="radio" name="len" data-filter="lens" > {{len}} </label>
+        <label class="filter-option"><input type="radio" name="lenы" data-filter="lens" value={{len}} > {{len}} </label>
     {% endfor %}
 {% endblock %}
 
 <!-- Аналитика-->
 {% block analytics%}
     {% for analytic in analytics %}
-        <label class="filter-option"><input type="radio" name="analytics" data-filter="analytics" > {{analytic}} </label>
+        <label class="filter-option"><input type="radio" name="analytics" data-filter="analytics"  value={{analytic}}> {{analytic}} </label>
     {% endfor %}
 {% endblock %}
 
