@@ -43,7 +43,7 @@
 <!-- Объектив-->
 {% block lens%}
     {% for len in lens %}
-        <label class="filter-option"><input type="radio" name="lenы" data-filter="lens" value={{len}} > {{len}} </label>
+        <label class="filter-option"><input type="checkbox" name="lens" data-filter="lens" value={{len}} data-group="multiple" > {{len}} </label>
     {% endfor %}
 {% endblock %}
 

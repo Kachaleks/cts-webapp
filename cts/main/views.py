@@ -28,7 +28,10 @@ def calculator(request):
         if 'connection_types' in request.GET:
             cameras = cameras.filter(connection_typ=request.GET['connection_types'])
         if 'lens' in request.GET:
-            cameras = cameras.filter(lens=request.GET['lens'])
+            lens_values = request.GET.getlist('lens')
+            if lens_values:
+                # Используем __in для поиска точных совпадений
+                cameras = cameras.filter(lens__in=lens_values)
         if 'analytics' in request.GET:
             cameras = cameras.filter(analytics=request.GET['analytics'])
 

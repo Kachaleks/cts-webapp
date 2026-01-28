@@ -423,12 +423,12 @@
                         <h4>Микрофон / Динамик</h4>
                         <div class="filter-options" id="microDynamicFilters">
                             <label class="filter-option">
-                                <input type="checkbox" data-filter="has_micro" class="filter-checkbox">
+                                <input type="checkbox" data-filter="has_micro" data-group="boolean" class="filter-checkbox">
                                 <span class="checkbox-custom"></span>
                                 Микрофон
                             </label>
                             <label class="filter-option">
-                                <input type="checkbox" data-filter="has_dynamic" class="filter-checkbox">
+                                <input type="checkbox" data-filter="has_dynamic" data-group="boolean" class="filter-checkbox">
                                 <span class="checkbox-custom"></span>
                                 Динамик
                             </label>
@@ -884,8 +884,7 @@
     </script>
     <!--  JavaScript для калькулятора -->
     <script>
-// КАЛЬКУЛЯТОР ДЛЯ РАДИО-КНОПОК
-// КАЛЬКУЛЯТОР ДЛЯ РАДИО-КНОПОК И ЧЕКБОКСОВ
+        // КАЛЬКУЛЯТОР ДЛЯ РАДИО-КНОПОК И ЧЕКБОКСОВ
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🎯 Калькулятор запущен');
 
@@ -937,8 +936,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ===== 2. ОБРАБОТКА CHECKBOX ДЛЯ МИКРОФОНА/ДИНАМИКА =====
-    document.querySelectorAll('.filter-checkbox').forEach(cb => {
+    // ===== 2. ОБРАБОТКА CHECKBOX ДЛЯ МНОЖЕСТВЕННОГО ВЫБОРА (lens) =====
+    document.querySelectorAll('input[data-group="multiple"]').forEach(cb => {
+        cb.addEventListener('change', function() {
+            const filterName = this.dataset.filter;
+
+            if (this.checked) {
+                this.closest('label').classList.add('selected');
+                console.log(`✅ Включен: ${filterName} = ${this.value}`);
+            } else {
+                this.closest('label').classList.remove('selected');
+                console.log(`❌ Выключен: ${filterName} = ${this.value}`);
+            }
+
+            filterCameras();
+        });
+    });
+
+    // ===== 3. ОБРАБОТКА CHECKBOX ДЛЯ БУЛЕВЫХ ПОЛЕЙ (микрофон, динамик) =====
+    document.querySelectorAll('input[data-group="boolean"]').forEach(cb => {
         cb.addEventListener('change', function() {
             const filterName = this.dataset.filter;
 
@@ -954,7 +970,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ===== 3. ОБРАБОТКА СОРТИРОВКИ =====
+    // ===== 4. ОБРАБОТКА СОРТИРОВКИ =====
     const sortSelect = document.getElementById('sortSelect');
     if (sortSelect) {
         sortSelect.addEventListener('change', function() {
@@ -963,7 +979,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ===== 4. КНОПКА СБРОСА =====
+    // ===== 5. КНОПКА СБРОСА =====
     const resetBtn = document.getElementById('resetFilters');
     if (resetBtn) {
         resetBtn.addEventListener('click', function(e) {
@@ -977,7 +993,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             // Сбрасываем все чекбоксы
-            document.querySelectorAll('.filter-checkbox').forEach(cb => {
+            document.querySelectorAll('.filter-checkbox, input[data-group="multiple"], input[data-group="boolean"]').forEach(cb => {
                 cb.checked = false;
                 cb.closest('label').classList.remove('selected');
             });
@@ -990,18 +1006,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ===== 5. СОБИРАЕМ АКТИВНЫЕ ФИЛЬТРЫ =====
+    // ===== 6. СОБИРАЕМ АКТИВНЫЕ ФИЛЬТРЫ =====
     function getActiveFilters() {
         const filters = {};
 
-        // Собираем выбранные радио-кнопки
+        // Собираем выбранные радио-кнопки (одиночный выбор)
         document.querySelectorAll('input[type="radio"][data-filter]:checked').forEach(radio => {
             const filterName = radio.dataset.filter;
             const filterValue = radio.value;
             filters[filterName] = filterValue;
         });
 
-        // Собираем чекбоксы микрофона и динамика
+        // Собираем чекбоксы для множественного выбора (lens)
+        const lensCheckboxes = document.querySelectorAll('input[data-filter="lens"]:checked');
+        if (lensCheckboxes.length > 0) {
+            filters['lens'] = Array.from(lensCheckboxes).map(cb => cb.value);
+        }
+
+        // Собираем чекбоксы для булевых полей (микрофон, динамик)
         const microChecked = document.querySelector('input[data-filter="has_micro"]:checked');
         const dynamicChecked = document.querySelector('input[data-filter="has_dynamic"]:checked');
 
@@ -1021,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return filters;
     }
 
-    // ===== 6. ФУНКЦИЯ ФИЛЬТРАЦИИ =====
+    // ===== 7. ФУНКЦИЯ ФИЛЬТРАЦИИ =====
     function filterCameras() {
         console.log('🔄 Фильтрация...');
 
@@ -1031,7 +1053,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const params = new URLSearchParams();
 
         for (const [key, value] of Object.entries(filters)) {
-            params.append(key, value);
+            if (Array.isArray(value)) {
+                // Для массива значений (lens) отправляем каждый элемент отдельно
+                value.forEach(val => {
+                    params.append(key, val);
+                });
+            } else {
+                params.append(key, value);
+            }
         }
 
         const url = '/?' + params.toString();
@@ -1071,7 +1100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ===== 7. ФУНКЦИЯ ОТОБРАЖЕНИЯ КАМЕР =====
+    // ===== 8. ФУНКЦИЯ ОТОБРАЖЕНИЯ КАМЕР =====
     function displayCameras(cameras) {
         console.log(`🖼️ Отображаем ${cameras.length} камер`);
 
@@ -1100,12 +1129,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (camera.night_vision_technology) {
                 featuresHtml += `<span class="feature-tag"><i class="fas fa-moon"></i> ${camera.night_vision_technology}</span>`;
             }
+            if (camera.lens) {
+                featuresHtml += `<span class="feature-tag"><i class="fas fa-camera"></i> ${camera.lens}</span>`;
+            }
 
             html += `
                 <div class="camera-card" data-camera-id="${camera.id}">
                     <div class="camera-image">
-                        ${camera.picture_url ?
-                            `<img src="${camera.picture_url}" alt="${camera.name}" loading="lazy">` :
+                        ${camera.picture ?
+                            `<img src="${camera.picture.url}" alt="${camera.name}" loading="lazy">` :
                             `<div class="no-image"><i class="fas fa-camera"></i></div>`
                         }
                     </div>
@@ -1129,7 +1161,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         ${featuresHtml ? `<div class="camera-features">${featuresHtml}</div>` : ''}
 
-                        <div class="camera-price">${camera.price_formatted}</div>
+                        <div class="camera-price">${camera.price}</div>
 
                         <button class="btn-select-camera" onclick="selectCamera(${camera.id})">
                             <i class="fas fa-check"></i> Выбрать
@@ -1142,12 +1174,12 @@ document.addEventListener('DOMContentLoaded', function() {
         camerasGrid.innerHTML = html;
     }
 
-    // ===== 8. ЗАПУСК =====
+    // ===== 9. ЗАПУСК =====
     // При загрузке страницы ничего не выбрано - показываем все камеры
     filterCameras();
 });
 
-// ===== 9. ФУНКЦИЯ ВЫБОРА КАМЕРЫ (глобальная) =====
+// ===== 10. ФУНКЦИЯ ВЫБОРА КАМЕРЫ (глобальная) =====
 function selectCamera(cameraId) {
     console.log(`🎯 Выбрана камера: ${cameraId}`);
     alert(`Камера выбрана! Прокрутите вниз для заказа.`);
@@ -1155,16 +1187,7 @@ function selectCamera(cameraId) {
     const contact = document.querySelector('#contact');
     if (contact) contact.scrollIntoView({ behavior: 'smooth' });
 }
-
-// ===== 10. ФУНКЦИЯ ДЛЯ ОТЛАДКИ =====
-window.testFilter = function(filterName, value) {
-    const radio = document.querySelector(`input[data-filter="${filterName}"][value="${value}"]`);
-    if (radio) {
-        radio.checked = true;
-        radio.dispatchEvent(new Event('change'));
-    }
-};
-</script>
+    </script>
 </body>
 
 </html>
