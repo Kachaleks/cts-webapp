@@ -2,7 +2,13 @@
 <!-- Блок разрешение -->
 {% block resolution %}
     {% for resolution in resolutions %}
-        <label class="filter-option"><input type="radio" name="resolution" data-filter="resolution" value="{{ resolution }}" > {{resolution}} Мп</label>
+        <label class="filter-option">
+            <input type="radio"
+                   name="resolution"
+                   data-filter="resolution"
+                   value="{{ resolution }}" >
+                        <span class="radio-custom"></span>
+            {{resolution}} Мп</label>
     {% endfor %}
 
 {% endblock %}
