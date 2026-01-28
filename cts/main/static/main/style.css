@@ -1358,265 +1358,511 @@ body {
 
 
 /* =====Калькулятор ====*/
-/* ===== УЛУЧШЕННЫЙ КАЛЬКУЛЯТОР С ФИЛЬТРАМИ ===== */
-.calculator-advanced {
-    display: flex;
-    gap: 40px;
-    margin-top: 50px;
+/* ===== КАЛЬКУЛЯТОР В ФОРМАТЕ NABLUDAIZER ===== */
+.calculator-section {
+    background: var(--light-section);
+    padding: 60px 0;
 }
 
-@media (max-width: 992px) {
-    .calculator-advanced {
-        gap: 30px;
-    }
-}
-
-/* Левая колонка: фильтры */
-.calc-filters {
-    background: var(--light-bg);
-    padding: 35px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-light);
-    border: 2px solid var(--primary-yellow);
-    height: fit-content;
-    position: sticky;
-    top: 100px;
-}
-
-.calc-filters h3 {
-    color: var(--text-dark);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.4rem;
-    margin-bottom: 30px;
+/* Шапка калькулятора с заголовком */
+.calculator-header {
     text-align: center;
-    padding-bottom: 15px;
-    border-bottom: 2px solid rgba(255, 193, 7, 0.2);
+    margin-bottom: 50px;
+}
+.calculator-header .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+.calculator-subtitle {
+    color: var(--text-medium);
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
+/* Блок фильтров во всю ширину */
+.calc-filters-container {
+    background: var(--light-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-medium);
+    padding: 30px;
+    margin-bottom: 50px;
+    border: 1px solid var(--border-color);
+}
+
+
+.calc-filters-left-side{
+    width: 32%;
+    display: inline-block;
+    vertical-align: top;
+
+
+}
+
+.calc-filters-right-side{
+    width: 32%;
+    display: inline-block;
+    vertical-align: top;
+
+
+}
+
+.calc-filters{
+    display: flex
+    justify-content: space-between;
+    vertical-align: top;
+
+
+
+}
+
+
+
+/* Многостолбцовая сетка фильтров */
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px 40px;
+    margin-bottom: 20px;
+}
+
+/* Каждая группа фильтров теперь колонка */
 .filter-group {
-    margin-bottom: 30px;
+    break-inside: avoid;
+    margin-bottom: 0;
 }
 
 .filter-group h4 {
     color: var(--text-dark);
     font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    margin-bottom: 15px;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
     font-weight: 600;
-}
-
-.filter-options {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 10px;
 }
 
-.filter-option {
+/* Ограничение высоты для групп с большим количеством опций */
+.filter-options {
     display: flex;
+    flex-wrap: wrap; /* Перенос на новую строку */
+    gap: 8px;
+    align-content: flex-start;
+    padding-right: 0; /* Убираем отступ для скролла */
+    max-height: none; /* Убираем ограничение высоты */
+    overflow-y: visible; /* Убираем скролл */
+}
+
+/* Стилизация скроллбара для длинных списков */
+.filter-options::-webkit-scrollbar {
+    width: 4px;
+}
+
+.filter-options::-webkit-scrollbar-track {
+    background: var(--light-section);
+    border-radius: 2px;
+}
+
+.filter-options::-webkit-scrollbar-thumb {
+    background: var(--primary-yellow);
+    border-radius: 2px;
+}
+
+.filter-options::-webkit-scrollbar-thumb:hover {
+    background: var(--yellow-dark);
+}
+
+/* Опции фильтров */
+.filter-option {
+    display: inline-flex; /* Ключевое изменение! */
     align-items: center;
     gap: 8px;
     padding: 10px 18px;
-    background: white;
+    background: var(--light-card);
     border: 2px solid var(--border-color);
     border-radius: var(--radius-md);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-medium);
     cursor: pointer;
     transition: all var(--transition-fast);
     user-select: none;
+    white-space: nowrap; /* Текст в одну строку */
+    flex-shrink: 0; /* Не сжимается */
+    width: auto !important; /* Автоматическая ширина */
+    margin: 0; /* Сброс маргинов */
 }
+
 
 .filter-option:hover {
     border-color: var(--yellow-light);
     transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
 }
 
-
-/* =====радио ====*/
 .filter-option input[type="radio"] {
     display: none;
 }
-
-.filter-option input[type="radio"]:checked + span {
-    font-weight: 600;
-}
-
-.filter-option input[type="radio"]:checked ~ span {
-    color: var(--text-dark);
-}
-
-.filter-option:has(input[type="radio"]:checked) {
+.filter-option:has(input[type="radio"]:checked),
+.filter-option.checkbox:has(input:checked) {
     background: var(--primary-yellow);
     border-color: var(--primary-yellow);
     color: var(--text-dark);
+    font-weight: 600;
     box-shadow: var(--shadow-yellow);
 }
 
-.calc-reset {
-    width: 100%;
-    margin-top: 20px;
-    background: var(--light-section);
-    color: var(--text-dark);
-    border: 2px solid var(--border-color);
+
+/* Чекбоксы - компактный вариант */
+.filter-option.checkbox {
+    min-width: auto;
+    justify-content: center;
+    padding: 10px 16px;
 }
 
-.calc-reset:hover {
-    background: var(--primary-yellow);
-    border-color: var(--primary-yellow);
-}
-
-/* Правая колонка: результаты */
-.results-header {
+/* Панель управления (сброс, сортировка, счетчик) */
+.calc-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid rgba(255, 193, 7, 0.2);
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid var(--border-color);
 }
-
-.results-header h3 {
+#camerasCount {
+    color: var(--primary-yellow);
+    background: rgba(255, 193, 7, 0.1);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    min-width: 60px;
+    text-align: center;
+}
+.sort-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.sort-select {
+    padding: 10px 35px 10px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--light-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23FFC107' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E") no-repeat right 15px center;
     color: var(--text-dark);
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.4rem;
-    margin: 0;
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    min-width: 220px;
+    appearance: none;
 }
-
-.results-count {
+.sort-select:hover,
+.sort-select:focus {
+    border-color: var(--primary-yellow);
+    outline: none;
+}
+#resetFilters {
+    background: transparent;
     color: var(--text-medium);
-    font-weight: 600;
-    font-size: 1rem;
+    border: 2px solid var(--border-color);
+}
+#resetFilters:hover {
+    background: rgba(255, 193, 7, 0.1);
+    color: var(--text-dark);
+    border-color: var(--primary-yellow);
 }
 
-.results-count span {
-    color: var(--primary-yellow);
-}
-
-/* Сетка товаров */
-.products-grid {
+/* Сетка камер */
+.cameras-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
-    margin-bottom: 40px;
+    margin-bottom: 60px;
 }
 
-.product-card {
+/* Карточка камеры */
+.camera-card {
     background: var(--light-bg);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-light);
     border: 1px solid var(--border-color);
     transition: all var(--transition-normal);
     display: flex;
     flex-direction: column;
+    height: 100%;
+    position: relative;
 }
-
-.product-card:hover {
+.camera-card:hover {
     transform: translateY(-8px);
     box-shadow: var(--shadow-medium);
     border-color: var(--primary-yellow);
 }
-
-.product-image {
-    height: 180px;
+.camera-image {
+    height: 200px;
     background: var(--light-section);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
 }
-
-.product-image img {
+.camera-image img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    transition: transform 0.4s ease;
 }
-
-.product-info {
+.camera-card:hover .camera-image img {
+    transform: scale(1.05);
+}
+.camera-info {
     padding: 20px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
-
-.product-title {
+.camera-info h4 {
     color: var(--text-dark);
     font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
-    margin-bottom: 10px;
-    font-weight: 600;
+    margin-bottom: 12px;
+    font-weight: 700;
     line-height: 1.4;
+    min-height: 3em;
 }
-
-.product-features {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 15px 0;
-    flex-grow: 1;
+.camera-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+    padding: 15px 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
-
-.product-features li {
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     color: var(--text-medium);
     font-size: 0.85rem;
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
-
-.product-features li i {
+.spec-item i {
     color: var(--primary-yellow);
-    font-size: 0.8rem;
-}
-
-.product-price {
-    color: var(--text-dark);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-top: auto;
-    padding-top: 15px;
-    border-top: 1px solid var(--border-color);
-}
-
-/* Блок итоговой стоимости */
-.calc-total {
-    background: var(--light-bg);
-    padding: 30px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-light);
-    border: 2px solid var(--primary-yellow);
+    width: 16px;
     text-align: center;
 }
-
-.total-price {
+.camera-features {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid rgba(255, 193, 7, 0.2);
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 15px 0;
 }
-
-.total-label {
+.feature-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 193, 7, 0.08);
+    color: var(--yellow-dark);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+.camera-price {
     color: var(--text-dark);
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-top: auto;
+    padding-top: 15px;
+    text-align: center;
+}
+.camera-price::after {
+    content: ' ₽';
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-medium);
+}
+.btn-select-camera {
+    width: 100%;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+/* Сообщения о загрузке и пустых результатах */
+.loading, .no-results, .error {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--light-bg);
+    border-radius: var(--radius-lg);
+    border: 2px dashed var(--border-color);
+}
+.loading i, .no-results i, .error i {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: block;
+}
+.loading i { color: var(--primary-yellow); }
+.no-results i { color: var(--text-light); }
+.error i { color: #f44336; }
+.loading p, .no-results p, .error p {
+    color: var(--text-medium);
+    font-size: 1.1rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (min-width: 1200px) {
+    .filters-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .filters-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    .calculator-header .section-title {
+        font-size: 2.2rem;
+    }
+}
+@media (max-width: 768px) {
+    .calc-filters-container {
+        padding: 25px 20px;
+    }
+    .filters-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    .calc-controls {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    .sort-options {
+        justify-content: center;
+    }
+    .sort-select {
+        min-width: 100%;
+    }
+    .cameras-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+@media (max-width: 576px) {
+    .cameras-grid {
+        grid-template-columns: 1fr;
+    }
+    .filter-option {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+    }
+    .calculator-header .section-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* ===== ОСОБЫЕ СТИЛИ ДЛЯ ЧЕКБОКСОВ МИКРОФОН/ДИНАМИК ===== */
+.filter-group.micro-dynamic-group .filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Контейнер для чекбокса с кастомным дизайном */
+.checkbox-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: var(--light-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    user-select: none;
+    min-height: 44px;
+}
+
+.checkbox-container:hover {
+    border-color: var(--yellow-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
+}
+
+/* Скрываем стандартный чекбокс */
+.checkbox-container input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Создаем кастомный чекбокс */
+.checkbox-container .custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+/* Галочка внутри чекбокса */
+.checkbox-container .custom-checkbox::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0;
+    transform: scale(0);
+    transition: all var(--transition-fast);
+}
+
+/* Состояние "выбрано" */
+.checkbox-container input[type="checkbox"]:checked + .custom-checkbox {
+    background: var(--primary-yellow);
+    border-color: var(--primary-yellow);
+}
+
+.checkbox-container input[type="checkbox"]:checked + .custom-checkbox::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Текст чекбокса */
+.checkbox-label {
+    font-weight: 500;
+}
+
+/* Когда чекбокс выбран, подсвечиваем весь контейнер */
+.checkbox-container input[type="checkbox"]:checked ~ .checkbox-label {
+    color: var(--text-dark);
     font-weight: 600;
 }
 
-.total-value {
-    color: var(--primary-yellow);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 800;
+.checkbox-container:has(input[type="checkbox"]:checked) {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: var(--primary-yellow);
+    box-shadow: var(--shadow-yellow);
 }
-
-.total-note {
-    color: var(--text-medium);
-    font-size: 0.9rem;
-    margin-bottom: 25px;
-}
-
 /* ===== ПРЕИМУЩЕСТВА (СВЕТЛЫЕ) ===== */
 .advantages-grid {
     display: grid;

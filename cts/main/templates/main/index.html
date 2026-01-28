@@ -382,11 +382,10 @@
         <h2 class="section-title">ОНЛАЙН РАСЧЁТ</h2>
 
         <div class="calculator-advanced">
-            <!-- Левая колонка: фильтры -->
-            <div class="calc-filters yellow-glow">
-                <h3>ПОДБЕРИТЕ ПАРАМЕТРЫ КАМЕРЫ</h3>
-
-                <div class="filter-group">
+            <!-- верхняя колонка: фильтры -->
+            <div class="calc-filters">
+                <div class="calc-filters-left-side">
+                    <div class="filter-group">
                     <h4>Максимальное разрешение (Мп)</h4>
                     <div class="filter-options" id="resolutionFilters">
                         {% block resolution %}
@@ -394,7 +393,7 @@
                     </div>
                 </div>
 
-                <div class="filter-group" >
+                    <div class="filter-group" >
                     <h4>Тип камеры </h4>
                     <div class="filter-options" id="typeFilters">
                        {% block types %}
@@ -402,32 +401,31 @@
                     </div>
                 </div>
 
-                <div class="filter-group">
+                    <div class="filter-group">
                     <h4>Тип ночного видения</h4>
                     <div class="filter-options" id="nightVisionFilters" >
                         {% block night_vision_technology %}
                         {% endblock %}
                     </div>
                 </div>
+                </div>
 
-                <div class="filter-group">
+                <div class="calc-filters-right-side">
+                    <div class="filter-group">
                     <h4>Тип подключения</h4>
                     <div class="filter-options" id="connectionFilters">
                         {% block connection_types%}
                         {% endblock %}
-
                     </div>
                 </div>
-
-                <div class="filter-group">
+                    <div class="filter-group">
                     <h4>Микрофон / Динамик</h4>
                     <div class="filter-options" id="microDynamicFilters">
                         <label class="filter-option"><input type="checkbox" name="micro_dynamic" value="no" data-filter="has_micro" class="filter-checkbox"> Микрофон</label>
                         <label class="filter-option"><input type="checkbox" name="micro_dynamic" value="no" data-filter="has_dynamic" class="filter-checkbox"> Динамик</label>
                     </div>
                 </div>
-
-                <div class="filter-group">
+                    <div class="filter-group">
                     <h4>Объектив</h4>
                     <div class="filter-options">
                         {% block lens%}
@@ -435,8 +433,7 @@
 
                     </div>
                 </div>
-
-                <div class="filter-group">
+                    <div class="filter-group">
                     <h4>Аналитика</h4>
                     <div class="filter-options">
                         {% block analytics%}
@@ -444,10 +441,11 @@
 
                     </div>
                 </div>
+                    <button class="btn-primary" id="resetFilters">
+                        <i class="fas fa-redo"></i> Сбросить фильтры
+                    </button>
+                </div>
 
-                <button class="btn-primary" id="resetFilters">
-                    <i class="fas fa-redo"></i> Сбросить фильтры
-                </button>
             </div>
 
              <!-- Правая колонка: результаты -->
