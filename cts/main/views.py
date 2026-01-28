@@ -32,6 +32,12 @@ def calculator(request):
         if 'analytics' in request.GET:
             cameras = cameras.filter(analytics=request.GET['analytics'])
 
+            # ФИЛЬТРАЦИЯ ПО МИКРОФОНУ И ДИНАМИКУ (ключевое изменение!)
+        if 'has_micro' in request.GET:
+            cameras = cameras.filter(has_micro=True)
+        if 'has_dynamic' in request.GET:
+            cameras = cameras.filter(has_dynamic=True)
+
 
         # Возвращаем простой JSON
         data = {
@@ -40,7 +46,9 @@ def calculator(request):
                     'id': c.id,
                     'name': c.name,
                     'price': c.price,
-                    'picture': c.picture.url if c.picture else ''
+                    'picture': c.picture.url if c.picture else '',
+                    'has_micro': c.has_micro,
+                    'has_dynamic': c.has_dynamic,
                 }
                 for c in cameras
             ]

@@ -418,13 +418,22 @@
                         {% endblock %}
                     </div>
                 </div>
+                    <!-- Микрофон / Динамик -->
                     <div class="filter-group">
-                    <h4>Микрофон / Динамик</h4>
-                    <div class="filter-options" id="microDynamicFilters">
-                        <input type="checkbox" name="micro_dynamic" value="no" data-filter="has_micro" class="filter-checkbox"> Микрофон
-                        <input type="checkbox" name="micro_dynamic" value="no" data-filter="has_dynamic" class="filter-checkbox"> Динамик
+                        <h4>Микрофон / Динамик</h4>
+                        <div class="filter-options" id="microDynamicFilters">
+                            <label class="filter-option">
+                                <input type="checkbox" data-filter="has_micro" class="filter-checkbox">
+                                <span class="checkbox-custom"></span>
+                                Микрофон
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" data-filter="has_dynamic" class="filter-checkbox">
+                                <span class="checkbox-custom"></span>
+                                Динамик
+                            </label>
+                        </div>
                     </div>
-                </div>
                     <div class="filter-group">
                     <h4>Объектив</h4>
                     <div class="filter-options">
@@ -874,7 +883,7 @@
         });
     </script>
     <!--  JavaScript для калькулятора -->
-<script>
+    <script>
 // КАЛЬКУЛЯТОР ДЛЯ РАДИО-КНОПОК
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🎯 Калькулятор с радио-кнопками запущен');
@@ -906,6 +915,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const filterName = cb.dataset.filter;
             filters[filterName] = 'true';
         });
+
+
 
         // Сортировка
         const sortSelect = document.getElementById('sortSelect');
