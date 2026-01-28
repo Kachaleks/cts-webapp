@@ -421,8 +421,8 @@
                     <div class="filter-group">
                     <h4>Микрофон / Динамик</h4>
                     <div class="filter-options" id="microDynamicFilters">
-                        <label class="filter-option"><input type="checkbox" name="micro_dynamic" value="no" data-filter="has_micro" class="filter-checkbox"> Микрофон</label>
-                        <label class="filter-option"><input type="checkbox" name="micro_dynamic" value="no" data-filter="has_dynamic" class="filter-checkbox"> Динамик</label>
+                        <input type="checkbox" name="micro_dynamic" value="no" data-filter="has_micro" class="filter-checkbox"> Микрофон
+                        <input type="checkbox" name="micro_dynamic" value="no" data-filter="has_dynamic" class="filter-checkbox"> Динамик
                     </div>
                 </div>
                     <div class="filter-group">
@@ -441,11 +441,30 @@
 
                     </div>
                 </div>
-                    <button class="btn-primary" id="resetFilters">
-                        <i class="fas fa-redo"></i> Сбросить фильтры
-                    </button>
                 </div>
 
+                <div class="calc-filters-additional-side" >
+                    <div class="filter-group">
+                        <h4>Оснащение (коммутатор, регистратор, блок питания, cambox, жесткий диск)</h4>
+                        <div class="filter-options" id="equipment" >
+                            <label class="filter-option"><input type="radio" name="equipment" data-filter="equipment" value="equipment" > Да </label>
+                            <label class="filter-option"><input type="radio" name="equipment" data-filter="equipment" value="equipment" > Нет </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Установка под ключ</h4>
+                        <div class="filter-options" id="installation" >
+                            <label class="filter-option"><input type="radio" name="installation" data-filter="installation" value="equipment" > Да </label>
+                            <label class="filter-option"><input type="radio" name="installation" data-filter="installation" value="equipment" > Нет </label>
+                        </div>
+                    </div>
+
+                     <button class="btn-primary" id="resetFilters">
+                        <i class="fas fa-redo"></i> Сбросить фильтры
+                    </button>
+
+                </div>
             </div>
 
              <!-- Правая колонка: результаты -->

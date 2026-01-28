@@ -1390,33 +1390,29 @@ body {
     border: 1px solid var(--border-color);
 }
 
+.calc-filters{
+    display: flex
+    justify-content: space-between;
+    vertical-align: top;
+}
 
 .calc-filters-left-side{
     width: 32%;
     display: inline-block;
     vertical-align: top;
-
-
 }
 
 .calc-filters-right-side{
     width: 32%;
     display: inline-block;
     vertical-align: top;
-
-
 }
 
-.calc-filters{
-    display: flex
-    justify-content: space-between;
+.calc-filters-additional-side{
+    width: 32%;
+    display: inline-block;
     vertical-align: top;
-
-
-
 }
-
-
 
 /* Многостолбцовая сетка фильтров */
 .filters-grid {
