@@ -49,7 +49,7 @@ def calculator(request):
                     'id': c.id,
                     'name': c.name,
                     'price': c.price,
-                    'picture': c.picture.url if c.picture else '',
+                    'picture': c.picture.path if c.picture else '',
                     'has_micro': c.has_micro,
                     'has_dynamic': c.has_dynamic,
                 }

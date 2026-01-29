@@ -1137,7 +1137,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="camera-card" data-camera-id="${camera.id}">
                     <div class="camera-image">
                         ${camera.picture ?
-                            `<img src="${camera.picture.url}" alt="${camera.name}" loading="lazy">` :
+                            `<img src="${camera.picture_url}" >` :
                             `<div class="no-image"><i class="fas fa-camera"></i></div>`
                         }
                     </div>
