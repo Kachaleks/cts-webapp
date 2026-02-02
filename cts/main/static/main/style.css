@@ -1675,8 +1675,6 @@ body {
     font-size: 1.5rem;
     font-weight: 800;
     margin-top: auto;
-    padding-top: 15px;
-    text-align: center;
 }
 .camera-price::after {
     content: ' ₽';
@@ -1689,7 +1687,41 @@ body {
     margin-top: 15px;
     justify-content: center;
 }
+.calc-rezult-inputs .number {
+    align-items: center;
+    display: flex;
+}
 
+.calc-rezult-inputs span.plus, .calc-rezult-inputs span.minus {
+    cursor: pointer;
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+#totalprice {
+    border: none;
+    border-radius: 3px;
+    width: 23px;
+    padding: 0px 4px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 140%;
+    color: #222222;
+    margin-right: 8px;
+    text-align: right;
+    box-sizing: border-box;
+    background: none;
+}
+
+#totalprice {
+    margin-left: 8px;
+}
 /* Сообщения о загрузке и пустых результатах */
 .loading, .no-results, .error {
     grid-column: 1 / -1;
@@ -1712,6 +1744,74 @@ body {
     font-size: 1.1rem;
     max-width: 400px;
     margin: 0 auto;
+}
+
+/* Стили для счетчика камер */
+.camera-counter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.counter-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-yellow);
+    background: transparent;
+    color: var(--text-dark);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.counter-btn:hover {
+    background: var(--primary-yellow);
+    transform: scale(1.1);
+}
+
+.counter-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: var(--border-color);
+}
+
+.counter-btn:disabled:hover {
+    background: transparent;
+    transform: none;
+}
+
+.counter-display {
+    min-width: 40px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--light-card);
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-color);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-dark);
+    transition: all var(--transition-fast);
+}
+
+.counter-display.has-value {
+    border-color: var(--primary-yellow);
+    background: rgba(255, 193, 7, 0.1);
+    box-shadow: var(--shadow-yellow);
+}
+
+.counter-value {
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 
 /* ===== АДАПТИВНОСТЬ ===== */

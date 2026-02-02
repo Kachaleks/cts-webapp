@@ -519,39 +519,24 @@
                             <h4>{{ camera.name }}</h4>
 
                             <div class="camera-specs">
-                                <div class="spec-item">
-                                    <i class="fas fa-expand-alt"></i>
-                                    <span>{{ camera.resolution }} Мп</span>
-                                </div>
-                                <div class="spec-item">
-                                    <i class="fas fa-video"></i>
-                                    <span>{{ camera.type }}</span>
-                                </div>
-                                <div class="spec-item">
-                                    <i class="fas fa-plug"></i>
-                                    <span>{{ camera.connection_type }}</span>
-                                </div>
-                            </div>
-
-                            <div class="camera-features">
-                                {% if camera.has_micro %}
-                                <span class="feature-tag"><i class="fas fa-microphone"></i> Микрофон</span>
-                                {% endif %}
-                                {% if camera.has_dynamic %}
-                                <span class="feature-tag"><i class="fas fa-volume-up"></i> Динамик</span>
-                                {% endif %}
-                                <span class="feature-tag">
-                                    <i class="fas fa-moon"></i> {{ camera.night_vision_technology }}
-                                </span>
-                            </div>
-
-                            <div class="camera-price">
+                                <div class="camera-price">
                                 {{ camera.price|floatformat:0 }} ₽
+                                </div>
                             </div>
 
-                            <button class="btn-select-camera" onclick="selectCamera({{ camera.id }})">
-                                <i class="fas fa-check"></i> Выбрать
-                            </button>
+                            <!-- Добавляем счетчик с кнопками -->
+                            <div class="camera-counter">
+                                <button class="counter-btn minus-btn" data-camera-id="{{ camera.id }}">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <div class="counter-display">
+                                    <span class="counter-value" data-camera-id="{{ camera.id }}">0</span>
+                                </div>
+                                <button class="counter-btn plus-btn" data-camera-id="{{ camera.id }}">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                     {% empty %}
@@ -905,6 +890,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const camerasGrid = document.getElementById('camerasGrid');
     const camerasCount = document.getElementById('camerasCount');
 
+
     if (!camerasGrid) {
         console.error('❌ Не найден camerasGrid');
         return;
@@ -1170,28 +1156,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="camera-info">
                         <h4>${camera.name}</h4>
 
-                        <div class="camera-specs">
-                            <div class="spec-item">
-                                <i class="fas fa-expand-alt"></i>
-                                <span>${camera.resolution} Мп</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-video"></i>
-                                <span>${camera.type}</span>
-                            </div>
-                            <div class="spec-item">
-                                <i class="fas fa-plug"></i>
-                                <span>${camera.connection_type}</span>
-                            </div>
-                        </div>
+
 
                         ${featuresHtml ? `<div class="camera-features">${featuresHtml}</div>` : ''}
 
                         <div class="camera-price">${camera.price}</div>
 
-                        <button class="btn-select-camera" onclick="selectCamera(${camera.id})">
-                            <i class="fas fa-check"></i> Выбрать
-                        </button>
+                        <div class="calc-rezult-inputs">
+                                <div class="number">
+                                    <span class="minus">-</span>
+                                    <input id="totalprice" type="text" data-titlecamlistitem="Hikvision DS-2CD2087G2-LU(C)" data-total="34350" value="0"> <span class="sth"> шт.</span>
+                                    <span class="plus">+</span>
+                                </div>
+                            </div>
                     </div>
                 </div>
             `;
@@ -1213,6 +1190,203 @@ function selectCamera(cameraId) {
     const contact = document.querySelector('#contact');
     if (contact) contact.scrollIntoView({ behavior: 'smooth' });
 }
+    </script>
+
+    =====Счетчик камер ====
+    <script>
+                        // Управление счетчиками камер
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Инициализация счетчиков из localStorage при загрузке
+                            initializeCounters();
+
+                            // Обработчики для кнопок "+" и "-"
+                            document.addEventListener('click', function(e) {
+                                const target = e.target;
+
+                                // Проверяем, кликнули ли мы на кнопку плюс/минус или их иконку
+                                const plusBtn = target.closest('.plus-btn');
+                                const minusBtn = target.closest('.minus-btn');
+
+                                if (plusBtn) {
+                                    const cameraId = plusBtn.getAttribute('data-camera-id');
+                                    incrementCounter(cameraId);
+                                }
+
+                                if (minusBtn) {
+                                    const cameraId = minusBtn.getAttribute('data-camera-id');
+                                    decrementCounter(cameraId);
+                                }
+                            });
+
+                            // Функция инициализации счетчиков из localStorage
+                            function initializeCounters() {
+                                const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
+                                Object.keys(counters).forEach(cameraId => {
+                                    updateCounterDisplay(cameraId, counters[cameraId]);
+                                });
+                            }
+
+                            // Функция увеличения счетчика
+                            function incrementCounter(cameraId) {
+                                const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
+                                const currentValue = counters[cameraId] || 0;
+                                counters[cameraId] = currentValue + 1;
+
+                                localStorage.setItem('cameraCounters', JSON.stringify(counters));
+                                updateCounterDisplay(cameraId, counters[cameraId]);
+                                updateTotalInfo();
+                            }
+
+                            // Функция уменьшения счетчика
+                            function decrementCounter(cameraId) {
+                                const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
+                                const currentValue = counters[cameraId] || 0;
+
+                                if (currentValue > 0) {
+                                    counters[cameraId] = currentValue - 1;
+                                }
+
+                                localStorage.setItem('cameraCounters', JSON.stringify(counters));
+                                updateCounterDisplay(cameraId, counters[cameraId]);
+                                updateTotalInfo();
+                            }
+
+                            // Функция обновления отображения счетчика
+                            function updateCounterDisplay(cameraId, value) {
+                                const displayElement = document.querySelector(`.counter-value[data-camera-id="${cameraId}"]`);
+                                if (displayElement) {
+                                    displayElement.textContent = value;
+
+                                    // Добавляем/убираем стили для пустого счетчика
+                                    const counterDisplay = displayElement.closest('.counter-display');
+                                    if (value > 0) {
+                                        counterDisplay.classList.add('has-value');
+                                    } else {
+                                        counterDisplay.classList.remove('has-value');
+                                    }
+                                }
+                            }
+
+                            // Функция обновления общей информации (количество выбранных камер, итоговая цена)
+                            function updateTotalInfo() {
+                                const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
+                                let totalCameras = 0;
+                                let totalPrice = 0;
+
+                                // Считаем общее количество камер и цену
+                                Object.keys(counters).forEach(cameraId => {
+                                    const count = counters[cameraId] || 0;
+                                    if (count > 0) {
+                                        totalCameras += count;
+
+                                        // Находим цену камеры
+                                        const cameraCard = document.querySelector(`.camera-card[data-camera-id="${cameraId}"]`);
+                                        if (cameraCard) {
+                                            const priceElement = cameraCard.querySelector('.camera-price');
+                                            if (priceElement) {
+                                                const priceText = priceElement.textContent;
+                                                const price = parseFloat(priceText.replace(/[^0-9]/g, ''));
+                                                totalPrice += price * count;
+                                            }
+                                        }
+                                    }
+                                });
+
+                                // Обновляем отображение общей информации
+                                updateTotalDisplay(totalCameras, totalPrice);
+                            }
+
+                            // Функция обновления отображения итоговой информации
+                            function updateTotalDisplay(totalCameras, totalPrice) {
+                                // Создаем или находим элемент для отображения итогов
+                                let totalInfoElement = document.querySelector('.total-info');
+
+                                if (!totalInfoElement) {
+                                    // Создаем элемент для отображения итогов
+                                    totalInfoElement = document.createElement('div');
+                                    totalInfoElement.className = 'total-info';
+                                    totalInfoElement.style.cssText = `
+                                        background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--yellow-dark) 100%);
+                                        padding: 20px;
+                                        border-radius: var(--radius-lg);
+                                        margin-top: 30px;
+                                        text-align: center;
+                                        box-shadow: var(--shadow-yellow);
+                                        color: var(--text-dark);
+                                    `;
+
+                                    // Добавляем после сетки камер
+                                    const camerasGrid = document.querySelector('.cameras-grid');
+                                    if (camerasGrid) {
+                                        camerasGrid.parentNode.insertBefore(totalInfoElement, camerasGrid.nextSibling);
+                                    }
+                                }
+
+                                // Обновляем содержимое
+                                totalInfoElement.innerHTML = `
+                                    <h3 style="margin-bottom: 10px; font-family: 'Montserrat', sans-serif;">Итоги выбора</h3>
+                                    <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 15px;">
+                                        <div>
+                                            <div style="font-size: 1.8rem; font-weight: 800;">${totalCameras}</div>
+                                            <div style="font-size: 0.9rem;">камер</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 1.8rem; font-weight: 800;">${totalPrice.toLocaleString('ru-RU')} ₽</div>
+                                            <div style="font-size: 0.9rem;">общая стоимость</div>
+                                        </div>
+                                    </div>
+                                    <button class="btn-primary" id="orderSelected" style="margin-top: 10px;">
+                                        <i class="fas fa-shopping-cart"></i> Заказать выбранное
+                                    </button>
+                                `;
+
+                                // Добавляем обработчик для кнопки заказа
+                                document.getElementById('orderSelected')?.addEventListener('click', function() {
+                                    orderSelectedCameras();
+                                });
+                            }
+
+                            // Функция оформления заказа
+                            function orderSelectedCameras() {
+                                const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
+                                const selectedCameras = [];
+
+                                // Собираем информацию о выбранных камерах
+                                Object.keys(counters).forEach(cameraId => {
+                                    const count = counters[cameraId] || 0;
+                                    if (count > 0) {
+                                        const cameraCard = document.querySelector(`.camera-card[data-camera-id="${cameraId}"]`);
+                                        if (cameraCard) {
+                                            const name = cameraCard.querySelector('h4')?.textContent || 'Камера';
+                                            const priceElement = cameraCard.querySelector('.camera-price');
+                                            const price = priceElement ? parseFloat(priceElement.textContent.replace(/[^0-9]/g, '')) : 0;
+
+                                            selectedCameras.push({
+                                                id: cameraId,
+                                                name: name,
+                                                quantity: count,
+                                                price: price,
+                                                total: price * count
+                                            });
+                                        }
+                                    }
+                                });
+
+                                if (selectedCameras.length === 0) {
+                                    alert('Выберите хотя бы одну камеру');
+                                    return;
+                                }
+
+                                // Здесь можно отправить данные на сервер или показать модальное окно
+                                alert(`Заказ оформлен!\n\nВыбрано ${selectedCameras.length} позиций\n\nСкоро с вами свяжется менеджер для уточнения деталей.`);
+
+                                // Прокрутка к форме контактов
+                                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                            }
+
+                            // Инициализируем общую информацию при загрузке
+                            updateTotalInfo();
+                        });
     </script>
 </body>
 

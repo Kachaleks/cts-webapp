@@ -60,11 +60,15 @@ def calculator(request):
                 {
                     'id': c.id,
                     'name': c.name,
+                    'type': c.type,
+                    'resolution': c.resolution,
+                    'connection_type': c.connection_type,
                     'price': c.price,
                     'picture': c.picture.path if c.picture else '',
                     'has_micro': c.has_micro,
                     'has_zoom' : c.has_zoom,
                     'has_dynamic': c.has_dynamic,
+
                 }
                 for c in cameras
             ]
