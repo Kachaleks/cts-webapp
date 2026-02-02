@@ -27,3 +27,9 @@ urlpatterns = [
     path("", include("main.urls"))
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+# ТОЛЬКО ДЛЯ РАЗРАБОТКИ (DEBUG=True)
+if settings.DEBUG:
+    # Для статических файлов
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+    # Для медиафайлов (загруженных картинок)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

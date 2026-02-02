@@ -7,9 +7,9 @@ class Camera(models.Model):
     price = models.IntegerField('Цена камеры')
     picture = models.ImageField(
         'Фото камеры',
-        upload_to='main/static/main/img/camera_images',  # папка для сохранения
-        blank=True,  # необязательное в формах
-        null=True  # может быть NULL в БД
+        upload_to='camera_images/',  # ТОЛЬКО ПАПКА, без пути к static!
+        blank=True,
+        null=True
     )
     resolution = models.IntegerField('Разрешение', default=2)
     type = models.CharField(max_length=10, default='Купольная')
