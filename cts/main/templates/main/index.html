@@ -520,11 +520,11 @@
 
                             <div class="camera-specs">
                                 <div class="camera-price">
-                                {{ camera.price|floatformat:0 }} ₽
+                                    {{ camera.price|floatformat:0 }} ₽
                                 </div>
                             </div>
 
-                            <!-- Добавляем счетчик с кнопками -->
+                            <!-- Счетчик с кнопками -->
                             <div class="camera-counter">
                                 <button class="counter-btn minus-btn" data-camera-id="{{ camera.id }}">
                                     <i class="fas fa-minus"></i>
@@ -536,7 +536,6 @@
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
-
                         </div>
                     </div>
                     {% empty %}
@@ -881,513 +880,552 @@
             });
         });
     </script>
+
     <!--  JavaScript для калькулятора -->
     <script>
-        // КАЛЬКУЛЯТОР ДЛЯ РАДИО-КНОПОК И ЧЕКБОКСОВ
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🎯 Калькулятор запущен');
+    // КАЛЬКУЛЯТОР ДЛЯ РАДИО-КНОПОК И ЧЕКБОКСОВ
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🎯 Калькулятор запущен');
 
-    const camerasGrid = document.getElementById('camerasGrid');
-    const camerasCount = document.getElementById('camerasCount');
+        const camerasGrid = document.getElementById('camerasGrid');
+        const camerasCount = document.getElementById('camerasCount');
 
-
-    if (!camerasGrid) {
-        console.error('❌ Не найден camerasGrid');
-        return;
-    }
-
-    // ===== 1. ОБРАБОТКА RADIO КНОПОК С ВОЗМОЖНОСТЬЮ СНЯТЬ ВЫБОР =====
-    document.querySelectorAll('input[type="radio"][data-filter]').forEach(radio => {
-        // Отслеживаем предыдущее состояние
-        let previousRadio = null;
-
-        radio.addEventListener('click', function(e) {
-            const filterName = this.dataset.filter;
-            const filterValue = this.value;
-            const label = this.closest('label');
-
-            console.log(`📻 Клик по: ${filterName} = ${filterValue}`);
-
-            // Если кликнули на уже выбранную радио-кнопку
-            if (this.checked && this === previousRadio) {
-                // Снимаем выбор
-                this.checked = false;
-                label.classList.remove('selected');
-                previousRadio = null;
-                console.log(`🗑️ Снят выбор с: ${filterName}`);
-            }
-            // Если выбрали новую кнопку
-            else {
-                // Снимаем выделение со всех в группе
-                const groupName = this.getAttribute('name');
-                document.querySelectorAll(`input[name="${groupName}"]`).forEach(r => {
-                    r.closest('label').classList.remove('selected');
-                });
-
-                // Выбираем текущую
-                this.checked = true;
-                label.classList.add('selected');
-                previousRadio = this;
-                console.log(`✅ Выбрано: ${filterName} = ${filterValue}`);
-            }
-
-            // Запускаем фильтрацию с небольшой задержкой
-            setTimeout(filterCameras, 50);
-        });
-    });
-
-    // ===== 2. ОБРАБОТКА CHECKBOX ДЛЯ МНОЖЕСТВЕННОГО ВЫБОРА (lens) =====
-    document.querySelectorAll('input[data-group="multiple"]').forEach(cb => {
-        cb.addEventListener('change', function() {
-            const filterName = this.dataset.filter;
-
-            if (this.checked) {
-                this.closest('label').classList.add('selected');
-                console.log(`✅ Включен: ${filterName} = ${this.value}`);
-            } else {
-                this.closest('label').classList.remove('selected');
-                console.log(`❌ Выключен: ${filterName} = ${this.value}`);
-            }
-
-            filterCameras();
-        });
-    });
-
-    // ===== 3. ОБРАБОТКА CHECKBOX ДЛЯ БУЛЕВЫХ ПОЛЕЙ (микрофон, динамик) =====
-    document.querySelectorAll('input[data-group="boolean"]').forEach(cb => {
-        cb.addEventListener('change', function() {
-            const filterName = this.dataset.filter;
-
-            if (this.checked) {
-                this.closest('label').classList.add('selected');
-                console.log(`✅ Включен: ${filterName}`);
-            } else {
-                this.closest('label').classList.remove('selected');
-                console.log(`❌ Выключен: ${filterName}`);
-            }
-
-            filterCameras();
-        });
-    });
-
-    // ===== 4. ОБРАБОТКА СОРТИРОВКИ =====
-    const sortSelect = document.getElementById('sortSelect');
-    if (sortSelect) {
-        sortSelect.addEventListener('change', function() {
-            console.log(`📊 Сортировка: ${this.value}`);
-            filterCameras();
-        });
-    }
-
-    // ===== 5. КНОПКА СБРОСА =====
-    const resetBtn = document.getElementById('resetFilters');
-    if (resetBtn) {
-        resetBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('🔄 Сброс фильтров');
-
-            // Сбрасываем все радио-кнопки
-            document.querySelectorAll('input[type="radio"][data-filter]').forEach(radio => {
-                radio.checked = false;
-                radio.closest('label').classList.remove('selected');
-            });
-
-            // Сбрасываем все чекбоксы
-            document.querySelectorAll('.filter-checkbox, input[data-group="multiple"], input[data-group="boolean"]').forEach(cb => {
-                cb.checked = false;
-                cb.closest('label').classList.remove('selected');
-            });
-
-            // Сбрасываем сортировку
-            if (sortSelect) sortSelect.value = 'price';
-
-            // Фильтруем (показываем все)
-            filterCameras();
-        });
-    }
-
-    // ===== 6. СОБИРАЕМ АКТИВНЫЕ ФИЛЬТРЫ =====
-    function getActiveFilters() {
-        const filters = {};
-
-        // Собираем выбранные радио-кнопки (одиночный выбор)
-        document.querySelectorAll('input[type="radio"][data-filter]:checked').forEach(radio => {
-            const filterName = radio.dataset.filter;
-            const filterValue = radio.value;
-            filters[filterName] = filterValue;
-        });
-
-        // Собираем чекбоксы для множественного выбора (lens)
-        const lensCheckboxes = document.querySelectorAll('input[data-filter="lens"]:checked');
-        if (lensCheckboxes.length > 0) {
-            filters['lens'] = Array.from(lensCheckboxes).map(cb => cb.value);
-        }
-
-        // Собираем чекбоксы для булевых полей (микрофон, динамик)
-        const microChecked = document.querySelector('input[data-filter="has_micro"]:checked');
-        const dynamicChecked = document.querySelector('input[data-filter="has_dynamic"]:checked');
-        const has_people_analyticsChecked = document.querySelector('input[data-filter="has_people_analytics"]:checked');
-        const has_cars_analyticsChecked = document.querySelector('input[data-filter="has_cars_analytics"]:checked');
-        const has_special_cars_analyticsChecked = document.querySelector('input[data-filter="has_special_cars_analytics"]:checked');
-
-        if (microChecked) {
-            filters['has_micro'] = 'true';
-        }
-        if (dynamicChecked) {
-            filters['has_dynamic'] = 'true';
-        }
-        if (has_people_analyticsChecked) {
-            filters['has_people_analytics'] = 'true';
-        }
-        if (has_cars_analyticsChecked) {
-            filters['has_cars_analytics'] = 'true';
-        }
-        if (has_special_cars_analyticsChecked) {
-            filters['has_special_cars_analytics'] = 'true';
-        }
-
-        // Сортировка
-        if (sortSelect && sortSelect.value) {
-            filters['sort'] = sortSelect.value;
-        }
-
-        console.log('📊 Активные фильтры:', filters);
-        return filters;
-    }
-
-    // ===== 7. ФУНКЦИЯ ФИЛЬТРАЦИИ =====
-    function filterCameras() {
-        console.log('🔄 Фильтрация...');
-
-        camerasGrid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Фильтрация...</div>';
-
-        const filters = getActiveFilters();
-        const params = new URLSearchParams();
-
-        for (const [key, value] of Object.entries(filters)) {
-            if (Array.isArray(value)) {
-                // Для массива значений (lens) отправляем каждый элемент отдельно
-                value.forEach(val => {
-                    params.append(key, val);
-                });
-            } else {
-                params.append(key, value);
-            }
-        }
-
-        const url = '/?' + params.toString();
-        console.log('🔗 Запрос:', url);
-
-        fetch(url, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => {
-            console.log('📥 Ответ:', response.status);
-            return response.json();
-        })
-        .then(data => {
-            console.log('📦 Данные:', data);
-
-            if (data && data.cameras) {
-                displayCameras(data.cameras);
-                if (camerasCount) {
-                    camerasCount.textContent = data.count || data.cameras.length;
-                }
-            } else {
-                console.warn('Нет данных cameras');
-                camerasGrid.innerHTML = '<div class="error">Нет данных</div>';
-            }
-        })
-        .catch(error => {
-            console.error('❌ Ошибка:', error);
-            camerasGrid.innerHTML = `
-                <div class="error">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p>${error.message}</p>
-                </div>
-            `;
-        });
-    }
-
-    // ===== 8. ФУНКЦИЯ ОТОБРАЖЕНИЯ КАМЕР =====
-    function displayCameras(cameras) {
-        console.log(`🖼️ Отображаем ${cameras.length} камер`);
-
-        if (!cameras || cameras.length === 0) {
-            camerasGrid.innerHTML = `
-                <div class="no-results">
-                    <i class="fas fa-search"></i>
-                    <h4>Камеры не найдены</h4>
-                    <p>Попробуйте изменить параметры фильтрации</p>
-                </div>
-            `;
+        if (!camerasGrid) {
+            console.error('❌ Не найден camerasGrid');
             return;
         }
 
-        let html = '';
+        // ===== 1. ОБРАБОТКА RADIO КНОПОК С ВОЗМОЖНОСТЬЮ СНЯТЬ ВЫБОР =====
+        document.querySelectorAll('input[type="radio"][data-filter]').forEach(radio => {
+            // Отслеживаем предыдущее состояние
+            let previousRadio = null;
 
-        cameras.forEach(camera => {
-            // Формируем блок с фичами
-            let featuresHtml = '';
-            if (camera.has_micro) {
-                featuresHtml += '<span class="feature-tag"><i class="fas fa-microphone"></i> Микрофон</span>';
-            }
-            if (camera.has_dynamic) {
-                featuresHtml += '<span class="feature-tag"><i class="fas fa-volume-up"></i> Динамик</span>';
-            }
-            if (camera.night_vision_technology) {
-                featuresHtml += `<span class="feature-tag"><i class="fas fa-moon"></i> ${camera.night_vision_technology}</span>`;
-            }
-            if (camera.lens) {
-                featuresHtml += `<span class="feature-tag"><i class="fas fa-camera"></i> ${camera.lens}</span>`;
-            }
+            radio.addEventListener('click', function(e) {
+                const filterName = this.dataset.filter;
+                const filterValue = this.value;
+                const label = this.closest('label');
 
-            html += `
-                <div class="camera-card" data-camera-id="${camera.id}">
-                    <div class="camera-image">
-                        ${camera.picture ?
-                            `<img src="${camera.picture_url}" >` :
-                            `<div class="no-image"><i class="fas fa-camera"></i></div>`
-                        }
-                    </div>
-                    <div class="camera-info">
-                        <h4>${camera.name}</h4>
+                console.log(`📻 Клик по: ${filterName} = ${filterValue}`);
 
+                // Если кликнули на уже выбранную радио-кнопку
+                if (this.checked && this === previousRadio) {
+                    // Снимаем выбор
+                    this.checked = false;
+                    label.classList.remove('selected');
+                    previousRadio = null;
+                    console.log(`🗑️ Снят выбор с: ${filterName}`);
+                }
+                // Если выбрали новую кнопку
+                else {
+                    // Снимаем выделение со всех в группе
+                    const groupName = this.getAttribute('name');
+                    document.querySelectorAll(`input[name="${groupName}"]`).forEach(r => {
+                        r.closest('label').classList.remove('selected');
+                    });
 
+                    // Выбираем текущую
+                    this.checked = true;
+                    label.classList.add('selected');
+                    previousRadio = this;
+                    console.log(`✅ Выбрано: ${filterName} = ${filterValue}`);
+                }
 
-                        ${featuresHtml ? `<div class="camera-features">${featuresHtml}</div>` : ''}
-
-                        <div class="camera-price">${camera.price}</div>
-
-                        <div class="calc-rezult-inputs">
-                                <div class="number">
-                                    <span class="minus">-</span>
-                                    <input id="totalprice" type="text" data-titlecamlistitem="Hikvision DS-2CD2087G2-LU(C)" data-total="34350" value="0"> <span class="sth"> шт.</span>
-                                    <span class="plus">+</span>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-            `;
+                // Запускаем фильтрацию с небольшой задержкой
+                setTimeout(filterCameras, 50);
+            });
         });
 
-        camerasGrid.innerHTML = html;
-    }
+        // ===== 2. ОБРАБОТКА CHECKBOX ДЛЯ МНОЖЕСТВЕННОГО ВЫБОРА (lens) =====
+        document.querySelectorAll('input[data-group="multiple"]').forEach(cb => {
+            cb.addEventListener('change', function() {
+                const filterName = this.dataset.filter;
 
-    // ===== 9. ЗАПУСК =====
-    // При загрузке страницы ничего не выбрано - показываем все камеры
-    filterCameras();
-});
+                if (this.checked) {
+                    this.closest('label').classList.add('selected');
+                    console.log(`✅ Включен: ${filterName} = ${this.value}`);
+                } else {
+                    this.closest('label').classList.remove('selected');
+                    console.log(`❌ Выключен: ${filterName} = ${this.value}`);
+                }
 
-// ===== 10. ФУНКЦИЯ ВЫБОРА КАМЕРЫ (глобальная) =====
-function selectCamera(cameraId) {
-    console.log(`🎯 Выбрана камера: ${cameraId}`);
-    alert(`Камера выбрана! Прокрутите вниз для заказа.`);
+                filterCameras();
+            });
+        });
 
-    const contact = document.querySelector('#contact');
-    if (contact) contact.scrollIntoView({ behavior: 'smooth' });
-}
-    </script>
+        // ===== 3. ОБРАБОТКА CHECKBOX ДЛЯ БУЛЕВЫХ ПОЛЕЙ (микрофон, динамик) =====
+        document.querySelectorAll('input[data-group="boolean"]').forEach(cb => {
+            cb.addEventListener('change', function() {
+                const filterName = this.dataset.filter;
 
-    =====Счетчик камер ====
+                if (this.checked) {
+                    this.closest('label').classList.add('selected');
+                    console.log(`✅ Включен: ${filterName}`);
+                } else {
+                    this.closest('label').classList.remove('selected');
+                    console.log(`❌ Выключен: ${filterName}`);
+                }
+
+                filterCameras();
+            });
+        });
+
+        // ===== 4. ОБРАБОТКА СОРТИРОВКИ =====
+        const sortSelect = document.getElementById('sortSelect');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function() {
+                console.log(`📊 Сортировка: ${this.value}`);
+                filterCameras();
+            });
+        }
+
+        // ===== 5. КНОПКА СБРОСА =====
+        const resetBtn = document.getElementById('resetFilters');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('🔄 Сброс фильтров');
+
+                // Сбрасываем все радио-кнопки
+                document.querySelectorAll('input[type="radio"][data-filter]').forEach(radio => {
+                    radio.checked = false;
+                    radio.closest('label').classList.remove('selected');
+                });
+
+                // Сбрасываем все чекбоксы
+                document.querySelectorAll('.filter-checkbox, input[data-group="multiple"], input[data-group="boolean"]').forEach(cb => {
+                    cb.checked = false;
+                    cb.closest('label').classList.remove('selected');
+                });
+
+                // Сбрасываем сортировку
+                if (sortSelect) sortSelect.value = 'price';
+
+                // Фильтруем (показываем все)
+                filterCameras();
+            });
+        }
+
+        // ===== 6. СОБИРАЕМ АКТИВНЫЕ ФИЛЬТРЫ =====
+        function getActiveFilters() {
+            const filters = {};
+
+            // Собираем выбранные радио-кнопки (одиночный выбор)
+            document.querySelectorAll('input[type="radio"][data-filter]:checked').forEach(radio => {
+                const filterName = radio.dataset.filter;
+                const filterValue = radio.value;
+                filters[filterName] = filterValue;
+            });
+
+            // Собираем чекбоксы для множественного выбора (lens)
+            const lensCheckboxes = document.querySelectorAll('input[data-filter="lens"]:checked');
+            if (lensCheckboxes.length > 0) {
+                filters['lens'] = Array.from(lensCheckboxes).map(cb => cb.value);
+            }
+
+            // Собираем чекбоксы для булевых полей (микрофон, динамик)
+            const microChecked = document.querySelector('input[data-filter="has_micro"]:checked');
+            const dynamicChecked = document.querySelector('input[data-filter="has_dynamic"]:checked');
+            const has_people_analyticsChecked = document.querySelector('input[data-filter="has_people_analytics"]:checked');
+            const has_cars_analyticsChecked = document.querySelector('input[data-filter="has_cars_analytics"]:checked');
+            const has_special_cars_analyticsChecked = document.querySelector('input[data-filter="has_special_cars_analytics"]:checked');
+
+            if (microChecked) {
+                filters['has_micro'] = 'true';
+            }
+            if (dynamicChecked) {
+                filters['has_dynamic'] = 'true';
+            }
+            if (has_people_analyticsChecked) {
+                filters['has_people_analytics'] = 'true';
+            }
+            if (has_cars_analyticsChecked) {
+                filters['has_cars_analytics'] = 'true';
+            }
+            if (has_special_cars_analyticsChecked) {
+                filters['has_special_cars_analytics'] = 'true';
+            }
+
+            // Сортировка
+            if (sortSelect && sortSelect.value) {
+                filters['sort'] = sortSelect.value;
+            }
+
+            console.log('📊 Активные фильтры:', filters);
+            return filters;
+        }
+
+        // ===== 7. ФУНКЦИЯ ФИЛЬТРАЦИИ =====
+        function filterCameras() {
+            console.log('🔄 Фильтрация...');
+
+            camerasGrid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Фильтрация...</div>';
+
+            const filters = getActiveFilters();
+            const params = new URLSearchParams();
+
+            for (const [key, value] of Object.entries(filters)) {
+                if (Array.isArray(value)) {
+                    // Для массива значений (lens) отправляем каждый элемент отдельно
+                    value.forEach(val => {
+                        params.append(key, val);
+                    });
+                } else {
+                    params.append(key, value);
+                }
+            }
+
+            const url = '/?' + params.toString();
+            console.log('🔗 Запрос:', url);
+
+            fetch(url, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log('📥 Ответ:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('📦 Данные:', data);
+
+                if (data && data.cameras) {
+                    displayCameras(data.cameras);
+                    if (camerasCount) {
+                        camerasCount.textContent = data.count || data.cameras.length;
+                    }
+                } else {
+                    console.warn('Нет данных cameras');
+                    camerasGrid.innerHTML = '<div class="error">Нет данных</div>';
+                }
+            })
+            .catch(error => {
+                console.error('❌ Ошибка:', error);
+                camerasGrid.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // ===== 8. ФУНКЦИЯ ОТОБРАЖЕНИЯ КАМЕР =====
+        function displayCameras(cameras) {
+            console.log(`🖼️ Отображаем ${cameras.length} камер`);
+
+            if (!cameras || cameras.length === 0) {
+                camerasGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h4>Камеры не найдены</h4>
+                        <p>Попробуйте изменить параметры фильтрации</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+
+            // Получаем текущие счетчики из localStorage
+            const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
+
+            cameras.forEach(camera => {
+                // Получаем текущее значение счетчика для этой камеры
+                const currentCount = counters[camera.id] || 0;
+
+                html += `
+                    <div class="camera-card" data-camera-id="${camera.id}">
+                        <div class="camera-image">
+                            ${camera.picture ?
+                                `<img src="${camera.picture_url}" >` :
+                                `<div class="no-image"><i class="fas fa-camera"></i></div>`
+                            }
+                        </div>
+                        <div class="camera-info">
+                            <h4>${camera.name}</h4>
+
+                            <div class="camera-features">
+                                ${camera.has_micro ? '<span class="feature-tag"><i class="fas fa-microphone"></i> Микрофон</span>' : ''}
+                                ${camera.has_dynamic ? '<span class="feature-tag"><i class="fas fa-volume-up"></i> Динамик</span>' : ''}
+                                ${camera.night_vision_technology ? `<span class="feature-tag"><i class="fas fa-moon"></i> ${camera.night_vision_technology}</span>` : ''}
+                                ${camera.lens ? `<span class="feature-tag"><i class="fas fa-camera"></i> ${camera.lens}</span>` : ''}
+                            </div>
+
+                            <div class="camera-price">${camera.price.toLocaleString('ru-RU')} ₽</div>
+
+                            <!-- Счетчик с кнопками -->
+                            <div class="camera-counter">
+                                <button class="counter-btn minus-btn" data-camera-id="${camera.id}">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <div class="counter-display ${currentCount > 0 ? 'has-value' : ''}">
+                                    <span class="counter-value" data-camera-id="${camera.id}">${currentCount}</span>
+                                </div>
+                                <button class="counter-btn plus-btn" data-camera-id="${camera.id}">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            camerasGrid.innerHTML = html;
+        }
+
+        // ===== 9. ЗАПУСК =====
+        // При загрузке страницы ничего не выбрано - показываем все камеры
+        filterCameras();
+    });
+</script>
+
+    <!-- СКРИПТ УПРАВЛЕНИЯ СЧЕТЧИКАМИ КАМЕР -->
     <script>
-                        // Управление счетчиками камер
-                        document.addEventListener('DOMContentLoaded', function() {
-                            // Инициализация счетчиков из localStorage при загрузке
-                            initializeCounters();
+    (function() {
+        // Глобальные переменные для счетчиков
+        let cameraCounters = {};
+        let isInitialized = false;
 
-                            // Обработчики для кнопок "+" и "-"
-                            document.addEventListener('click', function(e) {
-                                const target = e.target;
+        // Функция загрузки счетчиков из localStorage
+        function loadCounters() {
+            try {
+                const saved = localStorage.getItem('cameraCounters');
+                cameraCounters = saved ? JSON.parse(saved) : {};
+                console.log('📥 Загружены счетчики:', cameraCounters);
+            } catch (e) {
+                console.error('❌ Ошибка загрузки счетчиков:', e);
+                cameraCounters = {};
+            }
+            return cameraCounters;
+        }
 
-                                // Проверяем, кликнули ли мы на кнопку плюс/минус или их иконку
-                                const plusBtn = target.closest('.plus-btn');
-                                const minusBtn = target.closest('.minus-btn');
+        // Функция сохранения счетчиков в localStorage
+        function saveCounters() {
+            try {
+                localStorage.setItem('cameraCounters', JSON.stringify(cameraCounters));
+                console.log('💾 Сохранены счетчики:', cameraCounters);
+            } catch (e) {
+                console.error('❌ Ошибка сохранения счетчиков:', e);
+            }
+        }
 
-                                if (plusBtn) {
-                                    const cameraId = plusBtn.getAttribute('data-camera-id');
-                                    incrementCounter(cameraId);
-                                }
+        // Функция увеличения счетчика
+        function incrementCounter(cameraId) {
+            loadCounters();
+            if (!cameraCounters[cameraId]) {
+                cameraCounters[cameraId] = 0;
+            }
+            cameraCounters[cameraId]++;
+            saveCounters();
+            updateCounterDisplay(cameraId);
+            updateTotalInfo();
+        }
 
-                                if (minusBtn) {
-                                    const cameraId = minusBtn.getAttribute('data-camera-id');
-                                    decrementCounter(cameraId);
-                                }
-                            });
+        // Функция уменьшения счетчика
+        function decrementCounter(cameraId) {
+            loadCounters();
+            if (cameraCounters[cameraId] && cameraCounters[cameraId] > 0) {
+                cameraCounters[cameraId]--;
+                if (cameraCounters[cameraId] === 0) {
+                    delete cameraCounters[cameraId];
+                }
+                saveCounters();
+                updateCounterDisplay(cameraId);
+                updateTotalInfo();
+            }
+        }
 
-                            // Функция инициализации счетчиков из localStorage
-                            function initializeCounters() {
-                                const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
-                                Object.keys(counters).forEach(cameraId => {
-                                    updateCounterDisplay(cameraId, counters[cameraId]);
-                                });
-                            }
+        // Функция обновления отображения счетчика
+        function updateCounterDisplay(cameraId) {
+            const displayElement = document.querySelector(`.counter-value[data-camera-id="${cameraId}"]`);
+            if (displayElement) {
+                const count = cameraCounters[cameraId] || 0;
+                displayElement.textContent = count;
 
-                            // Функция увеличения счетчика
-                            function incrementCounter(cameraId) {
-                                const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
-                                const currentValue = counters[cameraId] || 0;
-                                counters[cameraId] = currentValue + 1;
+                const counterDisplay = displayElement.closest('.counter-display');
+                if (count > 0) {
+                    counterDisplay.classList.add('has-value');
+                } else {
+                    counterDisplay.classList.remove('has-value');
+                }
+            }
+        }
 
-                                localStorage.setItem('cameraCounters', JSON.stringify(counters));
-                                updateCounterDisplay(cameraId, counters[cameraId]);
-                                updateTotalInfo();
-                            }
+        // Функция обновления всех счетчиков на странице
+        function updateAllCounterDisplays() {
+            loadCounters();
+            document.querySelectorAll('.counter-value').forEach(display => {
+                const cameraId = display.getAttribute('data-camera-id');
+                updateCounterDisplay(cameraId);
+            });
+        }
 
-                            // Функция уменьшения счетчика
-                            function decrementCounter(cameraId) {
-                                const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
-                                const currentValue = counters[cameraId] || 0;
+        // Функция обновления общей информации
+        function updateTotalInfo() {
+            let totalCameras = 0;
+            let totalPrice = 0;
 
-                                if (currentValue > 0) {
-                                    counters[cameraId] = currentValue - 1;
-                                }
+            Object.keys(cameraCounters).forEach(cameraId => {
+                const count = cameraCounters[cameraId] || 0;
+                if (count > 0) {
+                    totalCameras += count;
 
-                                localStorage.setItem('cameraCounters', JSON.stringify(counters));
-                                updateCounterDisplay(cameraId, counters[cameraId]);
-                                updateTotalInfo();
-                            }
+                    const cameraCard = document.querySelector(`.camera-card[data-camera-id="${cameraId}"]`);
+                    if (cameraCard) {
+                        const priceElement = cameraCard.querySelector('.camera-price');
+                        if (priceElement) {
+                            const priceText = priceElement.textContent;
+                            const price = parseFloat(priceText.replace(/[^\d]/g, ''));
+                            totalPrice += price * count;
+                        }
+                    }
+                }
+            });
 
-                            // Функция обновления отображения счетчика
-                            function updateCounterDisplay(cameraId, value) {
-                                const displayElement = document.querySelector(`.counter-value[data-camera-id="${cameraId}"]`);
-                                if (displayElement) {
-                                    displayElement.textContent = value;
+            updateTotalDisplay(totalCameras, totalPrice);
+        }
 
-                                    // Добавляем/убираем стили для пустого счетчика
-                                    const counterDisplay = displayElement.closest('.counter-display');
-                                    if (value > 0) {
-                                        counterDisplay.classList.add('has-value');
-                                    } else {
-                                        counterDisplay.classList.remove('has-value');
-                                    }
-                                }
-                            }
+        // Функция обновления отображения итогов
+        function updateTotalDisplay(totalCameras, totalPrice) {
+            let totalInfoElement = document.querySelector('.total-info');
 
-                            // Функция обновления общей информации (количество выбранных камер, итоговая цена)
-                            function updateTotalInfo() {
-                                const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
-                                let totalCameras = 0;
-                                let totalPrice = 0;
+            if (totalCameras > 0) {
+                if (!totalInfoElement) {
+                    totalInfoElement = document.createElement('div');
+                    totalInfoElement.className = 'total-info';
+                    totalInfoElement.style.cssText = `
+                        background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--yellow-dark) 100%);
+                        padding: 20px;
+                        border-radius: var(--radius-lg);
+                        margin-top: 30px;
+                        text-align: center;
+                        box-shadow: var(--shadow-yellow);
+                        color: var(--text-dark);
+                    `;
 
-                                // Считаем общее количество камер и цену
-                                Object.keys(counters).forEach(cameraId => {
-                                    const count = counters[cameraId] || 0;
-                                    if (count > 0) {
-                                        totalCameras += count;
+                    const camerasGrid = document.querySelector('.cameras-grid');
+                    if (camerasGrid) {
+                        camerasGrid.parentNode.insertBefore(totalInfoElement, camerasGrid.nextSibling);
+                    }
+                }
 
-                                        // Находим цену камеры
-                                        const cameraCard = document.querySelector(`.camera-card[data-camera-id="${cameraId}"]`);
-                                        if (cameraCard) {
-                                            const priceElement = cameraCard.querySelector('.camera-price');
-                                            if (priceElement) {
-                                                const priceText = priceElement.textContent;
-                                                const price = parseFloat(priceText.replace(/[^0-9]/g, ''));
-                                                totalPrice += price * count;
-                                            }
-                                        }
-                                    }
-                                });
+                totalInfoElement.style.display = 'block';
+                totalInfoElement.innerHTML = `
+                    <h3 style="margin-bottom: 10px; font-family: 'Montserrat', sans-serif;">Итоги выбора</h3>
+                    <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 15px;">
+                        <div>
+                            <div style="font-size: 1.8rem; font-weight: 800;">${totalCameras}</div>
+                            <div style="font-size: 0.9rem;">камер</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.8rem; font-weight: 800;">${totalPrice.toLocaleString('ru-RU')} ₽</div>
+                            <div style="font-size: 0.9rem;">общая стоимость</div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="orderSelected" style="margin-top: 10px;">
+                        <i class="fas fa-shopping-cart"></i> Заказать выбранное
+                    </button>
+                `;
 
-                                // Обновляем отображение общей информации
-                                updateTotalDisplay(totalCameras, totalPrice);
-                            }
+                // Удаляем старый обработчик и добавляем новый
+                const orderBtn = totalInfoElement.querySelector('#orderSelected');
+                if (orderBtn) {
+                    orderBtn.onclick = orderSelectedCameras;
+                }
+            } else if (totalInfoElement) {
+                totalInfoElement.style.display = 'none';
+            }
+        }
 
-                            // Функция обновления отображения итоговой информации
-                            function updateTotalDisplay(totalCameras, totalPrice) {
-                                // Создаем или находим элемент для отображения итогов
-                                let totalInfoElement = document.querySelector('.total-info');
+        // Функция оформления заказа
+        function orderSelectedCameras() {
+            if (Object.keys(cameraCounters).length === 0) {
+                alert('Выберите хотя бы одну камеру');
+                return;
+            }
 
-                                if (!totalInfoElement) {
-                                    // Создаем элемент для отображения итогов
-                                    totalInfoElement = document.createElement('div');
-                                    totalInfoElement.className = 'total-info';
-                                    totalInfoElement.style.cssText = `
-                                        background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--yellow-dark) 100%);
-                                        padding: 20px;
-                                        border-radius: var(--radius-lg);
-                                        margin-top: 30px;
-                                        text-align: center;
-                                        box-shadow: var(--shadow-yellow);
-                                        color: var(--text-dark);
-                                    `;
+            let orderDetails = "Ваш заказ:\n\n";
+            let totalItems = 0;
+            let totalPrice = 0;
 
-                                    // Добавляем после сетки камер
-                                    const camerasGrid = document.querySelector('.cameras-grid');
-                                    if (camerasGrid) {
-                                        camerasGrid.parentNode.insertBefore(totalInfoElement, camerasGrid.nextSibling);
-                                    }
-                                }
+            Object.keys(cameraCounters).forEach(cameraId => {
+                const count = cameraCounters[cameraId];
+                if (count > 0) {
+                    const cameraCard = document.querySelector(`.camera-card[data-camera-id="${cameraId}"]`);
+                    if (cameraCard) {
+                        const name = cameraCard.querySelector('h4')?.textContent || 'Камера';
+                        const priceElement = cameraCard.querySelector('.camera-price');
+                        const price = priceElement ? parseFloat(priceElement.textContent.replace(/[^\d]/g, '')) : 0;
 
-                                // Обновляем содержимое
-                                totalInfoElement.innerHTML = `
-                                    <h3 style="margin-bottom: 10px; font-family: 'Montserrat', sans-serif;">Итоги выбора</h3>
-                                    <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 15px;">
-                                        <div>
-                                            <div style="font-size: 1.8rem; font-weight: 800;">${totalCameras}</div>
-                                            <div style="font-size: 0.9rem;">камер</div>
-                                        </div>
-                                        <div>
-                                            <div style="font-size: 1.8rem; font-weight: 800;">${totalPrice.toLocaleString('ru-RU')} ₽</div>
-                                            <div style="font-size: 0.9rem;">общая стоимость</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn-primary" id="orderSelected" style="margin-top: 10px;">
-                                        <i class="fas fa-shopping-cart"></i> Заказать выбранное
-                                    </button>
-                                `;
+                        orderDetails += `${name} - ${count} шт. x ${price.toLocaleString('ru-RU')} ₽ = ${(price * count).toLocaleString('ru-RU')} ₽\n`;
+                        totalItems += count;
+                        totalPrice += price * count;
+                    }
+                }
+            });
 
-                                // Добавляем обработчик для кнопки заказа
-                                document.getElementById('orderSelected')?.addEventListener('click', function() {
-                                    orderSelectedCameras();
-                                });
-                            }
+            orderDetails += `\nИтого: ${totalItems} камер на сумму ${totalPrice.toLocaleString('ru-RU')} ₽`;
 
-                            // Функция оформления заказа
-                            function orderSelectedCameras() {
-                                const counters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
-                                const selectedCameras = [];
+            alert(orderDetails + "\n\nСкоро с вами свяжется менеджер для уточнения деталей.");
+            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+        }
 
-                                // Собираем информацию о выбранных камерах
-                                Object.keys(counters).forEach(cameraId => {
-                                    const count = counters[cameraId] || 0;
-                                    if (count > 0) {
-                                        const cameraCard = document.querySelector(`.camera-card[data-camera-id="${cameraId}"]`);
-                                        if (cameraCard) {
-                                            const name = cameraCard.querySelector('h4')?.textContent || 'Камера';
-                                            const priceElement = cameraCard.querySelector('.camera-price');
-                                            const price = priceElement ? parseFloat(priceElement.textContent.replace(/[^0-9]/g, '')) : 0;
+        // Основная функция инициализации
+        function initCounterSystem() {
+            if (isInitialized) return;
+            isInitialized = true;
 
-                                            selectedCameras.push({
-                                                id: cameraId,
-                                                name: name,
-                                                quantity: count,
-                                                price: price,
-                                                total: price * count
-                                            });
-                                        }
-                                    }
-                                });
+            console.log('🚀 Инициализация системы счетчиков');
 
-                                if (selectedCameras.length === 0) {
-                                    alert('Выберите хотя бы одну камеру');
-                                    return;
-                                }
+            // Загружаем счетчики
+            loadCounters();
 
-                                // Здесь можно отправить данные на сервер или показать модальное окно
-                                alert(`Заказ оформлен!\n\nВыбрано ${selectedCameras.length} позиций\n\nСкоро с вами свяжется менеджер для уточнения деталей.`);
+            // Обновляем отображение всех счетчиков
+            updateAllCounterDisplays();
 
-                                // Прокрутка к форме контактов
-                                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                            }
+            // Обновляем общую информацию
+            updateTotalInfo();
 
-                            // Инициализируем общую информацию при загрузке
-                            updateTotalInfo();
-                        });
-    </script>
+            // ЕДИНСТВЕННЫЙ обработчик событий для всей страницы
+            document.addEventListener('click', function(e) {
+                // Обработка кнопки плюс
+                const plusBtn = e.target.closest('.plus-btn');
+                if (plusBtn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const cameraId = plusBtn.getAttribute('data-camera-id');
+                    incrementCounter(cameraId);
+                    return;
+                }
+
+                // Обработка кнопки минус
+                const minusBtn = e.target.closest('.minus-btn');
+                if (minusBtn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const cameraId = minusBtn.getAttribute('data-camera-id');
+                    decrementCounter(cameraId);
+                    return;
+                }
+            }, true); // Используем capture: true для обработки в фазе захвата
+        }
+
+        // Запускаем инициализацию при загрузке DOM
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCounterSystem);
+        } else {
+            initCounterSystem();
+        }
+
+        // Экспортируем функции для использования в других скриптах
+        window.cameraCounterSystem = {
+            updateAllCounterDisplays,
+            updateTotalInfo
+        };
+    })();
+</script>
 </body>
 
 </html>
