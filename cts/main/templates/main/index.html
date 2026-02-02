@@ -434,25 +434,38 @@
                             </label>
                         </div>
                     </div>
+
                     <div class="filter-group">
-                    <h4>Объектив</h4>
-                    <div class="filter-options">
+                    <h4>Тип Объектива</h4>
+                    <div class="filter-options" id="lensFilters">
                         {% block lens%}
                         {% endblock %}
 
                     </div>
+
+                     <div class="filter-group">
+                    <h4>Наличие Zoom</h4>
+                          <div class="filter-options" id="has_zoomFilters">
+                    <label class="filter-option"><input type="radio" name="has_zoom" data-filter="has_zoom" value=true  > Да  </label>
+                    <label class="filter-option"><input type="radio" name="has_zoom" data-filter="has_zoom" value=false  > Нет </label>
+
+                          </div>
+
                 </div>
-                    <div class="filter-group">
+                </div>
+                    </div>
+
+                <div class="calc-filters-additional-side" >
+
+                     <div class="filter-group">
                     <h4>Аналитика</h4>
                     <div class="filter-options">
                         {% block analytics%}
                         {% endblock %}
 
                     </div>
-                </div>
-                </div>
+                         </div>
 
-                <div class="calc-filters-additional-side" >
                     <div class="filter-group">
                         <h4>Оснащение (коммутатор, регистратор, блок питания, cambox, жесткий диск)</h4>
                         <div class="filter-options" id="equipment" >
@@ -460,6 +473,7 @@
                             <label class="filter-option"><input type="radio" name="equipment" data-filter="equipment" value="equipment" > Нет </label>
                         </div>
                     </div>
+
 
                     <div class="filter-group">
                         <h4>Установка под ключ</h4>
@@ -476,7 +490,7 @@
                 </div>
             </div>
 
-             <!-- Правая колонка: результаты -->
+             <!--  результаты -->
             <div class="calc-results">
                 <div class="results-header">
                     <h3>Подходящие камеры: <span id="camerasCount">{{ cameras.count }}</span></h3>
@@ -1026,12 +1040,24 @@ document.addEventListener('DOMContentLoaded', function() {
         // Собираем чекбоксы для булевых полей (микрофон, динамик)
         const microChecked = document.querySelector('input[data-filter="has_micro"]:checked');
         const dynamicChecked = document.querySelector('input[data-filter="has_dynamic"]:checked');
+        const has_people_analyticsChecked = document.querySelector('input[data-filter="has_people_analytics"]:checked');
+        const has_cars_analyticsChecked = document.querySelector('input[data-filter="has_cars_analytics"]:checked');
+        const has_special_cars_analyticsChecked = document.querySelector('input[data-filter="has_special_cars_analytics"]:checked');
 
         if (microChecked) {
             filters['has_micro'] = 'true';
         }
         if (dynamicChecked) {
             filters['has_dynamic'] = 'true';
+        }
+        if (has_people_analyticsChecked) {
+            filters['has_people_analytics'] = 'true';
+        }
+        if (has_cars_analyticsChecked) {
+            filters['has_cars_analytics'] = 'true';
+        }
+        if (has_special_cars_analyticsChecked) {
+            filters['has_special_cars_analytics'] = 'true';
         }
 
         // Сортировка

@@ -14,7 +14,6 @@ def calculator(request):
     night_vision_technologies = cameras.values_list('night_vision_technology', flat=True).distinct()
     connection_types = cameras.values_list('connection_type', flat=True).distinct()
     lens = cameras.values_list('lens', flat=True).distinct()
-    analytics = cameras.values_list('analytics', flat=True).distinct()
 
     # Если AJAX запрос
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -32,14 +31,27 @@ def calculator(request):
             if lens_values:
                 # Используем __in для поиска точных совпадений
                 cameras = cameras.filter(lens__in=lens_values)
-        if 'analytics' in request.GET:
-            cameras = cameras.filter(analytics=request.GET['analytics'])
+
+        # ИСПРАВЛЕНИЕ: Проверяем значение булевых полей
+        if 'has_zoom' in request.GET:
+            # Преобразуем строку в булево значение
+            has_zoom_value = request.GET['has_zoom'].lower() == 'true'
+            cameras = cameras.filter(has_zoom=has_zoom_value)
+
+        if 'has_people_analytics' in request.GET:
+            cameras = cameras.filter(has_people_analytics=True)
+        if 'has_cars_analytics' in request.GET:
+            cameras = cameras.filter(has_cars_analytics=True)
+        if 'has_special_cars_analytics' in request.GET:
+            cameras = cameras.filter(has_special_cars_analytics=True)
 
             # ФИЛЬТРАЦИЯ ПО МИКРОФОНУ И ДИНАМИКУ (ключевое изменение!)
         if 'has_micro' in request.GET:
             cameras = cameras.filter(has_micro=True)
         if 'has_dynamic' in request.GET:
             cameras = cameras.filter(has_dynamic=True)
+
+
 
 
         # Возвращаем простой JSON
@@ -51,6 +63,7 @@ def calculator(request):
                     'price': c.price,
                     'picture': c.picture.path if c.picture else '',
                     'has_micro': c.has_micro,
+                    'has_zoom' : c.has_zoom,
                     'has_dynamic': c.has_dynamic,
                 }
                 for c in cameras
@@ -66,7 +79,6 @@ def calculator(request):
                     'night_vision_technologies' : night_vision_technologies,
                     'connection_types': connection_types,
                     'lens': lens,
-                    'analytics': analytics
     }
 
     # ЕДИНСТВЕННЫЙ return для обычного запроса
