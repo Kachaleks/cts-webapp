@@ -1,4 +1,5 @@
 // Простая карусель для раздела работ
+//файл cable_system.js
 document.addEventListener('DOMContentLoaded', function() {
     const projectsContainer = document.querySelector('.projects-container');
     const projects = document.querySelectorAll('.project-item');

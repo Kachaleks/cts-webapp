@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from .models import Camera
+from .models import Camera, CableSettings
+
 
 
 def calculator(request):
 
     # Обычный запрос - показываем главную страницу
     cameras = Camera.objects.all()
+    cables_settings = CableSettings.objects.filter(is_active=True).first()
 
     # Получаем уникальные значения для фильтров
     resolutions = cameras.values_list('resolution', flat=True).distinct()
@@ -14,6 +16,7 @@ def calculator(request):
     night_vision_technologies = cameras.values_list('night_vision_technology', flat=True).distinct()
     connection_types = cameras.values_list('connection_type', flat=True).distinct()
     lens = cameras.values_list('lens', flat=True).distinct()
+    cable_price_per_meter = cables_settings.price_per_meter
 
     # Если AJAX запрос
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -71,7 +74,8 @@ def calculator(request):
 
                 }
                 for c in cameras
-            ]
+            ],
+            'cable_price': cable_price_per_meter,
         }
         return JsonResponse(data)
 
@@ -83,6 +87,8 @@ def calculator(request):
                     'night_vision_technologies' : night_vision_technologies,
                     'connection_types': connection_types,
                     'lens': lens,
+                    'installation_price': cable_price_per_meter,  # Модель с ценой монтажа
+
     }
 
     # ЕДИНСТВЕННЫЙ return для обычного запроса

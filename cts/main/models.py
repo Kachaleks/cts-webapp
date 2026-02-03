@@ -31,4 +31,19 @@ class Camera(models.Model):
         verbose_name = 'Камера'
         verbose_name_plural = 'Камеры'
 
+class CableSettings(models.Model):
+    price_per_meter =  models.IntegerField('Стоимость метра кабеля (руб)', default=125)
+    is_active = models.BooleanField('Активно', default=True)
 
+    def save(self, *args, **kwargs):
+        # Гарантируем, что будет только одна активная запись
+        if self.is_active:
+            CableSettings.objects.filter(is_active=True).update(is_active=False)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Кабель: {self.price_per_meter} руб/м"
+
+    class Meta:
+        verbose_name = 'Настройка кабеля'
+        verbose_name_plural = 'Настройки кабеля'
