@@ -547,7 +547,7 @@
                                        min="0"
                                        value="0"
                                        placeholder="0"
-                                       disabled  <!-- Добавьте это! -->
+                                       disabled
                                        title="Сначала выберите камеру">
                                 <span>м. кабеля</span>
                             </div>
@@ -1184,10 +1184,12 @@
                                     <div class="cable-counter">
                                         <input type="number"
                                                class="cable-input"
-                                               data-camera-id="${camera.id}"
+                                               data-camera-id="{{ camera.id }}"
                                                min="0"
-                                               value="${currentCable}"
-                                               placeholder="0">
+                                               value="0"
+                                               placeholder="0"
+                                               disabled  <!-- Добавить эту строку -->
+
                                         <span>м. кабеля</span>
                                     </div>
                                 </div>
@@ -1319,6 +1321,15 @@
             });
 
             updateTotalDisplay(totalCameras, totalPrice);
+
+             // ▼▼▼ ДОБАВЬТЕ ЭТИ СТРОКИ В КОНЕЦ ФУНКЦИИ ▼▼▼
+            // Обновляем состояние полей кабеля
+            if (window.cableLocking && typeof window.cableLocking.updateAllCableInputs === 'function') {
+                setTimeout(() => {
+                    window.cableLocking.updateAllCableInputs();
+                }, 50);
+            }
+            // ▲▲▲ КОНЕЦ ДОБАВЛЕНИЯ ▲▲▲
         }
 
         // Функция обновления отображения итогов
@@ -1568,6 +1579,8 @@
             });
         });
     }
+
+
 
     // Получаем счетчики камер
     function getCameraCounters() {
@@ -1894,6 +1907,166 @@ function setupCableLocking() {
     init();
 }
 
+// ===== ФУНКЦИЯ БЛОКИРОВКИ КАБЕЛЯ ДЛЯ КОНКРЕТНОЙ КАМЕРЫ =====
+function setupCableLocking() {
+    // 1. Проверяем, выбрана ли эта конкретная камера
+    function getCameraCount(cameraId) {
+        const cameraCounters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
+        return cameraCounters[cameraId] || 0;
+    }
+
+    // 2. Обновляем состояние ОДНОГО поля
+    function updateSingleCableInput(cameraId) {
+        const input = document.querySelector(`.cable-input[data-camera-id="${cameraId}"]`);
+        if (!input) return;
+
+        const count = getCameraCount(cameraId);
+        const isSelected = count > 0;
+
+        if (isSelected) {
+            // Эта камера выбрана - разблокируем ТОЛЬКО это поле
+            input.disabled = false;
+            input.title = "Введите количество метров кабеля";
+            input.closest('.cable-counter').style.opacity = "1";
+            input.closest('.cable-counter').style.cursor = "auto";
+
+            // Восстанавливаем сохраненное значение ТОЛЬКО для этой камеры
+            const saved = JSON.parse(localStorage.getItem('cableLengths') || '{}');
+            if (saved[cameraId] !== undefined) {
+                input.value = saved[cameraId];
+            }
+        } else {
+            // Эта камера не выбрана - блокируем ТОЛЬКО это поле
+            input.disabled = true;
+            input.value = "0"; // Сбрасываем на 0
+            input.title = "Сначала выберите камеру";
+            input.closest('.cable-counter').style.opacity = "0.6";
+            input.closest('.cable-counter').style.cursor = "not-allowed";
+
+            // Очищаем сохраненное значение ТОЛЬКО для этой камеры
+            const saved = JSON.parse(localStorage.getItem('cableLengths') || '{}');
+            if (saved[cameraId]) {
+                delete saved[cameraId];
+                localStorage.setItem('cableLengths', JSON.stringify(saved));
+            }
+        }
+    }
+
+    // 3. Обновляем ВСЕ поля (при загрузке)
+    function updateAllCableInputs() {
+        const inputs = document.querySelectorAll('.cable-input');
+        inputs.forEach(input => {
+            const cameraId = input.getAttribute('data-camera-id');
+            updateSingleCableInput(cameraId);
+        });
+    }
+
+    // 4. БЛОКИРУЕМ КОЛЕСИКО МЫШИ для заблокированных полей
+    function handleWheelBlock(e) {
+        const input = e.target;
+        if (input.classList.contains('cable-input') && input.disabled) {
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    // 5. БЛОКИРУЕМ КЛАВИАТУРУ для заблокированных полей
+    function handleKeydownBlock(e) {
+        const input = e.target;
+        if (input.classList.contains('cable-input') && input.disabled) {
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    // 6. БЛОКИРУЕМ ИЗМЕНЕНИЕ ЧЕРЕЗ СТРЕЛКИ
+    function handleInputBlock(e) {
+        const input = e.target;
+        if (input.classList.contains('cable-input') && input.disabled) {
+            input.value = "0";
+        }
+    }
+
+    // 7. Следим за изменениями КОНКРЕТНОЙ камеры
+    function setupCameraMonitoring() {
+        // Отслеживаем клики на кнопки +/- КОНКРЕТНОЙ камеры
+        document.addEventListener('click', function(e) {
+            const plusBtn = e.target.closest('.plus-btn');
+            const minusBtn = e.target.closest('.minus-btn');
+
+            if (plusBtn || minusBtn) {
+                const button = plusBtn || minusBtn;
+                const cameraId = button.getAttribute('data-camera-id');
+
+                // Ждем обновления localStorage и обновляем ТОЛЬКО это поле
+                setTimeout(() => {
+                    if (cameraId) {
+                        updateSingleCableInput(cameraId);
+                    } else {
+                        updateAllCableInputs(); // На всякий случай обновляем все
+                    }
+                }, 50);
+            }
+        });
+
+        // Отслеживаем изменения в localStorage
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'cameraCounters') {
+                // Можно обновить все или определить какие камеры изменились
+                setTimeout(updateAllCableInputs, 100);
+            }
+        });
+    }
+
+    // 8. Интеграция с вашей системой счетчиков
+    function integrateWithCounterSystem() {
+        // Если у вас есть функция updateTotalInfo, подключаемся к ней
+        if (typeof updateTotalInfo === 'function') {
+            const originalUpdateTotalInfo = updateTotalInfo;
+            window.updateTotalInfo = function() {
+                const result = originalUpdateTotalInfo();
+                updateAllCableInputs(); // Обновляем после пересчета итогов
+                return result;
+            };
+        }
+
+        // Или если есть cameraCounterSystem
+        if (window.cameraCounterSystem && window.cameraCounterSystem.updateTotalInfo) {
+            const originalUpdate = window.cameraCounterSystem.updateTotalInfo;
+            window.cameraCounterSystem.updateTotalInfo = function() {
+                const result = originalUpdate();
+                updateAllCableInputs();
+                return result;
+            };
+        }
+    }
+
+    // 9. Инициализация
+    function init() {
+        // Настраиваем блокировку событий
+        document.addEventListener('wheel', handleWheelBlock, { passive: false });
+        document.addEventListener('keydown', handleKeydownBlock);
+        document.addEventListener('input', handleInputBlock);
+        document.addEventListener('change', handleInputBlock);
+
+        // Настраиваем мониторинг камер
+        setupCameraMonitoring();
+
+        // Интегрируем с системой счетчиков
+        integrateWithCounterSystem();
+
+        // Первоначальное обновление
+        updateAllCableInputs();
+
+        console.log('✅ Блокировка кабеля для отдельных камер включена');
+    }
+
+    return {
+        init,
+        updateSingleCableInput,
+        updateAllCableInputs
+    };
+}
 
 
     // Основная функция инициализации
@@ -1908,6 +2081,13 @@ function setupCableLocking() {
 
         // Инициализируем поля ввода
         initCableInputs();
+
+            // ▼▼▼ ДОБАВЬТЕ ЭТУ СТРОКУ ▼▼▼
+            // Инициализируем систему блокировки
+            const cableLocking = setupCableLocking();
+            cableLocking.init();
+            // ▲▲▲ ДОБАВЬТЕ ЭТУ СТРОКУ ▲▲▲
+
 
         // Улучшаем функцию расчета итогов
         enhanceTotalInfoFunction();
