@@ -541,16 +541,16 @@
 
                             <!-- Поле для ввода м кабеля -->
                             <div class="cable-counter">
-                            <input type="number"
-                                   class="cable-input"
-                                   data-camera-id="{{ camera.id }}"
-                                   min="0"
-                                   value="0"
-                                   placeholder="0"
-                                   disabled
-                                   title="Сначала выберите камеру">
-                            <span>м. кабеля</span>
-                        </div>
+                                <input type="number"
+                                       class="cable-input"
+                                       data-camera-id="{{ camera.id }}"
+                                       min="0"
+                                       value="0"
+                                       placeholder="0"
+                                       disabled  <!-- Добавьте это! -->
+                                       title="Сначала выберите камеру">
+                                <span>м. кабеля</span>
+                            </div>
                         </div>
                     </div>
                     {% empty %}
@@ -1325,6 +1325,30 @@
         function updateTotalDisplay(totalCameras, totalPrice) {
             let totalInfoElement = document.querySelector('.total-info');
 
+             // ▼▼▼ ДОБАВЬТЕ ЭТОТ РАСЧЕТ КАБЕЛЯ ▼▼▼
+                let cableMeters = 0;
+                let cablePrice = 0;
+                let installationPrice = 0;
+
+                // Получаем данные из localStorage
+                const cableLengths = JSON.parse(localStorage.getItem('cableLengths') || '{}');
+                const cameraCounters = JSON.parse(localStorage.getItem('cameraCounters') || '{}');
+
+                // Считаем общий кабель
+                Object.keys(cableLengths).forEach(cameraId => {
+                    const meters = cableLengths[cameraId] || 0;
+                    const count = cameraCounters[cameraId] || 0;
+
+                    if (meters > 0 && count > 0) {
+                        cableMeters += meters * count;
+                        cablePrice += meters * count * 50; // 50 руб/м
+                        installationPrice += meters * count * 100; // 100 руб/м
+                    }
+                });
+
+                const finalTotal = totalPrice + cablePrice + installationPrice;
+               // ▲▲▲ КОНЕЦ ДОБАВЛЕНИЯ ▲▲▲
+
             if (totalCameras > 0) {
                 if (!totalInfoElement) {
                     totalInfoElement = document.createElement('div');
@@ -1756,49 +1780,121 @@
 
 
     // ===== ФУНКЦИЯ БЛОКИРОВКИ КАБЕЛЯ =====
-    function setupCableLocking() {
-        // Функция проверки состояния камер
-        function checkCameraSelection() {
-            const cameraCounters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
-            const hasSelectedCameras = Object.values(cameraCounters).some(count => count > 0);
+    // ===== ПОЛНАЯ ФУНКЦИЯ БЛОКИРОВКИ КАБЕЛЯ =====
+function setupCableLocking() {
+    // 1. Проверяем, выбрана ли конкретная камера
+    function isCameraSelected(cameraId) {
+        const cameraCounters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
+        return (cameraCounters[cameraId] || 0) > 0;
+    }
 
-            // Находим все поля ввода кабеля
-            const cableInputs = document.querySelectorAll('.cable-input');
+    // 2. Обновляем состояние одного поля
+    function updateCableInputState(input) {
+        const cameraId = input.getAttribute('data-camera-id');
+        const isSelected = isCameraSelected(cameraId);
 
-            cableInputs.forEach(input => {
-                const cameraId = input.getAttribute('data-camera-id');
-                const cameraCount = cameraCounters[cameraId] || 0;
+        if (isSelected) {
+            // Камера выбрана - разблокируем
+            input.disabled = false;
+            input.title = "Введите количество метров кабеля";
+            input.closest('.cable-counter').style.opacity = "1";
+            input.closest('.cable-counter').style.cursor = "auto";
 
-                // Блокируем или разблокируем поле
-                if (cameraCount > 0) {
-                    input.disabled = false;
-                    input.title = "Введите количество метров кабеля";
-                    input.closest('.cable-counter').style.opacity = "1";
-                } else {
-                    input.disabled = true;
-                    input.title = "Сначала выберите камеру";
-                    input.closest('.cable-counter').style.opacity = "0.6";
-                }
-            });
+            // Восстанавливаем сохраненное значение
+            const saved = JSON.parse(localStorage.getItem('cableLengths') || '{}');
+            if (saved[cameraId] !== undefined) {
+                input.value = saved[cameraId];
+            }
+        } else {
+            // Камера не выбрана - блокируем
+            input.disabled = true;
+            input.value = "0"; // Сбрасываем на 0
+            input.title = "Сначала выберите камеру";
+            input.closest('.cable-counter').style.opacity = "0.6";
+            input.closest('.cable-counter').style.cursor = "not-allowed";
         }
+    }
 
-        // Проверяем при загрузке
-        checkCameraSelection();
+    // 3. БЛОКИРОВКА КОЛЕСИКА МЫШИ
+    function handleWheelBlock(e) {
+        const input = e.target;
+        if (input.classList.contains('cable-input') && input.disabled) {
+            e.preventDefault(); // Блокируем колесико
+            return false;
+        }
+    }
 
-        // Слушаем изменения в localStorage
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'cameraCounters') {
-                checkCameraSelection();
+    // 4. БЛОКИРОВКА РУЧНОГО ВВОДА
+    function handleInputBlock(e) {
+        const input = e.target;
+        if (input.classList.contains('cable-input') && input.disabled) {
+            e.preventDefault(); // Блокируем ввод с клавиатуры
+            input.value = "0"; // Сбрасываем на 0
+            return false;
+        }
+    }
+
+    // 5. БЛОКИРОВКА ИЗМЕНЕНИЯ ЧЕРЕЗ СТРЕЛКИ
+    function handleChangeBlock(e) {
+        const input = e.target;
+        if (input.classList.contains('cable-input') && input.disabled) {
+            input.value = "0"; // Сбрасываем на 0
+        }
+    }
+
+    // 6. Обновляем все поля
+    function updateAllCableInputs() {
+        const inputs = document.querySelectorAll('.cable-input');
+        inputs.forEach(updateCableInputState);
+    }
+
+    // 7. Настройка слушателей событий
+    function setupEventListeners() {
+        // Колесико мыши
+        document.addEventListener('wheel', handleWheelBlock, { passive: false });
+
+        // Ручной ввод с клавиатуры
+        document.addEventListener('keydown', handleInputBlock);
+
+        // Изменение значения
+        document.addEventListener('change', handleChangeBlock);
+        document.addEventListener('input', handleChangeBlock);
+
+        // Клики на кнопки +/- камер
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.plus-btn') || e.target.closest('.minus-btn')) {
+                setTimeout(updateAllCableInputs, 100);
             }
         });
 
-        // Проверяем при кликах на кнопки +/- камер
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.plus-btn') || e.target.closest('.minus-btn')) {
-                setTimeout(checkCameraSelection, 50);
+        // Изменения в localStorage
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'cameraCounters') {
+                updateAllCableInputs();
             }
         });
     }
+
+    // 8. Инициализация
+    function init() {
+        updateAllCableInputs();
+        setupEventListeners();
+
+        // Интеграция с системой подсчета итогов
+        if (typeof updateTotalInfo === 'function') {
+            const originalUpdateTotalInfo = updateTotalInfo;
+            window.updateTotalInfo = function() {
+                originalUpdateTotalInfo();
+                updateAllCableInputs();
+            };
+        }
+    }
+
+    // Запускаем
+    init();
+}
+
+
 
     // Основная функция инициализации
     function initCableSystem() {
