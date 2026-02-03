@@ -2055,6 +2055,179 @@ body {
     border-color: #007bff;
 }
 
+/* ===== СТИЛИ ТОЛЬКО ДЛЯ ПОЛЯ ВВОДА КАБЕЛЯ ===== */
+
+/* ===== СТИЛИ ДЛЯ ПОЛЯ ВВОДА КАБЕЛЯ С КОЛЕСИКОМ ===== */
+
+/* Контейнер для ввода кабеля */
+/* ===== СТИЛИ ДЛЯ ПОЛЯ ВВОДА КАБЕЛЯ С АДАПТИВНОСТЬЮ ===== */
+
+/* Контейнер для ввода кабеля */
+/* ===== СТИЛИ ДЛЯ ПОЛЯ ВВОДА КАБЕЛЯ С КОЛЕСИКОМ И АДАПТИВНОСТЬЮ ===== */
+
+/* Контейнер для ввода кабеля */
+.cable-counter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0 8px;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.2s ease;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 13px;
+}
+
+/* Поле ввода С КОЛЕСИКОМ */
+.cable-input {
+    width: 70px;
+    height: 32px;
+    padding: 0 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background: white;
+    color: #212529;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    text-align: center;
+    transition: all 0.2s ease;
+    outline: none;
+
+    /* ВАЖНО: Оставляем стандартное поведение number input */
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* КОЛЕСИКО - Включаем стрелки для всех браузеров */
+.cable-input::-webkit-inner-spin-button,
+.cable-input::-webkit-outer-spin-button {
+    -webkit-appearance: auto !important;
+    opacity: 1;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Для Firefox */
+.cable-input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.cable-input[type="number"]::-webkit-outer-spin-button,
+.cable-input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: inner-spin-button !important;
+}
+
+/* Эффекты при фокусе */
+.cable-input:focus {
+    border-color: #FFC107;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+    outline: none;
+}
+
+/* Активное поле */
+.cable-input:not([value="0"]):not([value=""]) {
+    border-color: #FFC107;
+    background-color: rgba(255, 193, 7, 0.05);
+}
+
+/* Текст "м. кабеля" */
+.cable-counter span {
+    color: #6c757d;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Декоративная иконка кабеля */
+.cable-counter::before {
+    content: '↔';
+    font-size: 14px;
+    color: #6c757d;
+    margin-right: 4px;
+}
+
+/* ===== АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ ===== */
+@media (max-width: 768px) {
+    .cable-counter {
+        flex-direction: column;
+        gap: 5px;
+        padding: 8px;
+        width: 100px;
+        min-height: 80px;
+        justify-content: center;
+    }
+
+    .cable-input {
+        width: 100%;
+        height: 32px;
+        font-size: 14px; /* Больше для мобильных */
+        order: 2;
+        padding: 6px 4px;
+    }
+
+    /* НА МОБИЛЬНЫХ ВСЕ РАВНО ОСТАВЛЯЕМ КОЛЕСИКО */
+    .cable-input::-webkit-inner-spin-button,
+    .cable-input::-webkit-outer-spin-button {
+        -webkit-appearance: auto !important;
+        opacity: 1;
+        height: 24px; /* Выше для удобства тапа */
+        margin: 0;
+    }
+
+    .cable-counter span {
+        order: 1;
+        font-size: 11px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .cable-counter::before {
+        order: 0;
+        margin-right: 0;
+        margin-bottom: 3px;
+        font-size: 14px;
+    }
+}
+
+/* ===== АДАПТИВНОСТЬ ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ МОБИЛЬНЫХ ===== */
+@media (max-width: 480px) {
+    .cable-counter {
+        width: 90px;
+        padding: 6px;
+        min-height: 75px;
+    }
+
+    .cable-input {
+        height: 30px;
+        font-size: 13px;
+    }
+
+    .cable-counter span {
+        font-size: 10px;
+    }
+}
+
+/* ===== ДЛЯ ДОСТУПНОСТИ НА МОБИЛЬНЫХ ===== */
+@media (hover: none) and (pointer: coarse) {
+    .cable-input {
+        min-height: 44px; /* Минимальная высота для пальцев */
+        font-size: 16px;
+        padding: 12px 4px;
+    }
+
+    .cable-input::-webkit-inner-spin-button,
+    .cable-input::-webkit-outer-spin-button {
+        height: 30px; /* Больше для тапа */
+        width: 30px; /* Шире для удобства */
+    }
+}
+
 /* ===== ПРЕИМУЩЕСТВА (СВЕТЛЫЕ) ===== */
 .advantages-grid {
     display: grid;
