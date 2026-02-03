@@ -1907,39 +1907,27 @@ function setupCableLocking() {
     init();
 }
 
-// ===== ФУНКЦИЯ БЛОКИРОВКИ КАБЕЛЯ ДЛЯ КОНКРЕТНОЙ КАМЕРЫ =====
+// ===== ФУНКЦИЯ БЛОКИРОВКИ КАБЕЛЯ С ПОДДЕРЖКОЙ AJAX =====
 function setupCableLocking() {
-    // 1. Проверяем, выбрана ли эта конкретная камера
+    console.log('🔒 Инициализация блокировки кабеля...');
+
+    // 1. Получаем счетчик КОНКРЕТНОЙ камеры
     function getCameraCount(cameraId) {
-        const cameraCounters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
-        return cameraCounters[cameraId] || 0;
-    }
-
-    // 2. Обновляем состояние ОДНОГО поля
-    function updateSingleCableInput(cameraId) {
-    const input = document.querySelector(`.cable-input[data-camera-id="${cameraId}"]`);
-    if (!input) return;
-
-
-    // ПРАВИЛЬНЫЙ способ получить счетчик камер
-    function getCurrentCameraCount() {
         try {
-            // Способ 1: Из вашей глобальной переменной (если она есть)
-            if (typeof cameraCounters !== 'undefined' && cameraCounters[cameraId]) {
-                return cameraCounters[cameraId];
+            // Сначала ищем счетчик на странице (самый надежный способ)
+            const counterElement = document.querySelector(`.counter-value[data-camera-id="${cameraId}"]`);
+            if (counterElement) {
+                const count = parseInt(counterElement.textContent);
+                if (!isNaN(count)) {
+                    return count;
+                }
             }
 
-            // Способ 2: Из localStorage
+            // Потом проверяем localStorage
             const saved = localStorage.getItem('cameraCounters');
             if (saved) {
                 const counters = JSON.parse(saved);
                 return counters[cameraId] || 0;
-            }
-
-            // Способ 3: Из счетчика на странице
-            const counterDisplay = document.querySelector(`.counter-value[data-camera-id="${cameraId}"]`);
-            if (counterDisplay) {
-                return parseInt(counterDisplay.textContent) || 0;
             }
 
             return 0;
@@ -1949,170 +1937,167 @@ function setupCableLocking() {
         }
     }
 
-    const count = getCurrentCameraCount();
-    const isSelected = count > 0;
-
-    console.log(`Камера ${cameraId}: выбрано ${count} шт., заблокировано: ${!isSelected}`);
-
-    if (isSelected) {
-        // Эта камера выбрана - разблокируем
-        input.disabled = false;
-        input.removeAttribute('readonly');
-        input.title = "Введите количество метров кабеля";
-
-        // Визуальные индикаторы
-        input.style.opacity = "1";
-        input.style.cursor = "text";
-        input.style.backgroundColor = "";
-
-        if (input.closest('.cable-counter')) {
-            input.closest('.cable-counter').style.opacity = "1";
+    // 2. Обновляем ОДНО поле
+    function updateSingleCableInput(cameraId) {
+        const input = document.querySelector(`.cable-input[data-camera-id="${cameraId}"]`);
+        if (!input) {
+            console.log(`Поле кабеля для камеры ${cameraId} не найдено`);
+            return;
         }
 
-        // Восстанавливаем значение
-        const saved = JSON.parse(localStorage.getItem('cableLengths') || '{}');
-        if (saved[cameraId] !== undefined && saved[cameraId] > 0) {
-            input.value = saved[cameraId];
-        }
-    } else {
-        // Эта камера не выбрана - блокируем
-        input.disabled = true;
-        input.setAttribute('readonly', true);
-        input.value = "0";
-        input.title = "Сначала выберите камеру (нажмите +)";
+        const count = getCameraCount(cameraId);
+        const isSelected = count > 0;
 
-        // Визуальные индикаторы
-        input.style.opacity = "0.6";
-        input.style.cursor = "not-allowed";
-        input.style.backgroundColor = "#f5f5f5";
+        console.log(`Камера ${cameraId}: ${count} шт., разблокировать: ${isSelected}`);
 
-        if (input.closest('.cable-counter')) {
-            input.closest('.cable-counter').style.opacity = "0.6";
-        }
+        if (isSelected) {
+            // Разблокируем
+            input.disabled = false;
+            input.style.opacity = "1";
+            input.style.cursor = "text";
+            input.style.backgroundColor = "white";
+            input.title = "Введите метры кабеля";
 
-        // Очищаем сохраненное значение
-        const saved = JSON.parse(localStorage.getItem('cableLengths') || '{}');
-        if (saved[cameraId]) {
-            delete saved[cameraId];
-            localStorage.setItem('cableLengths', JSON.stringify(saved));
+            // Восстанавливаем значение из localStorage
+            const savedCable = JSON.parse(localStorage.getItem('cableLengths') || '{}');
+            if (savedCable[cameraId] !== undefined && savedCable[cameraId] > 0) {
+                input.value = savedCable[cameraId];
+            }
+        } else {
+            // Блокируем
+            input.disabled = true;
+            input.value = "0";
+            input.style.opacity = "0.5";
+            input.style.cursor = "not-allowed";
+            input.style.backgroundColor = "#f0f0f0";
+            input.title = "Сначала выберите камеру (нажмите +)";
         }
     }
-}
 
-    // 3. Обновляем ВСЕ поля (при загрузке)
+    // 3. Обновляем ВСЕ поля
     function updateAllCableInputs() {
         const inputs = document.querySelectorAll('.cable-input');
+        console.log(`Обновление ${inputs.length} полей кабеля...`);
+
         inputs.forEach(input => {
             const cameraId = input.getAttribute('data-camera-id');
-            updateSingleCableInput(cameraId);
+            if (cameraId) {
+                updateSingleCableInput(cameraId);
+            }
         });
     }
 
-    // 4. БЛОКИРУЕМ КОЛЕСИКО МЫШИ для заблокированных полей
-    function handleWheelBlock(e) {
-        const input = e.target;
-        if (input.classList.contains('cable-input') && input.disabled) {
-            e.preventDefault();
-            return false;
-        }
-    }
-
-    // 5. БЛОКИРУЕМ КЛАВИАТУРУ для заблокированных полей
-    function handleKeydownBlock(e) {
-        const input = e.target;
-        if (input.classList.contains('cable-input') && input.disabled) {
-            e.preventDefault();
-            return false;
-        }
-    }
-
-    // 6. БЛОКИРУЕМ ИЗМЕНЕНИЕ ЧЕРЕЗ СТРЕЛКИ
-    function handleInputBlock(e) {
-        const input = e.target;
-        if (input.classList.contains('cable-input') && input.disabled) {
-            input.value = "0";
-        }
-    }
-
-    // 7. Следим за изменениями КОНКРЕТНОЙ камеры (ИСПРАВЛЕННАЯ)
-            function setupCameraMonitoring() {
-                // Отслеживаем ВСЕ клики на странице
-                document.addEventListener('click', function(e) {
-                    // Проверяем, кликнули ли на кнопку + или - любой камеры
-                    let targetBtn = e.target;
-
-                    // Ищем ближайшую кнопку +/- вверх по DOM
-                    while (targetBtn && !targetBtn.classList.contains('plus-btn') && !targetBtn.classList.contains('minus-btn')) {
-                        targetBtn = targetBtn.parentElement;
-                        if (!targetBtn || targetBtn.tagName === 'BODY') break;
-                    }
-
-                    if (targetBtn && (targetBtn.classList.contains('plus-btn') || targetBtn.classList.contains('minus-btn'))) {
-                        const cameraId = targetBtn.getAttribute('data-camera-id');
-                        console.log(`Клик по кнопке камеры ${cameraId}`);
-
-                        // Ждем обновления и обновляем ТОЛЬКО это поле
-                        setTimeout(() => {
-                            if (cameraId) {
-                                updateSingleCableInput(cameraId);
-                            } else {
-                                updateAllCableInputs();
-                            }
-                        }, 100); // Увеличиваем задержку
-                    }
-                });
-
-                // Также обновляем при ЛЮБОМ изменении localStorage
-                const originalSetItem = localStorage.setItem;
-                localStorage.setItem = function(key, value) {
-                    originalSetItem.apply(this, arguments);
-                    if (key === 'cameraCounters') {
-                        setTimeout(updateAllCableInputs, 50);
-                    }
-                };
+    // 4. Блокируем события для заблокированных полей
+    function setupEventBlocking() {
+        // Колесико мыши
+        document.addEventListener('wheel', function(e) {
+            const input = e.target;
+            if (input.classList.contains('cable-input') && input.disabled) {
+                e.preventDefault();
             }
+        }, { passive: false });
 
-    // 8. Интеграция с вашей системой счетчиков
-    function integrateWithCounterSystem() {
-        // Если у вас есть функция updateTotalInfo, подключаемся к ней
-        if (typeof updateTotalInfo === 'function') {
-            const originalUpdateTotalInfo = updateTotalInfo;
-            window.updateTotalInfo = function() {
-                const result = originalUpdateTotalInfo();
-                updateAllCableInputs(); // Обновляем после пересчета итогов
-                return result;
-            };
-        }
-
-        // Или если есть cameraCounterSystem
-        if (window.cameraCounterSystem && window.cameraCounterSystem.updateTotalInfo) {
-            const originalUpdate = window.cameraCounterSystem.updateTotalInfo;
-            window.cameraCounterSystem.updateTotalInfo = function() {
-                const result = originalUpdate();
-                updateAllCableInputs();
-                return result;
-            };
-        }
+        // Клавиатура
+        document.addEventListener('keydown', function(e) {
+            const input = e.target;
+            if (input.classList.contains('cable-input') && input.disabled) {
+                e.preventDefault();
+            }
+        });
     }
 
-    // 9. Инициализация
+    // 5. САМОЕ ВАЖНОЕ: Обработчик для AJAX-фильтрации
+    function setupAjaxMonitoring() {
+        console.log('Настройка мониторинга AJAX...');
+
+        // Перехватываем ВСЕ клики на кнопки +/-
+        document.addEventListener('click', function(e) {
+            const target = e.target;
+            const plusBtn = target.closest('.plus-btn');
+            const minusBtn = target.closest('.minus-btn');
+
+            if (plusBtn || minusBtn) {
+                const btn = plusBtn || minusBtn;
+                const cameraId = btn.getAttribute('data-camera-id');
+
+                console.log(`Клик по кнопке камеры ${cameraId}`);
+
+                // Обновляем через 200мс (после обновления DOM)
+                setTimeout(() => {
+                    if (cameraId) {
+                        updateSingleCableInput(cameraId);
+                    }
+                }, 200);
+            }
+        });
+
+        // Мониторим изменения DOM (когда AJAX перерисовывает камеры)
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.addedNodes.length > 0) {
+                    // Проверяем, не добавились ли новые поля кабеля
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) { // Element node
+                            if (node.classList && node.classList.contains('cable-input')) {
+                                const cameraId = node.getAttribute('data-camera-id');
+                                if (cameraId) {
+                                    setTimeout(() => updateSingleCableInput(cameraId), 100);
+                                }
+                            } else if (node.querySelectorAll) {
+                                const cableInputs = node.querySelectorAll('.cable-input');
+                                if (cableInputs.length > 0) {
+                                    setTimeout(updateAllCableInputs, 100);
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        // Начинаем наблюдение
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+
+    // 6. Инициализация
     function init() {
+        console.log('Запуск блокировки кабеля...');
+
         // Настраиваем блокировку событий
-        document.addEventListener('wheel', handleWheelBlock, { passive: false });
-        document.addEventListener('keydown', handleKeydownBlock);
-        document.addEventListener('input', handleInputBlock);
-        document.addEventListener('change', handleInputBlock);
+        setupEventBlocking();
 
-        // Настраиваем мониторинг камер
-        setupCameraMonitoring();
-
-        // Интегрируем с системой счетчиков
-        integrateWithCounterSystem();
+        // Настраиваем мониторинг AJAX
+        setupAjaxMonitoring();
 
         // Первоначальное обновление
-        updateAllCableInputs();
+        setTimeout(updateAllCableInputs, 1000);
 
-        console.log('✅ Блокировка кабеля для отдельных камер включена');
+        // Перехватываем вашу функцию filterCameras (если она есть)
+        if (typeof filterCameras === 'function') {
+            const originalFilterCameras = filterCameras;
+            filterCameras = function() {
+                const result = originalFilterCameras.apply(this, arguments);
+                // После фильтрации обновляем поля
+                setTimeout(updateAllCableInputs, 300);
+                return result;
+            };
+        }
+
+        // Перехватываем вашу функцию displayCameras
+        if (typeof displayCameras === 'function') {
+            const originalDisplayCameras = displayCameras;
+            displayCameras = function(cameras) {
+                const result = originalDisplayCameras.apply(this, arguments);
+                // После отображения камер обновляем поля
+                setTimeout(updateAllCableInputs, 300);
+                return result;
+            };
+        }
+
+        console.log('✅ Блокировка кабеля инициализирована');
     }
 
     return {
@@ -2125,6 +2110,7 @@ function setupCableLocking() {
 
     // Основная функция инициализации
     function initCableSystem() {
+
         if (cableSystemInitialized) return;
         cableSystemInitialized = true;
 
@@ -2165,6 +2151,61 @@ function setupCableLocking() {
         updateTotalInfo: updateTotalInfoWithCable
     };
 })();
+
+// ▼▼▼ ДОБАВЬТЕ В САМЫЙ КОНЕЦ ФАЙЛА calculator.html ▼▼▼
+// Прямо перед закрывающими тегами
+
+// Тестовая функция для проверки
+window.testCableSystem = function() {
+    console.log('=== ТЕСТ СИСТЕМЫ КАБЕЛЯ ===');
+
+    // 1. Проверяем поля
+    const inputs = document.querySelectorAll('.cable-input');
+    console.log('Найдено полей:', inputs.length);
+
+    // 2. Проверяем счетчики
+    const counters = JSON.parse(localStorage.getItem('cameraCounters') || '{}');
+    console.log('Счетчики в localStorage:', counters);
+
+    // 3. Проверяем первую камеру
+    if (inputs.length > 0) {
+        const firstInput = inputs[0];
+        const cameraId = firstInput.getAttribute('data-camera-id');
+        console.log('Первая камера:', {
+            id: cameraId,
+            disabled: firstInput.disabled,
+            value: firstInput.value
+        });
+
+        // 4. Принудительно выбираем первую камеру для теста
+        counters[cameraId] = 1;
+        localStorage.setItem('cameraCounters', JSON.stringify(counters));
+
+        // 5. Обновляем отображение счетчика
+        const counterElement = document.querySelector(`.counter-value[data-camera-id="${cameraId}"]`);
+        if (counterElement) {
+            counterElement.textContent = '1';
+            console.log('Счетчик обновлен на странице');
+        }
+
+        // 6. Разблокируем поле
+        if (window.cableLocking && window.cableLocking.updateSingleCableInput) {
+            window.cableLocking.updateSingleCableInput(cameraId);
+            console.log('Поле должно быть разблокировано!');
+        }
+    }
+};
+
+// Автоматический тест через 3 секунды
+setTimeout(() => {
+    console.log('Автотест блокировки кабеля...');
+    if (window.testCableSystem) {
+        window.testCableSystem();
+    }
+}, 3000);
+// ▲▲▲ КОНЕЦ ДОБАВЛЕНИЯ ▲▲▲
+
+
 </script>
 </body>
 
