@@ -541,14 +541,16 @@
 
                             <!-- Поле для ввода м кабеля -->
                             <div class="cable-counter">
-                                <input type="number"
-                                       class="cable-input"
-                                       data-camera-id="{{ camera.id }}"
-                                       min="0"
-                                       value="0"
-                                       placeholder="0">
-                                <span>м. кабеля</span>
-                            </div>
+                            <input type="number"
+                                   class="cable-input"
+                                   data-camera-id="{{ camera.id }}"
+                                   min="0"
+                                   value="0"
+                                   placeholder="0"
+                                   disabled
+                                   title="Сначала выберите камеру">
+                            <span>м. кабеля</span>
+                        </div>
                         </div>
                     </div>
                     {% empty %}
@@ -1750,6 +1752,52 @@
 
         // Вызываем функцию, чтобы обновить отображение при загрузке
         updateTotalInfoWithCable();
+    }
+
+
+    // ===== ФУНКЦИЯ БЛОКИРОВКИ КАБЕЛЯ =====
+    function setupCableLocking() {
+        // Функция проверки состояния камер
+        function checkCameraSelection() {
+            const cameraCounters = JSON.parse(localStorage.getItem('cameraCounters')) || {};
+            const hasSelectedCameras = Object.values(cameraCounters).some(count => count > 0);
+
+            // Находим все поля ввода кабеля
+            const cableInputs = document.querySelectorAll('.cable-input');
+
+            cableInputs.forEach(input => {
+                const cameraId = input.getAttribute('data-camera-id');
+                const cameraCount = cameraCounters[cameraId] || 0;
+
+                // Блокируем или разблокируем поле
+                if (cameraCount > 0) {
+                    input.disabled = false;
+                    input.title = "Введите количество метров кабеля";
+                    input.closest('.cable-counter').style.opacity = "1";
+                } else {
+                    input.disabled = true;
+                    input.title = "Сначала выберите камеру";
+                    input.closest('.cable-counter').style.opacity = "0.6";
+                }
+            });
+        }
+
+        // Проверяем при загрузке
+        checkCameraSelection();
+
+        // Слушаем изменения в localStorage
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'cameraCounters') {
+                checkCameraSelection();
+            }
+        });
+
+        // Проверяем при кликах на кнопки +/- камер
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.plus-btn') || e.target.closest('.minus-btn')) {
+                setTimeout(checkCameraSelection, 50);
+            }
+        });
     }
 
     // Основная функция инициализации
