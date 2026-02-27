@@ -1,146 +1,183 @@
 # 📷 Цифровые Телесистемы — Калькулятор видеонаблюдения
 
-Сайт-визитка компании по установке систем видеонаблюдения с онлайн-калькулятором подбора камер.
+Сайт-визитка компании по установке систем видеонаблюдения с онлайн-калькулятором подбора камер и Telegram-ботом для приёма заявок.
 
 ## 🛠 Стек технологий
 
-- **Backend:** Python 3, Django
+- **Backend:** Python 3.11, Django 4.2
 - **Frontend:** HTML, CSS, Vanilla JavaScript (AJAX-фильтрация)
-- **БД:** SQLite (dev) / легко переключается на PostgreSQL
-- **Медиа:** Django ImageField, Pillow
+- **БД:** SQLite (общая для сайта и бота)
+- **Бот:** python-telegram-bot 21
+- **Уведомления:** Telegram группа менеджеров + Email (SMTP)
+- **Деплой:** Docker + docker-compose
 
 ## 📁 Структура проекта
 
 ```
-cts/
-├── manage.py
-├── db.sqlite3
-├── cts/                    # Настройки Django
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-└── main/                   # Основное приложение
-    ├── models.py           # Модели Camera и CableSettings
-    ├── views.py            # Единственный view: calculator()
-    ├── urls.py
-    ├── admin.py
-    ├── migrations/
-    ├── static/
-    │   ├── js/main.js      # Карусель проектов
-    │   └── main/
-    │       ├── css/style.css
-    │       └── img/        # Статичные изображения
-    └── templates/
-        └── main/
-            ├── index.html      # Базовый шаблон
-            └── calculator.html # Дочерний шаблон (блоки фильтров)
+project/
+├── docker-compose.yml
+├── Dockerfile              # Общий для Django и бота
+├── requirements.txt        # Общие зависимости
+├── .env                    # Секреты (не в git)
+├── .env.example            # Шаблон .env
+├── .gitignore
+│
+├── cts/                    # Django приложение
+│   ├── manage.py
+│   ├── cts/
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   └── main/
+│       ├── models.py       # Camera, CableSettings
+│       ├── views.py        # calculator(), send_order()
+│       ├── urls.py
+│       ├── admin.py
+│       ├── migrations/
+│       ├── static/
+│       │   ├── js/main.js
+│       │   └── main/
+│       │       ├── css/style.css
+│       │       └── img/
+│       └── templates/
+│           └── main/
+│               ├── index.html
+│               └── calculator.html
+│
+└── bot/                    # Telegram бот
+    ├── main.py             # Точка входа
+    ├── handlers.py         # Весь флоу диалога
+    ├── db.py               # Чтение камер из SQLite
+    ├── models.py           # BotOrder, CartItem
+    ├── state_manager.py    # Состояния диалога
+    ├── notifier.py         # Отправка в Telegram и email
+    └── config.py           # Конфигурация из .env
 ```
 
-## ⚙️ Установка и запуск
+## 🚀 Быстрый старт (Docker)
 
 ```bash
 # 1. Клонировать репозиторий
 git clone <repo-url>
-cd cts
+cd project
 
-# 2. Создать виртуальное окружение
-python -m venv venv
-venv\Scripts\activate       # Windows
-# source venv/bin/activate  # Linux/Mac
+# 2. Заполнить .env
+cp .env.example .env
+# отредактировать .env — минимум BOT_TOKEN и MANAGERS_GROUP_ID
 
-# 3. Установить зависимости
-pip install django pillow
-
-# 4. Применить миграции
-python manage.py migrate
-
-# 5. Создать суперпользователя
-python manage.py createsuperuser
-
-# 6. Запустить сервер
-python manage.py runserver
+# 3. Запустить
+docker-compose up --build
 ```
 
-Сайт доступен по адресу: http://127.0.0.1:8000  
-Админка: http://127.0.0.1:8000/admin
+Сайт: http://localhost:8000
+Админка: http://localhost:8000/admin
+
+**Создать суперпользователя (один раз):**
+```bash
+docker-compose exec django sh -c "cd /app/cts && python manage.py createsuperuser"
+```
+
+**Полезные команды:**
+```bash
+# Логи всех сервисов
+docker-compose logs -f
+
+# Логи отдельно
+docker-compose logs -f django
+docker-compose logs -f bot
+
+# Остановить
+docker-compose down
+
+# Пересоздать БД с нуля
+docker-compose down -v
+docker-compose up --build
+```
+
+## ⚙️ Локальный запуск (без Docker)
+
+```bash
+# Зависимости
+pip install -r requirements.txt
+
+# Django
+cd cts
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
+# Бот (отдельный терминал)
+cd bot
+python main.py
+```
+
+## 🔑 Настройка .env
+
+| Переменная | Обязательная | Описание |
+|------------|:---:|----------|
+| `BOT_TOKEN` | ✅ | Токен от @BotFather |
+| `MANAGERS_GROUP_ID` | ✅ | ID группы менеджеров (отрицательное число) |
+| `DJANGO_SECRET_KEY` | — | Секретный ключ Django (для продакшена) |
+| `EMAIL_ENABLED` | — | Включить отправку email (true/false) |
+| `SMTP_USER` | — | Email отправителя |
+| `SMTP_PASSWORD` | — | App Password (не обычный пароль) |
+| `EMAIL_TO` | — | Email куда приходят заявки |
+
+**Как узнать MANAGERS_GROUP_ID:** добавь бота в группу, напиши сообщение, открой `https://api.telegram.org/bot<TOKEN>/getUpdates?offset=-1` — найди `"chat":{"id":-100xxxxxxxxx}`.
+
+## 🤖 Бот — сценарий работы
+
+```
+/start
+  → Тип камеры
+  → Тип подключения
+  → Разрешение
+  → Ночное видение
+  → Доп. опции (микрофон, зум, аналитика)
+  → Список подходящих камер из БД
+  → Выбор камер + количество + метры кабеля
+  → Корзина с итогами
+  → Имя клиента
+  → Телефон
+  → Подтверждение → отправка в группу менеджеров + email
+```
 
 ## 🗃 Модели
 
 ### Camera
 | Поле | Тип | Описание |
 |------|-----|----------|
-| name | CharField | Название камеры |
+| name | CharField | Название |
 | price | IntegerField | Цена (руб) |
-| picture | ImageField | Фото (загружается в `camera_images/`) |
+| picture | ImageField | Фото |
 | resolution | IntegerField | Разрешение (Мп) |
-| type | CharField | Тип (купольная, цилиндрическая и др.) |
+| type | CharField | Тип (купольная и др.) |
 | night_vision_technology | CharField | Технология ночного видения |
 | connection_type | CharField | Тип подключения |
-| lens | CharField | Тип объектива |
-| has_zoom | BooleanField | Наличие зума |
-| has_micro | BooleanField | Наличие микрофона |
-| has_dynamic | BooleanField | Наличие динамика |
-| has_people_analytics | BooleanField | Аналитика по людям |
-| has_cars_analytics | BooleanField | Аналитика по ТС |
-| has_special_cars_analytics | BooleanField | Аналитика по спец. ТС |
+| lens | CharField | Объектив |
+| has_zoom | BooleanField | Зум |
+| has_micro | BooleanField | Микрофон |
+| has_dynamic | BooleanField | Динамик |
+| has_people_analytics | BooleanField | Аналитика: люди |
+| has_cars_analytics | BooleanField | Аналитика: ТС |
+| has_special_cars_analytics | BooleanField | Аналитика: спец. ТС |
 
 ### CableSettings
-Хранит стоимость кабеля за метр. Всегда активна только одна запись (`is_active=True`).
+Стоимость кабеля за метр. Активна только одна запись (`is_active=True`).
 
 ## 🔌 API (AJAX)
 
 `GET /?<фильтры>` с заголовком `X-Requested-With: XMLHttpRequest`
 
-**Параметры фильтрации:**
+| Параметр | Пример |
+|----------|--------|
+| resolution | `?resolution=4` |
+| type | `?type=Купольная` |
+| night_vision_technology | `?night_vision_technology=Color` |
+| connection_types | `?connection_types=Провод` |
+| lens | `?lens=2.8&lens=4` |
+| has_zoom | `?has_zoom=true` |
+| has_micro | `?has_micro` |
+| has_people_analytics | `?has_people_analytics` |
 
-| Параметр | Тип | Пример |
-|----------|-----|--------|
-| resolution | int | `?resolution=4` |
-| type | string | `?type=Купольная` |
-| night_vision_technology | string | `?night_vision_technology=Color` |
-| connection_types | string | `?connection_types=Провод` |
-| lens | string (multiple) | `?lens=2.8&lens=4` |
-| has_zoom | bool string | `?has_zoom=true` |
-| has_micro | — | `?has_micro=true` |
-| has_dynamic | — | `?has_dynamic=true` |
-| has_people_analytics | — | `?has_people_analytics=true` |
-| has_cars_analytics | — | `?has_cars_analytics=true` |
-| has_special_cars_analytics | — | `?has_special_cars_analytics=true` |
-
-**Пример ответа:**
-```json
-{
-  "cameras": [
-    {
-      "id": 1,
-      "name": "HiWatch DS-I425B",
-      "type": "Купольная",
-      "resolution": 4,
-      "connection_type": "Провод",
-      "price": 4500,
-      "picture": "/media/camera_images/hiwatch.png",
-      "has_micro": false,
-      "has_zoom": false,
-      "has_dynamic": false
-    }
-  ],
-  "cable_price": 125
-}
-```
-
-## 🔧 Настройки для продакшена
-
-В `settings.py` перед деплоем:
-```python
-DEBUG = False
-ALLOWED_HOSTS = ['yourdomain.ru']
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        ...
-    }
-}
-MEDIA_ROOT = '/var/www/media/'
-MEDIA_URL = '/media/'
-STATIC_ROOT = '/var/www/static/'
-```
+`POST /send-order/` — приём заявки с сайта, отправка в Telegram и email.

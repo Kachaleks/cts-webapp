@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+
+  django:
+    build:
+      context: .
+      dockerfile: cts/Dockerfile
+    container_name: cts_django
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - media_data:/app/media
+      - sqlite_data:/app/db
+    environment:
+      - DJANGO_DB_PATH=/app/db/db.sqlite3
+    env_file:
+      - .env
+    command: >
+      sh -c "cd /app/cts &&
+            python manage.py makemigrations &&
+            python manage.py migrate &&
+            python manage.py collectstatic --noinput &&
+            python manage.py runserver 0.0.0.0:8000"
+
+  bot:
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+    container_name: cts_bot
+    restart: unless-stopped
+    volumes:
+      - sqlite_data:/app/db
+    env_file:
+      - .env
+    environment:
+      - DJANGO_DB_PATH=/app/db/db.sqlite3
+    command: python bot/main.py
+    depends_on:
+      - django
+
+volumes:
+  sqlite_data:
+  media_data:
