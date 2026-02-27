@@ -1,7 +1,4 @@
 # bot/state_manager.py
-"""
-Менеджер состояний пользователей
-"""
 import logging
 from enum import Enum
 from typing import Dict, Optional
@@ -11,25 +8,16 @@ logger = logging.getLogger(__name__)
 
 
 class State(Enum):
-    # Фильтры
-    START               = "start"
-    FILTER_TYPE         = "filter_type"           # тип камеры
-    FILTER_CONNECTION   = "filter_connection"      # улица/помещение
-    FILTER_RESOLUTION   = "filter_resolution"      # разрешение
-    FILTER_NIGHT_VISION = "filter_night_vision"    # ночное видение
-    FILTER_OPTIONS      = "filter_options"         # доп. опции (микро, зум, аналитика)
-
-    # Выбор камер
-    CAMERA_LIST         = "camera_list"            # показываем список камер
-    CAMERA_QUANTITY     = "camera_quantity"        # ввод количества камер
-    CAMERA_CABLE        = "camera_cable"           # ввод метров кабеля
-    CART_VIEW           = "cart_view"              # просмотр корзины
-
-    # Оформление заявки
-    WAITING_NAME        = "waiting_name"
-    WAITING_PHONE       = "waiting_phone"
-    CONFIRM             = "confirm"
-    COMPLETED           = "completed"
+    START            = "start"
+    STEP_DISTANCE    = "step_distance"     # 1. Расстояние от города
+    STEP_QUALITY     = "step_quality"      # 2. Обычные или 4K
+    STEP_LOCATION    = "step_location"     # 3. Улица / помещение / оба
+    STEP_COUNT       = "step_count"        # 4. Количество камер (текст)
+    STEP_STORAGE     = "step_storage"      # 5. Срок хранения
+    WAITING_NAME     = "waiting_name"      # 6. Имя
+    WAITING_PHONE    = "waiting_phone"     # 7. Телефон
+    CONFIRM          = "confirm"
+    COMPLETED        = "completed"
 
 
 class StateManager:
@@ -42,10 +30,8 @@ class StateManager:
         return self._states.get(user_id, State.START)
 
     def set_state(self, user_id: int, state: State):
-        old = self.get_state(user_id)
         self._states[user_id] = state
         self._history.setdefault(user_id, []).append(state)
-        logger.debug(f"User {user_id}: {old.value} → {state.value}")
 
     def get_order(self, user_id: int, chat_id: int) -> BotOrder:
         if user_id not in self._orders:
@@ -56,12 +42,11 @@ class StateManager:
         self._states.pop(user_id, None)
         self._orders.pop(user_id, None)
         self._history.pop(user_id, None)
-        logger.info(f"User {user_id} state reset")
 
     def go_back(self, user_id: int) -> Optional[State]:
         history = self._history.get(user_id, [])
         if len(history) > 1:
-            history.pop()  # убираем текущий
+            history.pop()
             prev = history[-1]
             self._states[user_id] = prev
             return prev

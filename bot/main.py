@@ -6,7 +6,7 @@ import logging
 from telegram.ext import (
     Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters
 )
-import bot.config as config
+import config as config
 from state_manager import StateManager
 from handlers import (
     cmd_start, cmd_cancel,

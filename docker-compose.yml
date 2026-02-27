@@ -32,6 +32,7 @@ services:
     restart: unless-stopped
     volumes:
       - sqlite_data:/app/db
+      - ./bot:/app/bot
     env_file:
       - .env
     environment:
