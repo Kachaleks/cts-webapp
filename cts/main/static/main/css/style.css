@@ -1059,7 +1059,8 @@ body {
 .project-photos {
     position: relative;
     height: 300px;
-    overflow: hidden;
+    overflow: visible; /* Вместо hidden */
+    margin-bottom: 40px; /* Новый отступ */
     border-radius: 20px 20px 0 0;
 }
 
@@ -1123,14 +1124,12 @@ body {
 
 /* Информация о проекте */
 .project-info {
-    padding: 40px;
+    padding: 30px 40px 60px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     background: var(--light-bg);
     border-radius: 0 0 20px 20px;
-    padding-bottom: clamp(40px, 8%, 80px);
 }
 
 .project-title {
@@ -1163,6 +1162,8 @@ body {
     text-align: center;
     max-width: 600px;
     margin: 0 auto;
+    margin-bottom: 20px; /* ДОБАВЬТЕ ЭТУ СТРОКУ */
+
 }
 
 /* Навигация */
@@ -1236,6 +1237,11 @@ body {
     margin-top: 40px;
 }
 
+.project-spacer {
+    flex-grow: 1; /* Занимает все свободное место */
+    min-height: 30px; /* Гарантированный отступ */
+}
+
 /* ===== АДАПТИВНОСТЬ ===== */
 
 @media (min-width: 1200px) {
@@ -1261,9 +1267,6 @@ body {
         bottom: -25px;
     }
 
-    .project-info {
-        padding: 30px 20px;
-    }
 
     .project-title {
         font-size: 1.5rem;
@@ -1271,12 +1274,16 @@ body {
 
     .project-description {
         font-size: 1rem;
+        margin-bottom: 15px; /* Добавить */
     }
 
     .showcase-nav {
         width: 40px;
         height: 40px;
         font-size: 1rem;
+    }
+     .project-info {
+        padding: 25px 30px 50px; /* Добавлено */
     }
 }
 
@@ -1291,6 +1298,9 @@ body {
 
     .photo-main {
         width: 65%;
+    }
+    .project-info {
+        padding: 20px 20px 45px; /* Добавлено */
     }
 
     .photo-secondary {
@@ -1309,9 +1319,6 @@ body {
         right: 15px;
     }
 
-    .project-info {
-        padding: 25px 15px;
-    }
 
     .project-title {
         font-size: 1.3rem;
@@ -1320,6 +1327,7 @@ body {
 
     .project-description {
         font-size: 0.95rem;
+        margin-bottom: 12px; /* Добавить */
     }
 
     .showcase-nav {
@@ -1343,9 +1351,7 @@ body {
         height: 120px;
     }
 
-    .project-info {
-        padding: 20px 15px;
-    }
+
 
     .project-title {
         font-size: 1.2rem;
