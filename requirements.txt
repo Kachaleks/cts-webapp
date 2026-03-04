@@ -1,5 +1,12 @@
+# Django
 django==4.2.7
 pillow==10.1.0
 requests==2.31.0
 python-dotenv==1.0.1
+
+# Bot
 python-telegram-bot==21.0.1
+
+# Google Sheets
+google-api-python-client==2.114.0
+google-auth==2.27.0
