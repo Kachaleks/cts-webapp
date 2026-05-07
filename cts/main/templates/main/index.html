@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Цифровые телесистемы — Видеонаблюдение и безопасность</title>
-    <!-- Стало: -->
     <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
-
+    <!-- Подключаем библиотеку Inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/security-checked.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/security-checked.png">
 
     <!-- SEO -->
     <meta name="description" content="Цифровые телесистемы - установка видеонаблюдения в Нижнем Новгороде. Камеры 4K, умный дом, охранные системы. Гарантия 10 лет!">
@@ -56,6 +56,13 @@
                 </div>
             </a>
 
+              <!-- Бургер-кнопка (добавить) -->
+            <button class="burger-menu" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
             <ul class="nav-menu">
                 <li><a href="#about"> О компании</a></li>
                 <li><a href="#complex"> Услуги</a></li>
@@ -79,21 +86,30 @@
 </header>
 
     <!-- Главный герой-блок -->
-    <section class="hero">
+       <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1> ВИДЕОНАБЛЮДЕНИЕ ДЛЯ БИЗНЕСА И ДОМА</h1>
-                <p class="tagline">"Цифровые телесистемы" — инновационные решения в сфере безопасности. Умные технологии для вашего спокойствия.</p>
+                <h1 class="hero-title">
+                    Видеонаблюдение для бизнеса и дома
+                </h1>
+
+                <p class="hero-description">
+                    «Цифровые телесистемы» — проектируем и устанавливаем системы видеонаблюдения под ключ для частных домов, бизнеса и предприятий.
+                </p>
+
                 <div class="hero-actions">
                     <a href="#contact" class="btn-primary">
-                        <i class="fas fa-bolt"></i> РАССЧИТАТЬ ПРОЕКТ
+                        <i class="fas fa-bolt"></i>
+                        Рассчитать проект
                     </a>
                 </div>
+
                 <div class="hero-stats">
                     <div class="stat">
                         <span class="stat-number" data-count="850">0</span>
                         <span class="stat-label">Установленных систем</span>
                     </div>
+
                     <div class="stat">
                         <span class="stat-number" data-count="12">0</span>
                         <span class="stat-label">Лет опыта</span>
@@ -104,87 +120,91 @@
     </section>
 
     <!-- Блок: МЫ УСТАНАВЛИВАЕМ КАМЕРЫ ВИДЕОНАБЛЮДЕНИЯ -->
-       <!-- Сетка с местами установки -->
-    <section class="section" id="where">
-<div class="installation-places">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">ГДЕ МЫ УСТАНАВЛИВАЕМ КАМЕРЫ ВИДЕОНАБЛЮДЕНИЯ </h2>
+      <section class="section" id="where">
+    <div class="installation-places">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Где мы устанавливаем видеонаблюдение</h2>
+            </div>
+
+            <div class="places-slider">
+                <button class="places-arrow places-arrow-left" type="button" aria-label="Назад">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="places-grid" id="placesGrid">
+                    <div class="place-card yellow-glow">
+                        <div class="round_image">
+                            <img src="{% static 'main/img/home.jpg' %}" alt="Квартиры">
+                        </div>
+                        <div class="where-title">
+                            <a>Квартиры и<br>частные дома</a>
+                        </div>
+                    </div>
+
+                    <div class="place-card yellow-glow">
+                        <div class="round_image">
+                            <img src="{% static 'main/img/office.jpg' %}" alt="Офисы">
+                        </div>
+                        <div class="where-title">
+                            <a>Офисы и<br>бизнес-центры</a>
+                        </div>
+                    </div>
+
+                    <div class="place-card yellow-glow">
+                        <div class="round_image">
+                            <img src="{% static 'main/img/shopping_center.jpg' %}" alt="Магазины">
+                        </div>
+                        <div class="where-title">
+                            <a>Магазины и<br>торговые центры</a>
+                        </div>
+                    </div>
+
+                    <div class="place-card yellow-glow">
+                        <div class="round_image">
+                            <img src="{% static 'main/img/production.jpg' %}" alt="Склады">
+                        </div>
+                        <div class="where-title">
+                            <a>Склады и<br>производства</a>
+                        </div>
+                    </div>
+
+                    <div class="place-card yellow-glow">
+                        <div class="round_image">
+                            <img src="{% static 'main/img/public_place.jpg' %}" alt="Общественные места">
+                        </div>
+                        <div class="where-title">
+                            <a>Общественные<br>места</a>
+                        </div>
+                    </div>
+
+                    <div class="place-card yellow-glow">
+                        <div class="round_image">
+                            <img src="{% static 'main/img/school.jpg' %}" alt="Муниципальные учреждения">
+                        </div>
+                        <div class="where-title">
+                            <a>Муниципальные<br>учреждения</a>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="places-arrow places-arrow-right" type="button" aria-label="Вперёд">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="places-cta">
+                <p class="cta-text">
+                    Не нашли свой тип объекта? Мы устанавливаем системы видеонаблюдения <strong>любой сложности</strong>!
+                </p>
+                <a href="#" class="btn-primary open-popup-btn">
+                    <i class="fas fa-headset"></i>
+                    Получить консультацию по вашему объекту
+                </a>
+            </div>
         </div>
-
-        <div class="places-grid">
-            <!-- Квартиры и дома -->
-            <div class="place-card yellow-glow">
-                <div class="round_image">
-                    <img src="{% static 'main/img/home.jpg' %}" alt="Квартиры">
-                </div>
-                <div class="where-title">
-                    <a>Квартиры и<br>частные дома</a>
-                </div>
-            </div>
-
-            <!-- Офисы -->
-            <div class="place-card yellow-glow">
-                <div class="round_image">
-                    <img src="{% static 'main/img/office.jpg' %}" alt="Офисы">
-                </div>
-                <div class="where-title">
-                    <a>Офисы и<br>бизнес-центры</a>
-                </div>
-            </div>
-
-            <!-- Магазины -->
-            <div class="place-card yellow-glow">
-                <div class="round_image">
-                    <img src="{% static 'main/img/shopping_center.jpg' %}" alt="Магазины">
-                </div>
-                <div class="where-title">
-                    <a>Магазины и<br>торговые центры</a>
-                </div>
-            </div>
-
-            <!-- Склады -->
-            <div class="place-card yellow-glow">
-                <div class="round_image">
-                    <img src="{% static 'main/img/production.jpg' %}" alt="Склады">
-                </div>
-                <div class="where-title">
-                    <a>Склады и<br>производства</a>
-                </div>
-            </div>
-
-            <!-- Общественные места -->
-            <div class="place-card yellow-glow">
-                <div class="round_image">
-                    <img src="{% static 'main/img/public_place.jpg' %}" alt="Общественные места">
-                </div>
-                <div class="where-title">
-                    <a>Общественные<br>места</a>
-                </div>
-            </div>
-
-             <!-- муниципальные учреждения -->
-            <div class="place-card yellow-glow">
-                <div class="round_image">
-                    <img src="{% static 'main/img/school.jpg' %}" alt="Муниципальные учреждения">
-                </div>
-                <div class="where-title">
-                    <a>Муниципальные<br> учреждения</a>
-                </div>
-            </div>
-
-        </div>
-
     </div>
-</div>
-        <!-- Призыв к действию -->
-        <div class="places-cta">
-            <p class="cta-text">Не нашли свой тип объекта? Мы устанавливаем системы видеонаблюдения <strong>любой сложности</strong>!</p>
-            <a href="#contact" class="btn-primary">
-                <i class="fas fa-headset"></i> ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ ПО ВАШЕМУ ОБЪЕКТУ
-            </a>
-        </div>
-    </section>
+</section>
 
 
     <!-- Блок "Комплекс услуг" -->
@@ -295,12 +315,11 @@
                     </div>
 
                     <div class="project-info">
-                        <h3 class="project-title">Апарт-отель «БугровЪ» Нижний Новгород</h3>
+                        <h3 class="project-title">Апарт-отель «БугровЪ» Нижний Новгород </h3>
                         <p class="project-description">
                             Установлена система видеонаблюдения Hiwatch из 7 камер
                             с аналитикой человек/тс, удаленным доступом в мобильное приложение и архивом 30 дней✅👷🏻‍♂️
                         </p>
-                        <div class="project-spacer"></div> <!-- Пустой элемент для отступа -->
 
                     </div>
                 </div>
@@ -572,8 +591,6 @@
     <section class="section" id="advantages">
         <div class="container">
             <h2 class="section-title">ПОЧЕМУ ВЫБИРАЮТ <span class="highlight">ЦИФРОВЫЕ ТЕЛЕСИСТЕМЫ</span></h2>
-            <p class="section-subtitle">Мы создаем безопасность будущего уже сегодня</p>
-
             <div class="advantages-grid">
                 <div class="advantage-card yellow-glow">
                     <div class="advantage-icon">
@@ -660,9 +677,17 @@
 
 
     <!-- Форма обратной связи -->
-    <section class="section contact-section light-bg" id="contact">
-        <div class="container">
-            <div class="contact-card yellow-glow">
+    <!-- Кнопка для открытия попапа (добавьте туда, где нужно) -->
+
+        <!-- Попап форма -->
+        <div class="popup-overlay" id="consultationPopup">
+            <div class="popup-content">
+                <!-- Кнопка закрытия -->
+                <button class="popup-close" aria-label="Закрыть">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <!-- Форма (ваша существующая) -->
                 <div class="contact-form">
                     <h2>ПОЛУЧИТЕ БЕСПЛАТНУЮ КОНСУЛЬТАЦИЮ</h2>
                     <p class="form-description">Оставьте заявку и наш специалист свяжется с вами в течение 15 минут</p>
@@ -691,7 +716,8 @@
                 </div>
             </div>
         </div>
-    </section>
+
+<!-- Старую секцию .contact-section можно удалить или закомментировать -->
 
     <!-- О нас -->
      <section class="section contact-section light-bg" id="about">
@@ -780,6 +806,110 @@
                     }
                 });
             });
+
+            // ===== БУРГЕР-МЕНЮ =====
+            function initBurgerMenu() {
+                const burger = document.querySelector('.burger-menu');
+                const navMenu = document.querySelector('.nav-menu');
+                const header = document.querySelector('.header');
+
+                if (!burger || !navMenu) return;
+
+                // Создаем оверлей
+                const overlay = document.createElement('div');
+                overlay.className = 'menu-overlay';
+                document.body.appendChild(overlay);
+
+                function openMenu() {
+                    burger.classList.add('active');
+                    navMenu.classList.add('active');
+                    overlay.classList.add('active');
+                    document.body.classList.add('menu-open');
+                }
+
+                function closeMenu() {
+                    burger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
+
+                // Открытие по клику на бургер
+                burger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (burger.classList.contains('active')) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                });
+
+                // Закрытие по клику на оверлей
+                overlay.addEventListener('click', closeMenu);
+
+                // Закрытие по клику на ссылку в меню
+                navMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMenu);
+                });
+
+                // Закрытие по ESC
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                        closeMenu();
+                    }
+                });
+
+                // Блокируем скролл внутри меню
+                navMenu.addEventListener('wheel', function(e) {
+                    e.stopPropagation();
+                }, { passive: false });
+
+                // При изменении размера окна закрываем меню
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 1024 && navMenu.classList.contains('active')) {
+                        closeMenu();
+                    }
+                });
+            }
+
+            // Запускаем
+            initBurgerMenu();
+
+            // ===== СЛАЙДЕР БЛОКА "ГДЕ МЫ УСТАНАВЛИВАЕМ" =====
+            const placesGrid = document.getElementById('placesGrid');
+            const placeCards = placesGrid ? placesGrid.querySelectorAll('.place-card') : [];
+            const placePrev = document.querySelector('.places-arrow-left');
+            const placeNext = document.querySelector('.places-arrow-right');
+
+            let activePlaceIndex = 0;
+
+            function showPlace(index) {
+                if (!placeCards.length) return;
+
+                if (index < 0) index = placeCards.length - 1;
+                if (index >= placeCards.length) index = 0;
+
+                activePlaceIndex = index;
+
+                placeCards.forEach(card => card.classList.remove('is-active'));
+                placeCards[activePlaceIndex].classList.add('is-active');
+            }
+
+            if (placeCards.length) {
+                showPlace(0);
+
+                if (placePrev) {
+                    placePrev.addEventListener('click', function() {
+                        showPlace(activePlaceIndex - 1);
+                    });
+                }
+
+                if (placeNext) {
+                    placeNext.addEventListener('click', function() {
+                        showPlace(activePlaceIndex + 1);
+                    });
+                }
+            }
 
             // Кнопка "Наверх"
             const scrollTopBtn = document.getElementById('scrollTop');
@@ -2205,6 +2335,303 @@ setTimeout(() => {
     }
 }, 3000);
 // ▲▲▲ КОНЕЦ ДОБАВЛЕНИЯ ▲▲▲
+// Ждем загрузку DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // ===== 1. РАБОТА С ПОПАПОМ =====
+    const popup = document.getElementById('consultationPopup');
+    const openButtons = document.querySelectorAll('.open-popup-btn');
+    const closeButton = document.querySelector('.popup-close');
+
+    if (popup) {
+        function openPopup() {
+            popup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePopup() {
+            popup.classList.remove('active');
+            document.body.style.overflow = '';
+            clearErrors();
+        }
+
+        openButtons.forEach(button => {
+            button.addEventListener('click', openPopup);
+        });
+
+        if (closeButton) {
+            closeButton.addEventListener('click', closePopup);
+        }
+
+        popup.addEventListener('click', function(e) {
+            if (e.target === popup) {
+                closePopup();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && popup.classList.contains('active')) {
+                closePopup();
+            }
+        });
+    }
+
+    // ===== 2. МАСКА ТЕЛЕФОНА =====
+    const phoneInput = document.getElementById('phoneInput');
+
+    if (phoneInput) {
+        // Сразу задаем выравнивание влево
+        phoneInput.style.textAlign = 'left';
+
+        let previousValue = '';
+
+        phoneInput.addEventListener('input', function(e) {
+            const input = this;
+            let cursorPos = input.selectionStart;
+            let value = input.value;
+
+            const isDeleting = value.length < previousValue.length;
+
+            if (isDeleting) {
+                const digits = value.replace(/\D/g, '');
+                if (digits.length > 0) {
+                    input.value = formatPhoneNumber(digits);
+                } else {
+                    input.value = '+7 ';
+                }
+
+                setTimeout(() => {
+                    input.selectionStart = input.selectionEnd = input.value.length;
+                }, 0);
+            } else {
+                let digits = value.replace(/\D/g, '');
+
+                if (digits.startsWith('8')) {
+                    digits = '7' + digits.slice(1);
+                }
+
+                if (digits.length > 11) digits = digits.slice(0, 11);
+
+                const formatted = formatPhoneNumber(digits);
+                input.value = formatted;
+
+                if (formatted !== previousValue) {
+                    setTimeout(() => {
+                        input.selectionStart = input.selectionEnd = input.value.length;
+                    }, 0);
+                }
+            }
+
+            previousValue = input.value;
+        });
+
+        function formatPhoneNumber(digits) {
+            if (digits.length === 0) return '+7 ';
+
+            let formatted = '+7 ';
+
+            if (digits.length > 1) {
+                formatted += '(' + digits.slice(1, 4);
+
+                if (digits.length >= 4) {
+                    formatted += ') ';
+
+                    formatted += digits.slice(4, 7);
+
+                    if (digits.length >= 7) {
+                        formatted += '-' + digits.slice(7, 9);
+
+                        if (digits.length >= 9) {
+                            formatted += '-' + digits.slice(9, 11);
+                        }
+                    }
+                }
+            }
+
+            return formatted;
+        }
+
+        phoneInput.addEventListener('keydown', function(e) {
+            const key = e.key;
+
+            if (['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight',
+                  'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(key)) {
+                return;
+            }
+
+            if (e.ctrlKey && ['a', 'c', 'v', 'x'].includes(key.toLowerCase())) {
+                return;
+            }
+
+            if (!/^[0-9]$/.test(key)) {
+                e.preventDefault();
+            }
+        });
+
+        phoneInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' || e.key === 'Delete') {
+                const value = this.value;
+                const digits = value.replace(/\D/g, '');
+
+                const newDigits = digits.slice(0, -1);
+
+                if (newDigits.length > 0) {
+                    this.value = formatPhoneNumber(newDigits);
+                } else {
+                    this.value = '+7 ';
+                }
+
+                setTimeout(() => {
+                    this.selectionStart = this.selectionEnd = this.value.length;
+                }, 0);
+
+                e.preventDefault();
+            }
+        });
+
+        // Живая валидация только для телефона
+        phoneInput.addEventListener('input', function() {
+            const digits = this.value.replace(/\D/g, '');
+            if (digits.length === 11 && digits.startsWith('7')) {
+                removeError('phoneInput');
+            } else if (this.value !== '+7 ' && this.value.length > 4) {
+                highlightError('phoneInput');
+            } else {
+                removeError('phoneInput');
+            }
+        });
+    }
+
+    // ===== 3. ФУНКЦИИ ДЛЯ ПОДСВЕТКИ ОШИБОК =====
+    function highlightError(inputId) {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.classList.add('error');
+            input.classList.remove('valid');
+        }
+    }
+
+    function removeError(inputId) {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.classList.remove('error');
+            input.classList.add('valid');
+        }
+    }
+
+    function clearErrors() {
+        const inputs = document.querySelectorAll('.form-input');
+        inputs.forEach(input => {
+            input.classList.remove('error', 'valid');
+        });
+    }
+
+    function showSuccessMessage() {
+        if (document.querySelector('.success-message')) return;
+
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-message';
+        successMessage.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <span>Спасибо! Мы свяжемся с вами в течение 15 минут</span>
+        `;
+
+        document.body.appendChild(successMessage);
+
+        setTimeout(() => {
+            successMessage.remove();
+        }, 3000);
+    }
+
+    // ===== 4. ОТПРАВКА ФОРМЫ =====
+    const submitBtn = document.getElementById('submitForm');
+
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const nameInput = document.getElementById('nameInput');
+            const phoneInput = document.getElementById('phoneInput');
+            const messageInput = document.getElementById('messageInput');
+
+            const name = nameInput ? nameInput.value.trim() : '';
+            const phone = phoneInput ? phoneInput.value : '';
+            const message = messageInput ? messageInput.value.trim() : '';
+
+            // Очищаем все ошибки
+            clearErrors();
+
+            let hasErrors = false;
+
+            // Проверка ТОЛЬКО телефона
+            const phoneDigits = phone.replace(/\D/g, '');
+            if (!phone || phone === '+7 ') {
+                highlightError('phoneInput');
+                hasErrors = true;
+            } else if (phoneDigits.length !== 11) {
+                highlightError('phoneInput');
+                hasErrors = true;
+            } else if (!phoneDigits.startsWith('7')) {
+                highlightError('phoneInput');
+                hasErrors = true;
+            } else {
+                removeError('phoneInput');
+                var cleanPhone = phoneDigits;
+            }
+
+            // Имя больше не проверяем - можно хоть "А"
+
+            if (hasErrors) {
+                const firstError = document.querySelector('.form-input.error');
+                if (firstError) {
+                    firstError.focus();
+                }
+                return;
+            }
+
+            // Отправка
+            console.log('Данные для отправки:', {
+                name: name || 'Не указано', // Если имя пустое
+                phone: cleanPhone,
+                message: message || 'Не указано'
+            });
+
+            showSuccessMessage();
+
+            setTimeout(() => {
+                if (typeof closePopup === 'function') {
+                    closePopup();
+                }
+                // Очищаем форму
+                if (nameInput) nameInput.value = '';
+                if (phoneInput) phoneInput.value = '+7 ';
+                if (messageInput) messageInput.value = '';
+                clearErrors();
+            }, 2000);
+        });
+    }
+
+    // ===== 5. ЖИВАЯ ВАЛИДАЦИЯ ТОЛЬКО ДЛЯ ТЕЛЕФОНА =====
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function() {
+            const digits = this.value.replace(/\D/g, '');
+            if (digits.length === 11 && digits.startsWith('7')) {
+                removeError('phoneInput');
+            } else if (this.value !== '+7 ' && this.value.length > 4) {
+                highlightError('phoneInput');
+            } else {
+                removeError('phoneInput');
+            }
+        });
+    }
+
+    // Имя теперь без валидации, просто убираем классы при фокусе
+    const nameInput = document.getElementById('nameInput');
+    if (nameInput) {
+        nameInput.addEventListener('focus', function() {
+            this.classList.remove('error', 'valid');
+        });
+    }
+});
 
 
 </script>
