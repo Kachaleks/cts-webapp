@@ -41,32 +41,35 @@
 {% endblock %}
 
 <!-- Объектив-->
-{% block lens%}
+{% block lens %}
     {% for len in lens %}
-        <label class="filter-option"><input type="radio" name="lens" data-filter="lens" value={{len}} data-group="multiple" > {{len}} </label>
+        <label class="filter-option">
+            <input type="radio" name="lens" data-filter="lens" value="{{ len }}">
+            {{ len }}
+        </label>
     {% endfor %}
 {% endblock %}
 
 
 <!-- Аналитика-->
-{% block analytics%}
-     <div class="filter-options" id="analyticsFilters">
-                            <label class="filter-option">
-                                <input type="checkbox" data-filter="has_people_analytics" data-group="boolean" class="filter-checkbox">
-                                <span class="checkbox-custom"></span>
-                                Человек
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" data-filter="has_cars_analytics" data-group="boolean" class="filter-checkbox">
-                                <span class="checkbox-custom"></span>
-                                Т/С
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" data-filter="has_special_cars_analytics" data-group="boolean" class="filter-checkbox">
-                                <span class="checkbox-custom"></span>
-                                Спец. транспорт
-                            </label>
-                        </div>
+{% block analytics %}
+    <label class="filter-option">
+        <input type="checkbox" data-filter="has_people_analytics" data-group="boolean" class="filter-checkbox">
+        <span class="checkbox-custom"></span>
+        Человек
+    </label>
+
+    <label class="filter-option">
+        <input type="checkbox" data-filter="has_cars_analytics" data-group="boolean" class="filter-checkbox">
+        <span class="checkbox-custom"></span>
+        Т/С
+    </label>
+
+    <label class="filter-option">
+        <input type="checkbox" data-filter="has_special_cars_analytics" data-group="boolean" class="filter-checkbox">
+        <span class="checkbox-custom"></span>
+        Спец. транспорт
+    </label>
 {% endblock %}
 
 

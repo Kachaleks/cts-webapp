@@ -4,38 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Цифровые телесистемы — Видеонаблюдение и безопасность</title>
+    <title>Установка видеонаблюдения в Нижнем Новгороде под ключ — Цифровые телесистемы</title>
     <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
     <!-- Подключаем библиотеку Inputmask -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/security-checked.png">
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'main/img/favicon.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://ВАШ-ДОМЕН/">
     <!-- SEO -->
-    <meta name="description" content="Цифровые телесистемы - установка видеонаблюдения в Нижнем Новгороде. Камеры 4K, умный дом, охранные системы. Гарантия 10 лет!">
-    <meta name="keywords" content="видеонаблюдение, установка камер, Нижний Новгород, безопасность, умный дом">
+    <meta name="description" content="Установка камер видеонаблюдения под ключ в Нижнем Новгороде и области. Проектирование, монтаж, настройка удалённого доступа, обслуживание. Бесплатная консультация.">
+    <meta name="keywords" content="видеонаблюдение, установка камер, Нижний Новгород, безопасность, умный дом, слаботочка, камеры">
     <meta name="author" content="Цифровые телесистемы">
+    <meta property="og:title" content="Установка видеонаблюдения в Нижнем Новгороде — Цифровые телесистемы">
+    <meta property="og:description" content="Проектируем и устанавливаем камеры видеонаблюдения под ключ для дома, бизнеса и предприятий.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:image" content="https://ВАШ-ДОМЕН/static/main/img/camera_robot.webp">
+    <meta property="og:url" content="https://ВАШ-ДОМЕН/">
 </head>
 <body>
+
+    <!--Плавающие кнопки с тг и max-->
+    <div class="messenger-float">
+        <a href="https://t.me/slabotochkaCTS" target="_blank" class="messenger-btn telegram" aria-label="Написать в Telegram">
+            <i class="fab fa-telegram-plane"></i>
+        </a>
+
+        <a href="#" target="_blank" class="messenger-btn max" aria-label="Написать в MAX">
+            <span>М</span>
+        </a>
+    </div>
+
     <!-- Верхняя панель с контактами -->
     <div class="top-bar">
         <div class="container">
             <div class="top-bar-content">
                 <div class="contact-info-top">
-                    <a href="tel:+78005553535" class="contact-item-top phone">
+                    <a href="tel:+79087570030" class="contact-item-top phone">
                         <i class="fas fa-phone"></i>
                         +7 (908) 757-00-30
                     </a>
                     <div class="contact-item-top address">
                         <i class="fas fa-map-marker-alt"></i>
-                        г. Нижний Новгород, Ижорская, 27/20
+                        г. Нижний Новгород
                     </div>
-                    <a href="mailto:info@digital-tv.ru" class="contact-item-top email">
-                        <i class="fas fa-envelope"></i>
-                        туткакая-топочта@digital-tv.ru
-                    </a>
                 </div>
             </div>
         </div>
@@ -69,17 +86,16 @@
                 <li><a href="#possibilities"> Возможности</a></li>
                 <li><a href="#calculator">Калькулятор</a></li>
                 <li><a href="#projects">Наши работы</a></li>
-                <li><a href="#contact" class="btn-outline">Консультация</a></li>
                 <!-- Кнопка "Позвонить" -->
                 <li class="call-button-container">
-                    <a href="tel:+79087570030" class="call-button pulse-animation">
-                        <span class="call-icon">
-                            <i class="fas fa-phone"></i>
-                        </span>
-                        <span class="call-text">ПОЗВОНИТЬ</span>
-                        <span class="call-pulse"></span>
-                    </a>
-                </li>
+                <a href="#" class="call-button pulse-animation open-popup-btn">
+                    <span class="call-icon">
+                        <i class="fas fa-phone"></i>
+                    </span>
+                    <span class="call-text">ПОЗВОНИТЬ</span>
+                    <span class="call-pulse"></span>
+                </a>
+            </li>
             </ul>
         </div>
     </div>
@@ -94,7 +110,7 @@
                 </h1>
 
                 <p class="hero-description">
-                    «Цифровые телесистемы» — проектируем и устанавливаем системы видеонаблюдения под ключ для частных домов, бизнеса и предприятий.
+                    «Цифровые телесистемы» — проектируем и устанавливаем системы видеонаблюдения под ключ для частных домов, бизнеса и предприятий в Нижнем Новгороде и Нижегородской области.
                 </p>
 
                 <div class="hero-actions">
@@ -106,17 +122,48 @@
 
                 <div class="hero-stats">
                     <div class="stat">
-                        <span class="stat-number" data-count="850">0</span>
+                        <span class="stat-number" data-count="206">0</span>
                         <span class="stat-label">Установленных систем</span>
                     </div>
 
                     <div class="stat">
-                        <span class="stat-number" data-count="12">0</span>
+                        <span class="stat-number" data-count="8">0</span>
                         <span class="stat-label">Лет опыта</span>
                     </div>
                 </div>
             </div>
         </div>
+           <div class="hero-trust-card hero-trust-left">
+            <div class="trust-note">Мы <br> не агрегатор!</div>
+
+            <div class="trust-photo">
+                <img src="{% static 'main/img/team_work.jpg' %}" alt="Монтаж видеонаблюдения">
+            </div>
+
+            <div class="trust-card-body">
+                <h3>Мы не агрегатор</h3>
+                <p>
+                    Мы небольшая команда из Нижнего Новгорода.
+                    Всё проектируем, устанавливаем и обслуживаем сами — по совести.
+                </p>
+            </div>
+        </div>
+
+        <div class="hero-trust-card hero-trust-right">
+            <div class="trust-note">Свои люди, <br>свой город!</div>
+
+            <div class="trust-photo">
+                <img src="{% static 'main/img/nizhny_novgorod.jpg' %}" alt="Нижний Новгород">
+            </div>
+
+            <div class="trust-card-body">
+                <h3>Мы из Нижнего Новгорода</h3>
+                <p>
+                    Работаем по городу и области с 2018 года.
+                    Знаем местные объекты, задачи и требования.
+                </p>
+            </div>
+</div>
     </section>
 
     <!-- Блок: МЫ УСТАНАВЛИВАЕМ КАМЕРЫ ВИДЕОНАБЛЮДЕНИЯ -->
@@ -208,7 +255,7 @@
 
 
     <!-- Блок "Комплекс услуг" -->
-<section class="section" id="complex">
+    <section class="section" id="complex">
     <div class="container">
         <h2 class="section-title">УСЛУГИ</h2>
 
@@ -398,124 +445,179 @@
 </section>
 
      <!-- Калькулятор -->
-    <!-- Улучшенный калькулятор с фильтрами -->
-    <section class="section calculator-section light-bg" id="calculator">
+    <!-- Калькулятор -->
+   <section class="section calculator-section light-bg" id="calculator">
     <div class="container">
-        <h2 class="section-title">ОНЛАЙН РАСЧЁТ</h2>
+        <h2 class="section-title">ОНЛАЙН РАСЧЁТ СТОИМОСТИ</h2>
+        <div class="section-subtitle">монтажа камер видеонаблюдения</div>
 
         <div class="calculator-advanced">
-            <!-- верхняя колонка: фильтры -->
-            <div class="calc-filters">
-                <div class="calc-filters-left-side">
-                    <div class="filter-group">
-                    <h4>Максимальное разрешение (Мп)</h4>
-                    <div class="filter-options" id="resolutionFilters">
-                        {% block resolution %}
-                        {% endblock %}
-                    </div>
-                </div>
 
-                    <div class="filter-group" >
-                    <h4>Тип камеры </h4>
-                    <div class="filter-options" id="typeFilters">
-                       {% block types %}
-                        {% endblock %}
-                    </div>
-                </div>
+            <div class="calc-main-layout">
 
-                    <div class="filter-group">
-                    <h4>Тип ночного видения</h4>
-                    <div class="filter-options" id="nightVisionFilters" >
-                        {% block night_vision_technology %}
-                        {% endblock %}
-                    </div>
-                </div>
-                </div>
-
-                <div class="calc-filters-right-side">
-                    <div class="filter-group">
-                    <h4>Тип подключения</h4>
-                    <div class="filter-options" id="connectionFilters">
-                        {% block connection_types%}
-                        {% endblock %}
-                    </div>
-                </div>
-                    <!-- Микрофон / Динамик -->
-                    <div class="filter-group">
-                        <h4>Микрофон / Динамик</h4>
-                        <div class="filter-options" id="microDynamicFilters">
-                            <label class="filter-option">
-                                <input type="checkbox" data-filter="has_micro" data-group="boolean" class="filter-checkbox">
-                                <span class="checkbox-custom"></span>
-                                Микрофон
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" data-filter="has_dynamic" data-group="boolean" class="filter-checkbox">
-                                <span class="checkbox-custom"></span>
-                                Динамик
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="filter-group">
-                    <h4>Тип Объектива</h4>
-                    <div class="filter-options" id="lensFilters">
-                        {% block lens%}
-                        {% endblock %}
-
-                    </div>
-
-                     <div class="filter-group">
-                    <h4>Наличие Zoom</h4>
-                          <div class="filter-options" id="has_zoomFilters">
-                    <label class="filter-option"><input type="radio" name="has_zoom" data-filter="has_zoom" value=true  > Да  </label>
-                    <label class="filter-option"><input type="radio" name="has_zoom" data-filter="has_zoom" value=false  > Нет </label>
-
-                          </div>
-
-                </div>
-                </div>
-                    </div>
-
-                <div class="calc-filters-additional-side" >
-
-                     <div class="filter-group">
-                    <h4>Аналитика</h4>
-                    <div class="filter-options">
-                        {% block analytics%}
-                        {% endblock %}
-
-                    </div>
-                         </div>
-
-                    <div class="filter-group">
-                        <h4>Оснащение (коммутатор, регистратор, блок питания, cambox, жесткий диск)</h4>
-                        <div class="filter-options" id="equipment" >
-                            <label class="filter-option"><input type="radio" name="equipment" data-filter="equipment" value="equipment" > Да </label>
-                            <label class="filter-option"><input type="radio" name="equipment" data-filter="equipment" value="equipment" > Нет </label>
-                        </div>
-                    </div>
-
-
-                    <div class="filter-group">
-                        <h4>Установка под ключ</h4>
-                        <div class="filter-options" id="installation" >
-                            <label class="filter-option"><input type="radio" name="installation" data-filter="installation" value="equipment" > Да </label>
-                            <label class="filter-option"><input type="radio" name="installation" data-filter="installation" value="equipment" > Нет </label>
-                        </div>
-                    </div>
-
-                     <button class="btn-primary" id="resetFilters">
-                        <i class="fas fa-redo"></i> Сбросить фильтры
+                <div class="calc-params-card calc-accordion active">
+                    <button class="calc-accordion-head" type="button">
+                        <span>Основные параметры</span>
+                        <i class="fas fa-chevron-down"></i>
                     </button>
 
+                    <div class="calc-accordion-body">
+                        <div class="filter-group">
+                            <h4>Максимальное разрешение (Мп)</h4>
+                            <div class="filter-options" id="resolutionFilters">
+                                {% block resolution %}{% endblock %}
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>Тип камеры</h4>
+                            <div class="filter-options" id="typeFilters">
+                                {% block types %}{% endblock %}
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>Тип ночного видения</h4>
+                            <div class="filter-options" id="nightVisionFilters">
+                                {% block night_vision_technology %}{% endblock %}
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>Тип подключения</h4>
+                            <div class="filter-options" id="connectionFilters">
+                                {% block connection_types %}{% endblock %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="calc-params-card calc-accordion active">
+                    <button class="calc-accordion-head" type="button">
+                        <span>Дополнительные параметры</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+
+                    <div class="calc-accordion-body additional-grid">
+                        <div class="filter-group">
+                            <h4>Микрофон / Динамик</h4>
+                            <div class="filter-options" id="microDynamicFilters">
+                                <label class="filter-option">
+                                    <input type="checkbox" data-filter="has_micro" data-group="boolean" class="filter-checkbox">
+                                    <span class="checkbox-custom"></span>
+                                    Микрофон
+                                </label>
+
+                                <label class="filter-option">
+                                    <input type="checkbox" data-filter="has_dynamic" data-group="boolean" class="filter-checkbox">
+                                    <span class="checkbox-custom"></span>
+                                    Динамик
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>Аналитика</h4>
+                            <div class="filter-options" id="analyticsFilters">
+                                {% block analytics %}{% endblock %}
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>Тип объектива</h4>
+                            <div class="filter-options" id="lensFilters">
+                                {% block lens %}{% endblock %}
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>Наличие Zoom</h4>
+                            <div class="filter-options" id="has_zoomFilters">
+                                <label class="filter-option">
+                                    <input type="radio" name="has_zoom" data-filter="has_zoom" value="true">
+                                    Да
+                                </label>
+
+                                <label class="filter-option">
+                                    <input type="radio" name="has_zoom" data-filter="has_zoom" value="false">
+                                    Нет
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group wide-filter">
+                            <h4>Оснащение</h4>
+                            <p class="filter-note">коммутатор, регистратор, блок питания, cambox, жёсткий диск</p>
+                            <div class="filter-options" id="equipment">
+                                <label class="filter-option">
+                                    <input type="radio" name="equipment" data-filter="equipment" value="true">
+                                    Да
+                                </label>
+
+                                <label class="filter-option">
+                                    <input type="radio" name="equipment" data-filter="equipment" value="false">
+                                    Нет
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>Установка под ключ</h4>
+                            <div class="filter-options" id="installation">
+                                <label class="filter-option">
+                                    <input type="radio" name="installation" data-filter="installation" value="true">
+                                    Да
+                                </label>
+
+                                <label class="filter-option">
+                                    <input type="radio" name="installation" data-filter="installation" value="false">
+                                    Нет
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="reset-filters-btn" id="resetFilters" type="button">
+                        <i class="fas fa-redo"></i>
+                        Сбросить фильтры
+                    </button>
+                </div>
+
+                <aside class="calc-estimate-card">
+                    <h3>Предварительный расчёт</h3>
+
+                    <p>Примерная стоимость оборудования</p>
+                    <strong id="estimateEquipment">0 ₽</strong>
+
+                    <p>Монтажные работы</p>
+                    <b id="estimateInstall">от 15 000 ₽</b>
+
+                    <hr>
+
+                    <p>Итого:</p>
+                    <strong class="estimate-total" id="estimateTotal">0 ₽</strong>
+
+                    <div class="estimate-note">
+                        <i class="fas fa-shield-alt"></i>
+                        Точная стоимость будет рассчитана после выезда специалиста на объект
+                    </div>
+
+                    <button class="btn-primary estimate-btn open-popup-btn" type="button">
+                        <i class="fas fa-calculator"></i>
+                        Получить точный расчёт
+                    </button>
+
+                    <button class="btn-outline estimate-pdf-btn" type="button">
+                        <i class="fas fa-download"></i>
+                        Скачать расчёт PDF
+                    </button>
+                </aside>
             </div>
 
-             <!--  результаты -->
             <div class="calc-results">
                 <div class="results-header">
-                    <h3>Подходящие камеры: <span id="camerasCount">{{ cameras.count }}</span></h3>
+                    <h3>Подходящие камеры <span id="camerasCount">{{ cameras.count }}</span></h3>
+
                     <div class="sort-options">
                         <select id="sortSelect" class="sort-select">
                             <option value="price">Сначала дешевые</option>
@@ -525,72 +627,118 @@
                     </div>
                 </div>
 
-                <!-- Сетка камер -->
-                <div class="cameras-grid" id="camerasGrid">
-                    {% for camera in cameras %}
-                    <div class="camera-card" data-camera-id="{{ camera.id }}">
-                        <div class="camera-image">
-                            {% if camera.picture %}
-                            <img src="{{ camera.picture.url }}" alt="{{ camera.name }}" loading="lazy">
-                            {% else %}
-                            <div class="no-image"><i class="fas fa-camera"></i></div>
-                            {% endif %}
-                        </div>
+                <div class="cameras-shell">
+                    <button class="camera-slider-arrow camera-slider-prev" type="button" aria-label="Назад">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
 
-                        <div class="camera-info">
-                            <h4>{{ camera.name }}</h4>
+                    <div class="cameras-grid" id="camerasGrid">
+                        {% for camera in cameras %}
+                            <div class="camera-card" data-camera-id="{{ camera.id }}" data-camera-price="{{ camera.price|floatformat:0 }}">
+                                <div class="camera-image">
+                                    {% if camera.picture %}
+                                        <img src="{{ camera.picture.url }}" alt="{{ camera.name }}" loading="lazy">
+                                    {% else %}
+                                        <div class="no-image"><i class="fas fa-camera"></i></div>
+                                    {% endif %}
+                                </div>
 
-                            <div class="camera-specs">
-                                <div class="camera-price">
-                                    {{ camera.price|floatformat:0 }} ₽
+                                <div class="camera-info">
+                                    <h4>{{ camera.name }}</h4>
+
+                                    <div class="camera-price">
+                                        {{ camera.price|floatformat:0 }} ₽
+                                    </div>
+
+                                    <div class="camera-counter">
+                                        <button class="counter-btn minus-btn" data-camera-id="{{ camera.id }}" type="button">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+
+                                        <div class="counter-display">
+                                            <span class="counter-value" data-camera-id="{{ camera.id }}">0</span>
+                                        </div>
+
+                                        <button class="counter-btn plus-btn" data-camera-id="{{ camera.id }}" type="button">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+
+                                    <button class="camera-more-btn" type="button">Подробнее</button>
                                 </div>
                             </div>
-
-                            <!-- Счетчик с кнопками -->
-                            <div class="camera-counter">
-                                <button class="counter-btn minus-btn" data-camera-id="{{ camera.id }}">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <div class="counter-display">
-                                    <span class="counter-value" data-camera-id="{{ camera.id }}">0</span>
-                                </div>
-                                <button class="counter-btn plus-btn" data-camera-id="{{ camera.id }}">
-                                    <i class="fas fa-plus"></i>
-                                </button>
+                        {% empty %}
+                            <div class="no-cameras">
+                                <i class="fas fa-camera-slash"></i>
+                                <p>Камеры пока не добавлены</p>
                             </div>
+                        {% endfor %}
+                    </div>
 
-                            <!-- Поле для ввода м кабеля -->
-                            <div class="cable-counter">
-                                <input type="number"
-                                       class="cable-input"
-                                       data-camera-id="{{ camera.id }}"
-                                       min="0"
-                                       value="0"
-                                       placeholder="0"
-                                       disabled
-                                       title="Сначала выберите камеру">
-                                <span>м. кабеля</span>
-                            </div>
-                        </div>
-                    </div>
-                    {% empty %}
-                    <div class="no-cameras">
-                        <i class="fas fa-camera-slash"></i>
-                        <p>Камеры пока не добавлены</p>
-                    </div>
-                    {% endfor %}
+                    <button class="camera-slider-arrow camera-slider-next" type="button" aria-label="Вперёд">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
-        </div>
+
+            <div class="cable-summary-card">
+                <div class="cable-left">
+                    <h3>Длина кабеля примерная</h3>
+
+                    <div class="cable-control">
+                        <button type="button" id="cableMinus">−</button>
+                        <input type="number" id="totalCableInput" value="50" min="0" max="100">
+                        <button type="button" id="cablePlus">+</button>
+                        <span>м</span>
+                    </div>
+
+                    <input type="range" id="totalCableRange" min="0" max="100" value="50">
+
+                    <div class="cable-scale">
+                        <span>0 м</span>
+                        <span>100 м</span>
+                    </div>
+                </div>
+
+                <div class="cable-total">
+                    <span>Итого кабеля:</span>
+                    <strong id="totalCableMeters">50 м</strong>
+                </div>
+            </div>
+
+            <div class="total-info" id="totalInfo">
+                <div class="total-info-values">
+                    <div>
+                        <strong id="totalCamerasValue">0</strong>
+                        <span>камер</span>
+                    </div>
+
+                    <div>
+                        <strong id="totalPriceValue">0 ₽</strong>
+                        <span>общая стоимость</span>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="orderSelected" type="button">
+                    <i class="fas fa-shopping-cart"></i>
+                    Заказать выбранное
+                </button>
+
+                <button class="btn-outline" id="saveCalculation" type="button">
+                    <i class="far fa-bookmark"></i>
+                    Сохранить расчёт
+                </button>
+            </div>
+
         </div>
     </div>
-    </section>
+</section>
 
 
     <!-- Блок "Наши преимущества" -->
     <section class="section" id="advantages">
         <div class="container">
-            <h2 class="section-title">ПОЧЕМУ ВЫБИРАЮТ <span class="highlight">ЦИФРОВЫЕ ТЕЛЕСИСТЕМЫ</span></h2>
+            <h2 class="section-title">ПОЧЕМУ <span class="highlight">ЦТС</span></h2>
             <div class="advantages-grid">
                 <div class="advantage-card yellow-glow">
                     <div class="advantage-icon">
@@ -646,34 +794,57 @@
     </section>
 
     <!-- Блок "Ваши возможности" -->
+    <!-- Блок "Ваши возможности" -->
     <section class="section light-bg" id="possibilities">
-        <div class="container">
-            <h2 class="section-title">ВАШИ <span class="highlight">ВОЗМОЖНОСТИ</span></h2>
-            <div class="possibilities-grid">
+    <div class="container">
+        <h2 class="section-title">Ваши возможности</h2>
+
+        <div class="possibilities-layout">
+            <div class="possibilities-list">
                 <div class="possibility">
                     <div class="possibility-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3>Просмотр с телефона</h3>
-                    <p>Наблюдайте за объектом с любого устройства через мобильное приложение</p>
+                    <div>
+                        <h3>Просмотр с телефона</h3>
+                        <p>Следите за домом, офисом или магазином из любой точки.</p>
+                    </div>
                 </div>
+
                 <div class="possibility">
                     <div class="possibility-icon">
                         <i class="fas fa-bullhorn"></i>
                     </div>
-                    <h3>Двусторонняя связь</h3>
-                    <p>Разговаривайте через камеру с посетителями или сотрудниками</p>
+                    <div>
+                        <h3>Двусторонняя связь</h3>
+                        <p>Можно говорить через камеру с посетителями или сотрудниками.</p>
+                    </div>
                 </div>
+
                 <div class="possibility">
                     <div class="possibility-icon">
                         <i class="fas fa-bell"></i>
                     </div>
-                    <h3>Умные уведомления</h3>
-                    <p>Мгновенные оповещения о движении, звуках или других событиях</p>
+                    <div>
+                        <h3>Умные уведомления</h3>
+                        <p>Получайте оповещения о движении, звуках и событиях.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="possibilities-phone">
+                <div class="phone-card">
+                    <div class="phone-top"></div>
+                    <div class="phone-screen">
+                        <i class="fas fa-video"></i>
+                        <span>Онлайн-доступ</span>
+                        <p>Ваш объект всегда под рукой</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
     <!-- Форма обратной связи -->
@@ -712,32 +883,92 @@
                         <i class="fas fa-paper-plane"></i>
                     </button>
 
+                    <div class="popup-messengers">
+                    <p>или напишите нам в мессенджере</p>
+
+                    <div class="popup-messenger-buttons">
+                        <a href="https://t.me/zverev010" target="_blank" class="popup-messenger-btn">
+                            <i class="fab fa-telegram-plane"></i>
+                            Telegram
+                        </a>
+
+                        <a href="#" target="_blank" class="popup-messenger-btn">
+                            <span class="max-icon">М</span>
+                            MAX
+                        </a>
+                    </div>
+                </div>
+
                     <p class="form-note">Нажимая кнопку, вы соглашаетесь с <a href="#">политикой конфиденциальности</a></p>
                 </div>
             </div>
         </div>
 
-<!-- Старую секцию .contact-section можно удалить или закомментировать -->
+    <!-- Старую секцию .contact-section можно удалить или закомментировать -->
 
     <!-- О нас -->
-     <section class="section contact-section light-bg" id="about">
-         <div class="container">
-             <h2 class="section-title">Немного о нас</h2>
-            <div class="consult-form">
-                    <div class="about-comp-text">
-                        <p>Мы устанавливаем умное беспроводное видеонаблюдение, которое обезопасит ваш объект, обеспечив надёжную охрану! Работаем с 2018 года. У нас вы можете купить комплект видеонаблюдения, состоящий из новейшего оборудования в сфере цифровых технологий. С его помощью вы сможете обеспечить охрану не только магазина, офиса или другого объекта коммерческого назначения, но и собственного жилья.
-                        </p>
-                        <br>
-                        <p>Мы работаем в Нижнем Новгороде и Нижегородской области. Для заказа установки видеонаблюдения “под ключ” оставьте заявку на сайте через форму обратной связи и вы получите расчет на оказание услуг. Наш менеджер проконсультирует и поможет подобрать оптимальное оборудование под ваш объект и требовани. Выезд специалиста возможен в любое время.
-                        </p>
+    <section class="section about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">О компании</h2>
+
+            <div class="about-layout">
+                <div class="about-content">
+                    <div class="about-badge">Работаем с 2018 года</div>
+
+                    <h3>Мы не просто ставим камеры — мы собираем систему безопасности под ваш объект</h3>
+
+                    <p>
+                        «Цифровые телесистемы» — команда из Нижнего Новгорода, которая занимается установкой видеонаблюдения,
+                        СКУД, домофонии и сетевых решений для домов, офисов, магазинов, складов и производств.
+                    </p>
+
+                    <p>
+                        Мы выезжаем на объект, смотрим реальные условия, подбираем оборудование без лишних позиций
+                        и заранее объясняем, где будут камеры, как пойдёт кабель и что будет видно после установки.
+                    </p>
+
+                    <div class="about-points">
+                        <div>
+                            <strong>200+</strong>
+                            <span>установленных систем</span>
+                        </div>
+                        <div>
+                            <strong>8 лет</strong>
+                            <span>опыта в сфере безопасности</span>
+                        </div>
+                        <div>
+                            <strong>НН и область</strong>
+                            <span>работаем по региону</span>
+                        </div>
                     </div>
-                        <div class ="about-comp-photo">
-                            <img src="{% static 'main/img/about_company.jpeg' %}"  alt="Цифровые телесистемы" аlign="center" height="400px" >
+                </div>
+
+                <div class="about-gallery">
+                    <button class="about-arrow about-arrow-left" type="button" aria-label="Предыдущее фото">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <div class="about-slider" id="aboutSlider">
+                        <div class="about-slide">
+                            <img src="{% static 'main/img/about_company.jpeg' %}" alt="Монтаж видеонаблюдения">
                         </div>
 
+                        <div class="about-slide">
+                            <img src="{% static 'main/img/about_company_2.jpeg' %}" alt="Установка камеры на объекте">
+                        </div>
+
+                        <div class="about-slide">
+                            <img src="{% static 'main/img/about_company_3.jpeg' %}" alt="Работы по установке видеонаблюдения">
+                        </div>
+                    </div>
+
+                    <button class="about-arrow about-arrow-right" type="button" aria-label="Следующее фото">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
-         </div>
-     </section>
+        </div>
+    </section>
 
     <!-- Подвал -->
     <footer class="footer">
@@ -753,39 +984,27 @@
                             <span class="logo-sub">ТЕЛЕСИСТЕМЫ</span>
                         </div>
                     </div>
-                    <p class="footer-tagline">Технологии безопасности нового поколения. На рынке с 2010 года.</p>
+                    <p class="footer-tagline">Технологии безопасности нового поколения. На рынке с 2018 года.</p>
                 </div>
 
                 <div class="footer-contact">
                     <div class="contact-item-footer">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span><strong>Адрес:</strong><br>г. Москва, ул. Техническая, д. 15, оф. 304<br>БЦ "Технопарк"</span>
+                        <span><strong>Адрес:</strong><br>г. Нижний Новгород<br>БЦ "Технопарк"</span>
                     </div>
                     <div class="contact-item-footer">
                         <i class="fas fa-phone"></i>
-                        <span><strong>Телефоны:</strong><br>8 (800) 555-35-35 (бесплатно)<br>8 (495) 123-45-67 (Москва)</span>
-                    </div>
-                    <div class="contact-item-footer">
-                        <i class="fas fa-envelope"></i>
-                        <span><strong>Email:</strong><br>info@digital-tv.ru<br>sales@digital-tv.ru</span>
-                    </div>
-                    <div class="contact-item-footer">
-                        <i class="fas fa-clock"></i>
-                        <span><strong>Режим работы:</strong><br>Пн-Пт: 9:00-20:00<br>Сб-Вс: 10:00-18:00</span>
+                        <span><strong>Телефоны:</strong><br>+7 (908) 757-00-30(бесплатно)<br></span>
                     </div>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>© 2024 ООО "Цифровые телесистемы". Все права защищены. <a href="#">Политика конфиденциальности</a></p>
+                <p>© 2026 ООО "Цифровые телесистемы". Все права защищены. <a href="#">Политика конфиденциальности</a></p>
             </div>
         </div>
     </footer>
 
-    <!-- Кнопка "Наверх" -->
-    <a href="#header" class="scroll-top" id="scrollTop">
-        <i class="fas fa-chevron-up"></i>
-    </a>
 
     <!-- Простой JavaScript -->
     <script>
@@ -874,6 +1093,32 @@
 
             // Запускаем
             initBurgerMenu();
+
+            // ===== СЛАЙДЕР БЛОКА "О НАС" =====
+            function initAboutSlider() {
+                const slider = document.getElementById('aboutSlider');
+                const prev = document.querySelector('.about-arrow-left');
+                const next = document.querySelector('.about-arrow-right');
+
+                if (!slider || !prev || !next) return;
+
+                function scrollSlide(direction) {
+                    slider.scrollBy({
+                        left: slider.clientWidth * direction,
+                        behavior: 'smooth'
+                    });
+                }
+
+                prev.addEventListener('click', function() {
+                    scrollSlide(-1);
+                });
+
+                next.addEventListener('click', function() {
+                    scrollSlide(1);
+                });
+            }
+
+            initAboutSlider();
 
             // ===== СЛАЙДЕР БЛОКА "ГДЕ МЫ УСТАНАВЛИВАЕМ" =====
             const placesGrid = document.getElementById('placesGrid');
@@ -2635,6 +2880,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Цифровые телесистемы",
+      "description": "Установка видеонаблюдения под ключ в Нижнем Новгороде и Нижегородской области",
+      "telephone": "+79087570030",
+      "areaServed": "Нижний Новгород и Нижегородская область",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Нижний Новгород",
+        "addressCountry": "RU"
+      },
+      "sameAs": [
+        "https://t.me/slabotochkaCTS"
+      ]
+    }
+  </script>
 </body>
 
 </html>
