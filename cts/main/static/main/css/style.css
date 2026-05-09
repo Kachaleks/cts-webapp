@@ -254,166 +254,101 @@ body {
 }
 
 
-/* ===== ОБНОВЛЕННАЯ КНОПКА "ПОЗВОНИТЬ" С АНИМАЦИЕЙ ГРАДИЕНТА ===== */
+/* ===== КНОПКА "ПОЗВОНИТЬ" В ШАПКЕ ===== */
 
-/* 2. Сдвигаем кнопку "Позвонить" в самый правый угол */
+/* ===== КНОПКА "ПОЗВОНИТЬ" В ШАПКЕ ===== */
+
 .call-button-container {
-    margin-left: auto !important; /* Прижимаем к правому краю */
-    order: 100; /* Гарантируем, что будет последней */
+    margin-left: auto;
+    order: 100;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
-/* 3. Оптимизируем кнопку для экономии места */
 .call-button {
-    padding: 10px 20px !important; /* Немного компактнее */
-    font-size: 0.9rem !important;
-    gap: 8px !important;
-    min-width: auto; /* Убираем минимальную ширину */
-}
+    min-height: 52px;
+    padding: 0 24px 0 12px !important;
+    border-radius: 999px;
 
-
-
-/* Анимация движения градиента */
-@keyframes gradientFlow {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-/* Легкое плавание */
-@keyframes floatAnimation {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-4px);
-    }
-}
-
-/* Внутренний блеск */
-.call-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent);
-    transition: left 0.7s ease;
-    z-index: -1;
-}
-
-/* Иконка телефона */
-.call-icon {
-    width: 32px;
-    height: 32px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border-radius: 50%;
-    display: flex;
+    display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    transition: all 0.4s ease;
-    position: relative;
-    z-index: 2;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    gap: 12px;
+
+    background: linear-gradient(135deg, #ffbe0b 0%, #ff8a00 100%) !important;
+    color: #171717 !important;
+    text-decoration: none !important;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.92rem !important;
+    font-weight: 800;
+
+    border: none !important;
+    outline: none !important;
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 28px rgba(255, 138, 0, 0.22);
+
+    animation: callSoftPulse 2.4s ease-in-out infinite;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
-/* Анимация иконки - легкое вращение */
-@keyframes iconGlow {
-    0%, 100% {
-        transform: rotate(0deg);
-        box-shadow:
-            0 0 10px rgba(255, 255, 255, 0.3),
-            0 0 20px rgba(255, 193, 7, 0.2);
-    }
-    25% {
-        transform: rotate(5deg);
-        box-shadow:
-            0 0 15px rgba(255, 255, 255, 0.4),
-            0 0 25px rgba(255, 65, 108, 0.3);
-    }
-    75% {
-        transform: rotate(-5deg);
-        box-shadow:
-            0 0 15px rgba(255, 255, 255, 0.4),
-            0 0 25px rgba(255, 75, 43, 0.3);
-    }
+.call-button::before,
+.call-button::after,
+.call-button .call-pulse {
+    display: none !important;
+    content: none !important;
+}
+
+.call-button:hover {
+    color: #171717 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 38px rgba(255, 138, 0, 0.42);
 }
 
 .call-icon {
-    animation: iconGlow 4s ease-in-out infinite;
-}
-
-/* Текст */
-.call-text {
-    position: relative;
-    z-index: 2;
-    white-space: nowrap;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Эффект при наведении */
-.call-button:hover {
-    animation: gradientFlow 4s ease infinite,
-               floatAnimation 1.5s ease-in-out infinite;
-    box-shadow:
-        0 12px 30px rgba(255, 65, 108, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.2) inset,
-        0 0 30px rgba(255, 193, 7, 0.3);
-    transform: translateY(-2px) scale(1.03);
-}
-
-.call-button:hover::before {
-    left: 100%;
-}
-
-.call-button:hover .call-icon {
-    background: rgba(255, 255, 255, 0.25);
-    transform: scale(1.1) rotate(15deg);
-    animation: none;
-}
-
-/* Активное состояние */
-.call-button:active {
-    transform: translateY(1px) scale(0.98);
-    box-shadow:
-        0 4px 15px rgba(255, 65, 108, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-    animation-play-state: paused;
-}
-
-/* Волны при нажатии */
-.call-button::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.6);
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
     border-radius: 50%;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    color: #111111;
+
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14);
+    animation: phoneWiggle 3s ease-in-out infinite;
 }
 
-.call-button:active::after {
-    animation: ripple 0.6s ease-out;
+.call-text {
+    white-space: nowrap;
 }
 
-@keyframes ripple {
-    to {
-        transform: translate(-50%, -50%) scale(20);
-        opacity: 0;
+@keyframes callSoftPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 10px 28px rgba(255, 138, 0, 0.22);
     }
+
+    50% {
+        transform: scale(1.025);
+        box-shadow: 0 14px 34px rgba(255, 138, 0, 0.32);
+    }
+}
+
+@keyframes phoneWiggle {
+    0%, 100% { transform: rotate(0deg); }
+    8% { transform: rotate(-14deg); }
+    16% { transform: rotate(12deg); }
+    24% { transform: rotate(-8deg); }
+    32% { transform: rotate(6deg); }
+    40% { transform: rotate(0deg); }
 }
 /* Логотип */
 .logo {
@@ -486,7 +421,7 @@ body {
     padding: 5px 0 ;
     flex: 1; /* Занимает доступное пространство */
     -webkit-overflow-scrolling: touch;
-    overflow-x: auto; /* Скролл если не помещается */
+    overflow-x: visible;
 
     z-index: 5001;
 }
@@ -640,19 +575,58 @@ body {
     }
 
     /* Кнопка "Позвонить" в мобильном меню */
-    .call-button-container {
+    .nav-menu .call-button-container {
         width: 100%;
-        margin: 20px 0 0 0 !important;
-        order: initial;
+        margin: 6px 0 0 !important;
+        padding: 0 !important;
+
+        display: flex !important;
+        justify-content: center !important;
     }
 
-    .call-button {
-        width: 100%;
-        justify-content: center;
-        font-size: 1.2rem !important;
-        padding: 15px !important;
+    .nav-menu .call-button {
+        width: auto !important;
+        min-width: 270px;
+        max-width: 300px;
+        min-height: 56px;
+
+        padding: 0 26px 0 16px !important;
+
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 14px !important;
+
+        border-radius: 999px !important;
+        border-bottom: none !important;
+
+        background: linear-gradient(135deg, #ffbe0b 0%, #ff8a00 100%) !important;
+        box-shadow: 0 12px 28px rgba(255, 138, 0, 0.24) !important;
+
+        font-size: 1rem !important;
     }
 
+    .nav-menu .call-icon {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        margin: 0 !important;
+
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        background: #ffffff !important;
+    }
+
+    .nav-menu .call-icon i {
+        margin: 0 !important;
+    }
+
+    .nav-menu .call-text {
+        font-size: 0.95rem !important;
+        line-height: 1 !important;
+    }
     /* Убираем скролл на body при открытом меню */
     body.menu-open {
         overflow: hidden;
@@ -684,7 +658,8 @@ body {
 
 @media (max-width: 576px) {
     .nav-menu {
-        width: 100%; /* На маленьких экранах на всю ширину */
+        width: 86%;
+        max-width: 360px;
         right: -100%;
         padding: 80px 20px 30px;
     }
@@ -724,34 +699,6 @@ body {
     }
 }
 
-@media (max-width: 414px) {
-    .call-button {
-        padding: 8px 12px !important;
-        background: linear-gradient(135deg, var(--primary-yellow), var(--yellow-dark));
-        border-radius: 30px;
-    }
-
-    .call-text {
-        font-size: 0.85rem;
-        content: "ПОЗВОНИТЬ";
-    }
-
-    .call-icon {
-        width: 24px;
-        height: 24px;
-        background: rgba(255, 255, 255, 0.2);
-    }
-}
-
-@media (max-width: 375px) {
-    .call-text {
-        font-size: 0.8rem;
-    }
-
-    .call-button {
-        padding: 6px 10px !important;
-    }
-}
 
 /* ===== ГЕРОЙ-БЛОК ===== */
 .hero {
@@ -886,56 +833,70 @@ body {
     }
 
     .hero {
-        min-height: calc(100vh - 90px);
-        padding: 34px 0 38px;
+        min-height: calc(100svh - 86px);
+        height: calc(100svh - 86px);
+        padding: 0;
+        display: flex;
         align-items: center;
+        overflow: hidden;
     }
 
     .hero .container {
+        height: 100%;
         padding: 0 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .hero-content {
         max-width: 100%;
+        margin: 0 auto;
+        text-align: center;
     }
 
     .hero-title {
-        font-size: 2.05rem;
-        line-height: 1.14;
+        margin: 0 auto 16px;
+        font-size: clamp(1.75rem, 8vw, 2.35rem);
+        line-height: 1.12;
         font-weight: 600;
-        margin-bottom: 18px;
     }
 
     .hero-description {
-        font-size: 0.95rem;
-        line-height: 1.55;
-        margin-bottom: 24px;
+        max-width: 620px;
+        margin: 0 auto 22px;
+        font-size: clamp(0.9rem, 4.2vw, 1rem);
+        line-height: 1.5;
     }
 
     .hero .btn-primary {
         width: 100%;
         min-height: 54px;
-        padding: 14px 12px;
-        font-size: 0.88rem;
+        padding: 13px 12px;
+        font-size: clamp(0.78rem, 3.8vw, 0.9rem);
         white-space: normal;
     }
 
     .hero-stats {
-        margin-top: 24px;
+        margin-top: 26px;
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
     }
 
     .stat {
-        padding: 16px 8px;
-        border-radius: 16px;
+        padding: 8px 4px;
+        background: transparent;
+        border-radius: 0;
     }
 
     .stat-number {
-        font-size: 1.8rem;
+        font-size: clamp(1.8rem, 9vw, 2.3rem);
+        margin-bottom: 6px;
     }
 
     .stat-label {
-        font-size: 0.76rem;
+        font-size: clamp(0.72rem, 3.4vw, 0.85rem);
+        line-height: 1.25;
     }
 }
 
@@ -953,84 +914,7 @@ body {
     }
 }
 
-/* ===== ЖЕСТКИЙ ФИКС HERO НА МОБИЛЬНЫХ ===== */
-@media (max-width: 768px) {
-    html,
-    body {
-        width: 100%;
-        overflow-x: hidden;
-    }
 
-    .hero,
-    .hero .container,
-    .hero-content,
-    .hero-title,
-    .hero-description,
-    .hero-actions,
-    .hero-stats {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-    }
-
-    .hero {
-        min-height: calc(100vh - 90px);
-        padding: 40px 0;
-        overflow: hidden;
-    }
-
-    .hero .container {
-        padding-left: 18px;
-        padding-right: 18px;
-        margin: 0 auto;
-    }
-
-    .hero-content {
-        margin: 0 auto;
-        overflow: hidden;
-    }
-
-    .hero-title {
-        font-size: 1.9rem;
-        line-height: 1.16;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        text-align: center;
-
-        white-space: normal;
-        overflow-wrap: break-word;
-        word-break: normal;
-    }
-
-    .hero-description {
-        font-size: 0.92rem;
-        line-height: 1.55;
-        text-align: center;
-
-        white-space: normal;
-        overflow-wrap: break-word;
-    }
-
-    .hero .btn-primary {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        font-size: 0.86rem;
-        padding: 14px 10px;
-        white-space: normal;
-    }
-
-    .hero-stats {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-    }
-
-    .stat {
-        min-width: 0;
-        width: 100%;
-    }
-}
 
 /* ===== TRUST CARDS ===== */
 
@@ -1286,9 +1170,104 @@ body {
     }
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1180px) and (min-width: 769px) {
     .hero-trust-card {
         display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-trust-card {
+        display: none !important;
+    }
+
+    .hero-trust-card:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .trust-note,
+    .trust-photo {
+        display: none;
+    }
+
+    .hero-trust-card::after {
+        position: static;
+        grid-column: 1;
+        grid-row: 1;
+
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: var(--gradient-yellow);
+        color: white;
+        font-size: 1.35rem;
+        box-shadow: 0 12px 26px rgba(255, 143, 0, 0.22);
+        opacity: 1;
+    }
+
+    .hero-trust-left::after {
+        content: "✓";
+    }
+
+    .hero-trust-right::after {
+    content: "\f3c5";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+    .hero-trust-card::before {
+        width: 54px;
+        height: 42px;
+        top: auto;
+        right: 18px;
+        bottom: 18px;
+        opacity: 0.22;
+        background-size: 12px 12px;
+    }
+
+    .trust-card-body {
+        grid-column: 2;
+        min-width: 0;
+    }
+
+    .trust-card-body h3 {
+        position: relative;
+        min-height: 34px;
+
+        margin: 0 0 8px;
+        padding-bottom: 8px;
+
+        display: flex;
+        align-items: flex-start;
+
+        font-size: 0.96rem;
+        line-height: 1.12;
+        font-weight: 800;
+        color: var(--text-dark);
+    }
+
+    .trust-card-body h3::after {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+
+        width: 42px;
+        height: 4px;
+        margin: 0;
+
+        border-radius: 999px;
+        background: var(--gradient-yellow);
+    }
+
+    .trust-card-body p {
+        font-size: 0.82rem;
+        line-height: 1.55;
+        color: var(--text-medium);
     }
 }
 
@@ -1305,8 +1284,8 @@ body {
     #where .section-title {
         max-width: 360px;
         margin: 0 auto 18px;
-        font-size: 1.18rem;
-        line-height: 1.25;
+        font-size: 2rem;
+        line-height: 1.12;
         letter-spacing: -0.01em;
         text-align: center;
         text-transform: uppercase;
@@ -1425,8 +1404,8 @@ body {
     #where .section-title {
         max-width: 360px;
         margin: 0 auto 18px;
-        font-size: 1.18rem;
-        line-height: 1.25;
+        font-size: 2rem;
+        line-height: 1.12;
         letter-spacing: -0.01em;
         text-align: center;
         text-transform: uppercase;
@@ -1528,8 +1507,8 @@ body {
 
     #where .section-title {
         max-width: 335px;
-        font-size: 1.05rem;
-        line-height: 1.28;
+        font-size: 1.75rem;
+        line-height: 1.12;
         margin-bottom: 16px;
     }
 
@@ -2169,6 +2148,34 @@ body {
 /* =========================================================
    CALCULATOR FINAL
 ========================================================= */
+
+/*Панель скоро в навигации*/
+.nav-coming-soon a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.9;
+    cursor: default;
+}
+
+.soon-badge {
+    background: #ffd600;
+    color: #111;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 10px rgba(255, 214, 0, 0.3);
+}
+
+/* =========================================================
+   Скрываем калькулятор
+========================================================= */
+.hidden-calculator {
+    display: none;
+}
 
 .calculator-section {
     background: var(--light-section);
@@ -3213,45 +3220,47 @@ body {
 }
 
 .phone-card {
-    width: 255px;
-    height: 430px;
-    padding: 18px;
-    border-radius: 38px;
-
-    background: #171717;
+    width: 280px;
+    height: 520px;
+    padding: 10px;
+    border-radius: 48px;
+    background: #111;
     box-shadow:
-        0 28px 70px rgba(0, 0, 0, 0.16),
-        0 0 0 10px rgba(255, 193, 7, 0.08);
+        0 34px 90px rgba(0, 0, 0, 0.18),
+        0 0 0 8px rgba(255, 193, 7, 0.06);
     position: relative;
 }
 
 .phone-top {
-    width: 78px;
-    height: 6px;
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 86px;
+    height: 25px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.25);
-    margin: 0 auto 18px;
+    background: #151515;
+    z-index: 3;
 }
 
 .phone-screen {
-    height: calc(100% - 24px);
-    border-radius: 26px;
+    height: 100%;
+    border-radius: 40px;
     background:
-        linear-gradient(180deg, rgba(255, 193, 7, 0.95), rgba(255, 143, 0, 0.92)),
-        radial-gradient(circle at top, rgba(255,255,255,0.35), transparent 55%);
-
+        radial-gradient(circle at 50% 8%, rgba(255,255,255,0.35), transparent 28%),
+        linear-gradient(180deg, #ffc107 0%, #ff8f00 100%);
+    padding: 86px 28px 34px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 24px;
     color: var(--text-dark);
 }
 
 .phone-screen i {
-    font-size: 3rem;
-    margin-bottom: 22px;
+    font-size: 3.3rem;
+    margin-bottom: 26px;
 }
 
 .phone-screen span {
@@ -3272,14 +3281,82 @@ body {
 /* ===== АДАПТИВ ===== */
 
 @media (max-width: 768px) {
-    #possibilities {
-        padding: 54px 0;
+        #possibilities {
+        padding: 42px 0 46px;
     }
 
     .possibilities-layout {
-        margin-top: 34px;
+        margin-top: 28px;
+        display: grid;
+        grid-template-columns: 0.8fr 1fr;
+        gap: 14px;
+        align-items: center;
+    }
+
+    .possibilities-phone {
+        order: 0;
+    }
+
+    .phone-card {
+        width: 145px;
+        height: 280px;
+        border-radius: 30px;
+        padding: 10px;
+    }
+
+    .phone-screen {
+        border-radius: 22px;
+        padding: 16px 10px;
+    }
+
+    .phone-screen i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .phone-screen span {
+        font-size: 0.95rem;
+        line-height: 1.05;
+    }
+
+    .phone-screen p {
+        font-size: 0.72rem;
+        line-height: 1.3;
+    }
+
+    .possibilities-list {
+        gap: 8px;
+    }
+
+    .possibility {
+        grid-template-columns: 34px 1fr;
+        gap: 9px;
+        padding: 10px 10px;
+        border-radius: 16px;
+    }
+
+    .possibility-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        font-size: 0.9rem;
+    }
+
+    .possibility h3 {
+        font-size: 0.78rem;
+        line-height: 1.15;
+        margin-bottom: 4px;
+    }
+
+    .possibility p {
+        font-size: 0.68rem;
+        line-height: 1.3;
+    }
+}
+
+@media (max-width: 380px) {
+    .possibilities-layout {
         grid-template-columns: 1fr;
-        gap: 28px;
     }
 
     .possibilities-phone {
@@ -3287,31 +3364,9 @@ body {
     }
 
     .phone-card {
-        width: 210px;
-        height: 330px;
-        border-radius: 32px;
-    }
-
-    .possibility {
-        grid-template-columns: 48px 1fr;
-        gap: 14px;
-        padding: 18px 16px;
-        border-radius: 18px;
-    }
-
-    .possibility-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 15px;
-        font-size: 1.15rem;
-    }
-
-    .possibility h3 {
-        font-size: 1rem;
-    }
-
-    .possibility p {
-        font-size: 0.9rem;
+        width: 170px;
+        height: 300px;
+        margin: 0 auto;
     }
 }
 

@@ -35,7 +35,7 @@
             <i class="fab fa-telegram-plane"></i>
         </a>
 
-        <a href="#" target="_blank" class="messenger-btn max" aria-label="Написать в MAX">
+        <a href="https://max.ru/id526213453002_biz" target="_blank" class="messenger-btn max" aria-label="Написать в MAX">
             <span>М</span>
         </a>
     </div>
@@ -84,11 +84,16 @@
                 <li><a href="#about"> О компании</a></li>
                 <li><a href="#complex"> Услуги</a></li>
                 <li><a href="#possibilities"> Возможности</a></li>
-                <li><a href="#calculator">Калькулятор</a></li>
                 <li><a href="#projects">Наши работы</a></li>
+                <li class="nav-coming-soon">
+                    <a href="javascript:void(0)">
+                        Калькулятор
+                        <span class="soon-badge">Скоро</span>
+                    </a>
+                </li>
                 <!-- Кнопка "Позвонить" -->
                 <li class="call-button-container">
-                <a href="#" class="call-button pulse-animation open-popup-btn">
+                <a href="#" class="call-button open-popup-btn">
                     <span class="call-icon">
                         <i class="fas fa-phone"></i>
                     </span>
@@ -114,7 +119,7 @@
                 </p>
 
                 <div class="hero-actions">
-                    <a href="#contact" class="btn-primary">
+                    <a href="#" class="btn-primary open-popup-btn">
                         <i class="fas fa-bolt"></i>
                         Рассчитать проект
                     </a>
@@ -446,7 +451,7 @@
 
      <!-- Калькулятор -->
     <!-- Калькулятор -->
-   <section class="section calculator-section light-bg" id="calculator">
+   <section class="section calculator-section light-bg hidden-calculator" id="calculator">
     <div class="container">
         <h2 class="section-title">ОНЛАЙН РАСЧЁТ СТОИМОСТИ</h2>
         <div class="section-subtitle">монтажа камер видеонаблюдения</div>
@@ -887,12 +892,12 @@
                     <p>или напишите нам в мессенджере</p>
 
                     <div class="popup-messenger-buttons">
-                        <a href="https://t.me/zverev010" target="_blank" class="popup-messenger-btn">
+                        <a href="https://t.me/slabotochkaCTS" target="_blank" class="popup-messenger-btn">
                             <i class="fab fa-telegram-plane"></i>
                             Telegram
                         </a>
 
-                        <a href="#" target="_blank" class="popup-messenger-btn">
+                        <a href="https://max.ru/id526213453002_biz" target="_blank" class="popup-messenger-btn">
                             <span class="max-icon">М</span>
                             MAX
                         </a>
@@ -959,6 +964,14 @@
 
                         <div class="about-slide">
                             <img src="{% static 'main/img/about_company_3.jpeg' %}" alt="Работы по установке видеонаблюдения">
+                        </div>
+
+                        <div class="about-slide">
+                            <img src="{% static 'main/img/about_company_4.jpeg' %}" alt="Работы по установке видеонаблюдения">
+                        </div>
+
+                        <div class="about-slide">
+                            <img src="{% static 'main/img/about_company_5.jpeg' %}" alt="Работы по установке видеонаблюдения">
                         </div>
                     </div>
 
@@ -1096,27 +1109,38 @@
 
             // ===== СЛАЙДЕР БЛОКА "О НАС" =====
             function initAboutSlider() {
-                const slider = document.getElementById('aboutSlider');
-                const prev = document.querySelector('.about-arrow-left');
-                const next = document.querySelector('.about-arrow-right');
+            const slider = document.getElementById('aboutSlider');
+            const prev = document.querySelector('.about-arrow-left');
+            const next = document.querySelector('.about-arrow-right');
 
-                if (!slider || !prev || !next) return;
+            if (!slider || !prev || !next) return;
 
-                function scrollSlide(direction) {
-                    slider.scrollBy({
-                        left: slider.clientWidth * direction,
-                        behavior: 'smooth'
-                    });
+            const slides = slider.querySelectorAll('.about-slide');
+            let currentIndex = 0;
+
+            function showSlide(index) {
+                if (index < 0) {
+                    currentIndex = slides.length - 1;
+                } else if (index >= slides.length) {
+                    currentIndex = 0;
+                } else {
+                    currentIndex = index;
                 }
 
-                prev.addEventListener('click', function() {
-                    scrollSlide(-1);
-                });
-
-                next.addEventListener('click', function() {
-                    scrollSlide(1);
+                slider.scrollTo({
+                    left: slider.clientWidth * currentIndex,
+                    behavior: 'smooth'
                 });
             }
+
+            prev.addEventListener('click', function() {
+                showSlide(currentIndex - 1);
+            });
+
+            next.addEventListener('click', function() {
+                showSlide(currentIndex + 1);
+            });
+        }
 
             initAboutSlider();
 
@@ -2600,7 +2624,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         openButtons.forEach(button => {
-            button.addEventListener('click', openPopup);
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                openPopup();
+            });
         });
 
         if (closeButton) {

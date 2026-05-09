@@ -63,9 +63,9 @@ WSGI_APPLICATION = "cts.wsgi.application"
 # В Docker: /app/db/db.sqlite3 (volume)
 # ══════════════════════════════════════
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/app/db/db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.getenv("DJANGO_DB_PATH", BASE_DIR / "db.sqlite3"),
     }
 }
 # ══════════════════════════════════════
