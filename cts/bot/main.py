@@ -3,10 +3,10 @@ import logging
 from telegram.ext import (
     Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters
 )
-import config
-from state_manager import StateManager
-from handlers import cmd_start, cmd_cancel, handle_callback, handle_message
-from admin_handlers import cmd_admin, cmd_sync
+from . import config
+from .state_manager import StateManager
+from .handlers import cmd_start, cmd_cancel, handle_callback, handle_message
+from .admin_handlers import cmd_admin, cmd_sync
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",

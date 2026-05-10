@@ -7,7 +7,7 @@ from functools import wraps
 from telegram import Update
 from telegram.ext import ContextTypes
 
-import config
+from . import config
 
 logger = logging.getLogger(__name__)
 

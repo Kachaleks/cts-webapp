@@ -7,8 +7,8 @@ import logging
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from admin_tools import admin_only
-from sheets_sync import SheetsManager
+from .admin_tools import admin_only
+from .sheets_sync import SheetsManager
 
 logger = logging.getLogger(__name__)
 

@@ -4,7 +4,7 @@ services:
 
   django:
     build:
-      context: .
+      context: ..
       dockerfile: cts/Dockerfile
     container_name: cts_django
     restart: unless-stopped
@@ -25,8 +25,8 @@ services:
 
   bot:
     build:
-      context: .
-      dockerfile: bot/Dockerfile
+      context: ..
+      dockerfile: cts/bot/Dockerfile
     container_name: cts_bot
     restart: unless-stopped
     volumes:

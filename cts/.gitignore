@@ -29,7 +29,7 @@ build/
 
 # Медиафайлы (загружаемые пользователями)
 /cts/media/
-/cts/camera_images/
+/camera_images/
 
 # Статика (генерируется collectstatic)
 /cts/staticfiles/

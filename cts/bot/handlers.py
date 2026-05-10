@@ -4,8 +4,8 @@ from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 
-from state_manager import StateManager, State
-from notifier import send_to_telegram_group, send_email
+from .state_manager import StateManager, State
+from .notifier import send_to_telegram_group, send_email
 
 logger = logging.getLogger(__name__)
 

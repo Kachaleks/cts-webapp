@@ -12,7 +12,7 @@ import sqlite3
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 
-import config
+from . import config
 
 logger = logging.getLogger(__name__)
 

@@ -6,7 +6,7 @@ import sqlite3
 import logging
 from dataclasses import dataclass
 from typing import List, Optional
-from config import DJANGO_DB_PATH
+from .config import DJANGO_DB_PATH
 
 logger = logging.getLogger(__name__)
 

@@ -21,7 +21,7 @@ ADMIN_IDS = [
 ]
 
 # ===== БАЗА ДАННЫХ =====
-DJANGO_DB_PATH = os.getenv("DJANGO_DB_PATH", "../cts/db.sqlite3")
+DJANGO_DB_PATH = os.getenv("DJANGO_DB_PATH", "../db.sqlite3")
 
 # ===== EMAIL =====
 EMAIL_ENABLED = os.getenv("EMAIL_ENABLED", "true").lower() == "true"
@@ -40,4 +40,4 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 SPREADSHEET_ID = os.getenv("SPREADSHEET_ID", "")
 
 # Путь к JSON файлу сервисного аккаунта
-GOOGLE_CREDENTIALS_FILE = os.getenv("GOOGLE_CREDENTIALS_FILE", "credentials.json")
+GOOGLE_CREDENTIALS_FILE = os.getenv("GOOGLE_CREDENTIALS_FILE", "bot/credentials.json")

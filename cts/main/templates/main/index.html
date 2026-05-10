@@ -115,7 +115,7 @@
                 </h1>
 
                 <p class="hero-description">
-                    «Цифровые телесистемы» — проектируем и устанавливаем системы видеонаблюдения под ключ для частных домов, бизнеса и предприятий в Нижнем Новгороде и Нижегородской области.
+                    Проектируем и устанавливаем системы видеонаблюдения для частных домов, бизнеса и предприятий в Нижнем Новгороде и Нижегородской области.
                 </p>
 
                 <div class="hero-actions">
@@ -123,6 +123,26 @@
                         <i class="fas fa-bolt"></i>
                         Рассчитать проект
                     </a>
+                </div>
+
+                <div class="hero-proof-card">
+                    <div class="hero-proof-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <strong>Не агрегатор</strong>
+                            <span>Работаем напрямую</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-proof-divider"></div>
+
+                    <div class="hero-proof-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong>Нижний Новгород</strong>
+                            <span>Работаем по области</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="hero-stats">
@@ -185,60 +205,54 @@
                 </button>
 
                 <div class="places-grid" id="placesGrid">
-                    <div class="place-card yellow-glow">
-                        <div class="round_image">
-                            <img src="{% static 'main/img/home.jpg' %}" alt="Квартиры">
-                        </div>
-                        <div class="where-title">
-                            <a>Квартиры и<br>частные дома</a>
-                        </div>
-                    </div>
+    <div class="place-card yellow-glow">
+        <img class="place-card-img" src="{% static 'main/img/home.jpg' %}" alt="Квартиры и частные дома">
+        <div class="place-card-overlay">
+            <h3>Квартиры и дома</h3>
+            <p>Для частных домов и квартир</p>
+        </div>
+    </div>
 
-                    <div class="place-card yellow-glow">
-                        <div class="round_image">
-                            <img src="{% static 'main/img/office.jpg' %}" alt="Офисы">
-                        </div>
-                        <div class="where-title">
-                            <a>Офисы и<br>бизнес-центры</a>
-                        </div>
-                    </div>
+    <div class="place-card yellow-glow">
+        <img class="place-card-img" src="{% static 'main/img/office.jpg' %}" alt="Офисы и бизнес-центры">
+        <div class="place-card-overlay">
+            <h3>Офисы и бизнес-центры</h3>
+            <p>Для офисов, БЦ и коммерческих помещений</p>
+        </div>
+    </div>
 
-                    <div class="place-card yellow-glow">
-                        <div class="round_image">
-                            <img src="{% static 'main/img/shopping_center.jpg' %}" alt="Магазины">
-                        </div>
-                        <div class="where-title">
-                            <a>Магазины и<br>торговые центры</a>
-                        </div>
-                    </div>
+    <div class="place-card yellow-glow">
+        <img class="place-card-img" src="{% static 'main/img/shopping_center.jpg' %}" alt="Магазины и торговые центры">
+        <div class="place-card-overlay">
+            <h3>Магазины и ТЦ</h3>
+            <p>Для торговых залов и входных групп</p>
+        </div>
+    </div>
 
-                    <div class="place-card yellow-glow">
-                        <div class="round_image">
-                            <img src="{% static 'main/img/production.jpg' %}" alt="Склады">
-                        </div>
-                        <div class="where-title">
-                            <a>Склады и<br>производства</a>
-                        </div>
-                    </div>
+    <div class="place-card yellow-glow">
+        <img class="place-card-img" src="{% static 'main/img/production.jpg' %}" alt="Склады и производства">
+        <div class="place-card-overlay">
+            <h3>Склады и производства</h3>
+            <p>Для контроля территории и помещений</p>
+        </div>
+    </div>
 
-                    <div class="place-card yellow-glow">
-                        <div class="round_image">
-                            <img src="{% static 'main/img/public_place.jpg' %}" alt="Общественные места">
-                        </div>
-                        <div class="where-title">
-                            <a>Общественные<br>места</a>
-                        </div>
-                    </div>
+    <div class="place-card yellow-glow">
+        <img class="place-card-img" src="{% static 'main/img/public_place.jpg' %}" alt="Общественные места">
+        <div class="place-card-overlay">
+            <h3>Общественные места</h3>
+            <p>Для парков, площадей и зон отдыха</p>
+        </div>
+    </div>
 
-                    <div class="place-card yellow-glow">
-                        <div class="round_image">
-                            <img src="{% static 'main/img/school.jpg' %}" alt="Муниципальные учреждения">
-                        </div>
-                        <div class="where-title">
-                            <a>Муниципальные<br>учреждения</a>
-                        </div>
-                    </div>
-                </div>
+    <div class="place-card yellow-glow">
+        <img class="place-card-img" src="{% static 'main/img/clinik.jpg' %}" alt="Муниципальные учреждения">
+        <div class="place-card-overlay">
+            <h3>Муниципальные учреждения</h3>
+            <p>Для школ, больниц и госучреждений</p>
+        </div>
+    </div>
+</div>
 
                 <button class="places-arrow places-arrow-right" type="button" aria-label="Вперёд">
                     <i class="fas fa-chevron-right"></i>
@@ -251,84 +265,8 @@
                 </p>
                 <a href="#" class="btn-primary open-popup-btn">
                     <i class="fas fa-headset"></i>
-                    Получить консультацию по вашему объекту
+                    Получить консультацию
                 </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-    <!-- Блок "Комплекс услуг" -->
-    <section class="section" id="complex">
-    <div class="container">
-        <h2 class="section-title">УСЛУГИ</h2>
-
-        <div class="services-grid">
-            <div class="service-card" data-service="1">
-                <div class="service-number">01</div>
-                <h3>ВИДЕОНАБЛЮДЕНИЕ 4K</h3>
-                <p>Сверхчеткое изображение даже ночью. Установка камер с разрешением 4K, ночной подсветкой и удалённым доступом.</p>
-                <div class="service-action">
-                    <a href="#contact" class="service-btn">
-                        <i class="fas fa-info-circle"></i> Подробнее
-                    </a>
-                </div>
-            </div>
-
-            <div class="service-card" data-service="2">
-                <div class="service-number">02</div>
-                <h3>ДОМОФОНЫ И СКУД</h3>
-                <p>Системы контроля доступа. Видеодомофоны, турникеты, шлагбаумы, электронные замки.</p>
-                <div class="service-action">
-                    <a href="#contact" class="service-btn">
-                        <i class="fas fa-info-circle"></i> Подробнее
-                    </a>
-                </div>
-            </div>
-
-            <div class="service-card" data-service="3">
-                <div class="service-number">03</div>
-                <h3>ОХРАННАЯ СИГНАЛИЗАЦИЯ</h3>
-                <p>Защита от проникновения. Датчики движения, разбития стекла, открытия дверей с GSM-оповещением.</p>
-                <div class="service-action">
-                    <a href="#contact" class="service-btn">
-                        <i class="fas fa-info-circle"></i> Подробнее
-                    </a>
-                </div>
-            </div>
-
-            <div class="service-card" data-service="4">
-                <div class="service-number">04</div>
-                <h3>УМНЫЙ ДОМ</h3>
-                <p>Автоматизация освещения, отопления, климат-контроля. Управление через смартфон из любой точки мира.</p>
-                <div class="service-action">
-                    <a href="#contact" class="service-btn">
-                        <i class="fas fa-info-circle"></i> Подробнее
-                    </a>
-                </div>
-            </div>
-
-            <div class="service-card" data-service="5">
-                <div class="service-number">05</div>
-                <h3>СЕТЕВЫЕ РЕШЕНИЯ</h3>
-                <p>Проводные и Wi-Fi сети. Проектирование и монтаж локальных сетей для дома и офиса.</p>
-                <div class="service-action">
-                    <a href="#contact" class="service-btn">
-                        <i class="fas fa-info-circle"></i> Подробнее
-                    </a>
-                </div>
-            </div>
-
-            <div class="service-card" data-service="6">
-                <div class="service-number">06</div>
-                <h3>ТЕХНИЧЕСКОЕ ОБСЛУЖИВАНИЕ</h3>
-                <p>Гарантийное и постгарантийное обслуживание. Регулярные проверки, ремонт, обновление ПО.</p>
-                <div class="service-action">
-                    <a href="#contact" class="service-btn">
-                        <i class="fas fa-info-circle"></i> Подробнее
-                    </a>
-                </div>
             </div>
         </div>
     </div>
@@ -445,6 +383,83 @@
             <span class="indicator active" data-index="0"></span>
             <span class="indicator" data-index="1"></span>
             <span class="indicator" data-index="2"></span>
+        </div>
+    </div>
+</section>
+
+
+
+    <!-- Блок "Комплекс услуг" -->
+    <section class="section" id="complex">
+    <div class="container">
+        <h2 class="section-title">УСЛУГИ</h2>
+
+        <div class="services-grid">
+            <div class="service-card" data-service="1">
+                <div class="service-number">01</div>
+                <h3>ВИДЕОНАБЛЮДЕНИЕ 4K</h3>
+                <p>Сверхчеткое изображение даже ночью. Установка камер с разрешением 4K, ночной подсветкой и удалённым доступом.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="2">
+                <div class="service-number">02</div>
+                <h3>ДОМОФОНЫ И СКУД</h3>
+                <p>Системы контроля доступа. Видеодомофоны, турникеты, шлагбаумы, электронные замки.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="3">
+                <div class="service-number">03</div>
+                <h3>ОХРАННАЯ СИГНАЛИЗАЦИЯ</h3>
+                <p>Защита от проникновения. Датчики движения, разбития стекла, открытия дверей с GSM-оповещением.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="4">
+                <div class="service-number">04</div>
+                <h3>УМНЫЙ ДОМ</h3>
+                <p>Автоматизация освещения, отопления, климат-контроля. Управление через смартфон из любой точки мира.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="5">
+                <div class="service-number">05</div>
+                <h3>СЕТЕВЫЕ РЕШЕНИЯ</h3>
+                <p>Проводные и Wi-Fi сети. Проектирование и монтаж локальных сетей для дома и офиса.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+
+            <div class="service-card" data-service="6">
+                <div class="service-number">06</div>
+                <h3>ТЕХНИЧЕСКОЕ ОБСЛУЖИВАНИЕ</h3>
+                <p>Гарантийное и постгарантийное обслуживание. Регулярные проверки, ремонт, обновление ПО.</p>
+                <div class="service-action">
+                    <a href="#contact" class="service-btn">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -740,6 +755,59 @@
 </section>
 
 
+    <!-- Блок "Ваши возможности" -->
+    <!-- Блок "Ваши возможности" -->
+    <section class="section light-bg" id="possibilities">
+    <div class="container">
+        <h2 class="section-title">Ваши возможности</h2>
+
+        <div class="possibilities-layout">
+            <div class="possibilities-list">
+                <div class="possibility">
+                    <div class="possibility-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div>
+                        <h3>Просмотр с телефона</h3>
+                        <p>Следите за домом, офисом или магазином из любой точки.</p>
+                    </div>
+                </div>
+
+                <div class="possibility">
+                    <div class="possibility-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div>
+                        <h3>Двусторонняя связь</h3>
+                        <p>Можно говорить через камеру с посетителями или сотрудниками.</p>
+                    </div>
+                </div>
+
+                <div class="possibility">
+                    <div class="possibility-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div>
+                        <h3>Умные уведомления</h3>
+                        <p>Получайте оповещения о движении, звуках и событиях.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="possibilities-phone">
+                <div class="phone-card">
+                    <div class="phone-top"></div>
+                    <div class="phone-screen">
+                        <i class="fas fa-video"></i>
+                        <span>Онлайн-доступ</span>
+                        <p>Ваш объект всегда под рукой</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
     <!-- Блок "Наши преимущества" -->
     <section class="section" id="advantages">
         <div class="container">
@@ -798,58 +866,6 @@
         </div>
     </section>
 
-    <!-- Блок "Ваши возможности" -->
-    <!-- Блок "Ваши возможности" -->
-    <section class="section light-bg" id="possibilities">
-    <div class="container">
-        <h2 class="section-title">Ваши возможности</h2>
-
-        <div class="possibilities-layout">
-            <div class="possibilities-list">
-                <div class="possibility">
-                    <div class="possibility-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div>
-                        <h3>Просмотр с телефона</h3>
-                        <p>Следите за домом, офисом или магазином из любой точки.</p>
-                    </div>
-                </div>
-
-                <div class="possibility">
-                    <div class="possibility-icon">
-                        <i class="fas fa-bullhorn"></i>
-                    </div>
-                    <div>
-                        <h3>Двусторонняя связь</h3>
-                        <p>Можно говорить через камеру с посетителями или сотрудниками.</p>
-                    </div>
-                </div>
-
-                <div class="possibility">
-                    <div class="possibility-icon">
-                        <i class="fas fa-bell"></i>
-                    </div>
-                    <div>
-                        <h3>Умные уведомления</h3>
-                        <p>Получайте оповещения о движении, звуках и событиях.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="possibilities-phone">
-                <div class="phone-card">
-                    <div class="phone-top"></div>
-                    <div class="phone-screen">
-                        <i class="fas fa-video"></i>
-                        <span>Онлайн-доступ</span>
-                        <p>Ваш объект всегда под рукой</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 
     <!-- Форма обратной связи -->
@@ -1165,7 +1181,9 @@
             }
 
             if (placeCards.length) {
-                showPlace(0);
+                if (window.innerWidth > 768) {
+                    showPlace(0);
+                }
 
                 if (placePrev) {
                     placePrev.addEventListener('click', function() {

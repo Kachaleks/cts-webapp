@@ -2,7 +2,7 @@
 import logging
 from enum import Enum
 from typing import Dict, Optional
-from models import BotOrder
+from .models import BotOrder
 
 logger = logging.getLogger(__name__)
 
